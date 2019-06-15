@@ -1,0 +1,191 @@
+{
+  "name": "BuyAnswer",
+  "base": "Base",
+  "options": {
+    "idInjection": false,
+    "mysql": {
+      "schema": "xinchao",
+      "table": "buy_answer"
+    },
+    "relations": {
+      "boughtAnswer": {
+        "model": "Answer",
+        "type": "belongsTo",
+        "foreignKey": "answerId"
+      },
+      "BoughtBy": {
+        "model": "User",
+        "type": "belongsTo",
+        "foreignKey": "userId"
+      }
+    },
+    "foreignKeys": {
+      "answerId": {
+        "name": "fkBuyAnswerId",
+        "foreignKey": "answerId",
+        "entityKey": "id",
+        "entity": "Answer"
+      },
+      "userId": {
+        "name": "fkBoughtAnswerBy",
+        "foreignKey": "userId",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "createdBy": {
+        "name": "fkBuyAnswerCreatedBy",
+        "foreignKey": "createdBy",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "updatedBy": {
+        "name": "fkBuyAnswerUpdatedBy",
+        "foreignKey": "updatedBy",
+        "entityKey": "id",
+        "entity": "user"
+      }
+    }
+  },
+  "properties": {
+    "answerId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "id": 1,
+      "mysql": {
+        "columnName": "answer_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "userId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "id": 2,
+      "mysql": {
+        "columnName": "user_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "isBought": {
+      "type": "Boolean",
+      "required": true,
+      "length": null,
+      "precision": 1,
+      "scale": null,
+      "mysql": {
+        "columnName": "is_bought",
+        "dataType": "tinyint",
+        "dataLength": null,
+        "dataPrecision": 1,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "amount": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "amount",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "status": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "status",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "updated": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "updated",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "created": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "created",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "updatedBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "updated_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "createdBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "created_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    }
+  },
+  "validations": [],
+  "acls": [],
+  "methods": {}
+}

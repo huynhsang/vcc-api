@@ -1,0 +1,238 @@
+{
+  "name": "Experience",
+  "base": "Base",
+  "options": {
+    "idInjection": true,
+    "mysql": {
+      "schema": "xinchao",
+      "table": "experience"
+    },
+    "relations": {
+      "owner": {
+        "model": "user",
+        "type": "belongsTo",
+        "foreignKey": "ownerId"
+      }
+    },
+    "foreignKeys": {
+      "ownerId": {
+        "name": "fkExperienceOwner",
+        "foreignKey": "ownerId",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "createdBy": {
+        "name": "fkExperienceCreatedBy",
+        "foreignKey": "createdBy",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "updatedBy": {
+        "name": "fkExperienceUpdatedBy",
+        "foreignKey": "updatedBy",
+        "entityKey": "id",
+        "entity": "user"
+      }
+    }
+  },
+  "properties": {
+    "title": {
+      "type": "String",
+      "required": true,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "title",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "company": {
+      "type": "String",
+      "required": true,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "company",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "location": {
+      "type": "String",
+      "required": true,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "location",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "isWorking": {
+      "type": "Boolean",
+      "required": true,
+      "length": null,
+      "precision": 1,
+      "scale": null,
+      "mysql": {
+        "columnName": "is_working",
+        "dataType": "tinyint",
+        "dataLength": null,
+        "dataPrecision": 1,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "startDate": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "start_date",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "endDate": {
+      "type": "Date",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "end_date",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "description": {
+      "type": "String",
+      "required": false,
+      "length": 1024,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "description",
+        "dataType": "varchar",
+        "dataLength": 1024,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "isPublic": {
+      "type": "Boolean",
+      "required": true,
+      "length": null,
+      "precision": 1,
+      "scale": null,
+      "mysql": {
+        "columnName": "is_public",
+        "dataType": "tinyint",
+        "dataLength": null,
+        "dataPrecision": 1,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "created": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "created",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "updated": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "updated",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "createdBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "created_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "updatedBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "updated_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "ownerId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "owner_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    }
+  },
+  "validations": [],
+  "acls": [],
+  "methods": {}
+}

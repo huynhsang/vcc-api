@@ -1,0 +1,49 @@
+{
+  "name": "Tag",
+  "base": "Base",
+  "options": {
+    "idInjection": false,
+    "forceId": false,
+    "mysql": {
+      "schema": "xinchao",
+      "table": "tag"
+    },
+    "relations": {
+    },
+    "foreignKeys": {
+      "createdBy": {
+        "name": "fkTagCreatedBy",
+        "foreignKey": "createdBy",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "updatedBy": {
+        "name": "fkTagUpdatedBy",
+        "foreignKey": "updatedBy",
+        "entityKey": "id",
+        "entity": "user"
+      }
+    }
+  },
+  "properties": {
+    "name": {
+      "type": "String",
+      "required": true,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "id": 1,
+      "mysql": {
+        "columnName": "name",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    }
+  },
+  "validations": [],
+  "acls": [],
+  "methods": {}
+}

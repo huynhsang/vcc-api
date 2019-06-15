@@ -1,0 +1,152 @@
+{
+  "name": "TopupCard",
+  "base": "Base",
+  "options": {
+    "idInjection": true,
+    "mysql": {
+      "schema": "xinchao",
+      "table": "topup_card"
+    },
+    "relations": {
+    },
+    "foreignKeys": {
+      "createdBy": {
+        "name": "fkTopupCreatedBy",
+        "foreignKey": "createdBy",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "updatedBy": {
+        "name": "fkTopupUpdatedBy",
+        "foreignKey": "updatedBy",
+        "entityKey": "id",
+        "entity": "user"
+      }
+    }
+  },
+  "properties": {
+    "seriNumber": {
+      "type": "String",
+      "required": true,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "seri_number",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "status": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "status",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "amount": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 12,
+      "scale": null,
+      "mysql": {
+        "columnName": "amount",
+        "dataType": "float",
+        "dataLength": null,
+        "dataPrecision": 12,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "expireDate": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "expire_date",
+        "dataType": "datetime",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "created": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "created",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "updated": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "updated",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "createdBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "created_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "updatedBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "updated_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    }
+  },
+  "validations": [],
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,101 @@
+{
+  "name": "Base",
+  "base": "PersistedModel",
+  "options": {
+    "idInjection": true
+  },
+  "properties": {
+    "created": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": "$now",
+      "mysql": {
+        "columnName": "created",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "default": "CURRENT_TIMESTAMP",
+        "nullable": "N"
+      }
+    },
+    "updated": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "default": "$now",
+      "mysql": {
+        "columnName": "updated",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "default": "CURRENT_TIMESTAMP",
+        "nullable": "N"
+      }
+    },
+    "createdBy": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "created_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "Y"
+      }
+    },
+    "updatedBy": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "updated_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "Y"
+      }
+    }
+  },
+  "validations": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "accessType": "READ",
+      "permission": "ALLOW"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "accessType": "WRITE",
+      "permission": "ALLOW"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "accessType": "EXECUTE",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

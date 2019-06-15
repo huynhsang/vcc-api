@@ -1,0 +1,88 @@
+{
+  "name": "Point",
+  "base": "Base",
+  "options": {
+    "idInjection": true,
+    "mysql": {
+      "schema": "xinchao",
+      "table": "point"
+    },
+    "relations": {
+      "owner": {
+        "model": "user",
+        "type": "belongsTo",
+        "foreignKey": "ownerId"
+      }
+    },
+    "foreignKeys": {
+      "ownerId": {
+        "name": "fkPointOwner",
+        "foreignKey": "ownerId",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "createdBy": {
+        "name": "fkPointCreatedBy",
+        "foreignKey": "createdBy",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "updatedBy": {
+        "name": "fkPointUpdatedBy",
+        "foreignKey": "updatedBy",
+        "entityKey": "id",
+        "entity": "user"
+      }
+    }
+  },
+  "properties": {
+    "ownerId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "owner_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "positiveNumber": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "positive_number",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "negativeNumber": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "negative_number",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    }
+  },
+  "validations": [],
+  "acls": [],
+  "methods": {}
+}

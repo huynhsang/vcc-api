@@ -1,0 +1,133 @@
+{
+  "name": "Wallet",
+  "base": "Base",
+  "options": {
+    "idInjection": true,
+    "mysql": {
+      "schema": "xinchao",
+      "table": "wallet"
+    },
+    "relations": {
+      "owner": {
+        "model": "user",
+        "type": "belongsTo",
+        "foreignKey": "ownerId"
+      }
+    },
+    "foreignKeys": {
+      "ownerId": {
+        "name": "fkWalletOwner",
+        "foreignKey": "ownerId",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "createdBy": {
+        "name": "fkWalletCreatedBy",
+        "foreignKey": "createdBy",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "updatedBy": {
+        "name": "fkWalletUpdatedBy",
+        "foreignKey": "updatedBy",
+        "entityKey": "id",
+        "entity": "user"
+      }
+    }
+  },
+  "properties": {
+    "amount": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "amount",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "ownerId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "owner_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "created": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "created",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "updated": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "updated",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "createdBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "created_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "updatedBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "updated_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    }
+  },
+  "validations": [],
+  "acls": [],
+  "methods": {}
+}

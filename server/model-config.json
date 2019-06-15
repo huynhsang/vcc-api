@@ -1,0 +1,96 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "db",
+    "public": false
+  },
+  "AccessToken": {
+    "dataSource": "vccDS",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "vccDS",
+    "public": false,
+    "options": {
+      "strictObjectIDCoercion": true
+    }
+  },
+  "Role": {
+    "dataSource": "vccDS",
+    "public": false
+  },
+  "Answer": {
+    "dataSource": "vccDS",
+    "public": true
+  },
+  "BuyAnswer": {
+    "dataSource": "vccDS",
+    "public": true
+  },
+  "Category": {
+    "dataSource": "vccDS",
+    "public": true
+  },
+  "Education": {
+    "dataSource": "vccDS",
+    "public": true
+  },
+  "Experience": {
+    "dataSource": "vccDS",
+    "public": true
+  },
+  "Notification": {
+    "dataSource": "vccDS",
+    "public": true
+  },
+  "Point": {
+    "dataSource": "vccDS",
+    "public": true
+  },
+  "Question": {
+    "dataSource": "vccDS",
+    "public": true
+  },
+  "SubCategory": {
+    "dataSource": "vccDS",
+    "public": true
+  },
+  "Tag": {
+    "dataSource": "vccDS",
+    "public": true
+  },
+  "TopupCard": {
+    "dataSource": "vccDS",
+    "public": true
+  },
+  "user": {
+    "dataSource": "vccDS",
+    "options": {
+      "emailVerificationRequired": true,
+      "realmRequired": true,
+      "realmDelimiter": ":"
+    },
+    "public": true
+  },
+  "Wallet": {
+    "dataSource": "vccDS",
+    "public": true
+  }
+}

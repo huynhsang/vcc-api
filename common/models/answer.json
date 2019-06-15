@@ -1,0 +1,204 @@
+{
+  "name": "Answer",
+  "base": "Base",
+  "options": {
+    "idInjection": true,
+    "mysql": {
+      "schema": "xinchao",
+      "table": "answer"
+    },
+    "relations": {
+      "answerBy": {
+        "model": "user",
+        "type": "belongsTo",
+        "foreignKey": "answerBy"
+      },
+      "answerForQuestion": {
+        "model": "Question",
+        "type": "belongsTo",
+        "foreignKey": "questionId"
+      }
+    },
+    "foreignKeys": {
+      "questionId": {
+        "name": "fkAnswerQuestionId",
+        "foreignKey": "questionId",
+        "entityKey": "id",
+        "entity": "Question"
+      },
+      "answerBy": {
+        "name": "fkAnswerBy",
+        "foreignKey": "answerBy",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "createdBy": {
+        "name": "fkAnswerCreatedBy",
+        "foreignKey": "createdBy",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "updatedBy": {
+        "name": "fkAnswerUpdatedBy",
+        "foreignKey": "updatedBy",
+        "entityKey": "id",
+        "entity": "user"
+      }
+    }
+  },
+  "properties": {
+    "answer": {
+      "type": "String",
+      "required": true,
+      "length": 16777215,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "answer",
+        "dataType": "mediumtext",
+        "dataLength": 16777215,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "answerBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "answer_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "created": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "created",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "createdBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "created_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "description": {
+      "type": "String",
+      "required": true,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "description",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "isFree": {
+      "type": "Boolean",
+      "required": true,
+      "length": null,
+      "precision": 1,
+      "scale": null,
+      "mysql": {
+        "columnName": "is_free",
+        "dataType": "tinyint",
+        "dataLength": null,
+        "dataPrecision": 1,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "isTheBest": {
+      "type": "Boolean",
+      "required": true,
+      "length": null,
+      "precision": 1,
+      "scale": null,
+      "mysql": {
+        "columnName": "is_the_best",
+        "dataType": "tinyint",
+        "dataLength": null,
+        "dataPrecision": 1,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "questionId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "question_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "updated": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "updated",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "updatedBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "updated_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    }
+  },
+  "validations": [],
+  "acls": [],
+  "methods": {}
+}

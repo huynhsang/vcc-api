@@ -1,0 +1,290 @@
+{
+  "name": "Question",
+  "base": "Base",
+  "options": {
+    "idInjection": true,
+    "mysql": {
+      "schema": "xinchao",
+      "table": "question"
+    },
+    "relations": {
+      "category": {
+        "model": "Category",
+        "type": "belongsTo",
+        "foreignKey": "categoryId"
+      },
+      "subCategory": {
+        "model": "SubCategory",
+        "type": "belongsTo",
+        "foreignKey": "subcategoryId"
+      },
+      "askedBy": {
+        "model": "user",
+        "type": "belongsTo",
+        "foreignKey": "askedBy"
+      }
+    },
+    "foreignKeys": {
+      "category": {
+        "name": "fkQuestionCategory",
+        "foreignKey": "categoryId",
+        "entityKey": "id",
+        "entity": "Category"
+      },
+      "subCategory": {
+        "name": "fkQuestionSubcategory",
+        "foreignKey": "subcategoryId",
+        "entityKey": "id",
+        "entity": "SubCategory"
+      },
+      "askedBy": {
+        "name": "fkQuestionOwner",
+        "foreignKey": "askedBy",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "createdBy": {
+        "name": "fkQuestionCreatedBy",
+        "foreignKey": "createdBy",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "updatedBy": {
+        "name": "fkQuestionUpdatedBy",
+        "foreignKey": "updatedBy",
+        "entityKey": "id",
+        "entity": "user"
+      }
+    }
+  },
+  "properties": {
+    "askedBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "asked_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "body": {
+      "type": "String",
+      "required": true,
+      "length": 16777215,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "body",
+        "dataType": "mediumtext",
+        "dataLength": 16777215,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "categoryId": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "category_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "Y"
+      }
+    },
+    "created": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "created",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "createdBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "created_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "isHidden": {
+      "type": "Boolean",
+      "required": true,
+      "length": null,
+      "precision": 1,
+      "scale": null,
+      "mysql": {
+        "columnName": "is_hidden",
+        "dataType": "tinyint",
+        "dataLength": null,
+        "dataPrecision": 1,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "isVerified": {
+      "type": "Boolean",
+      "required": true,
+      "length": null,
+      "precision": 1,
+      "scale": null,
+      "mysql": {
+        "columnName": "is_verified",
+        "dataType": "tinyint",
+        "dataLength": null,
+        "dataPrecision": 1,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "numberOfAndroidViews": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "number_of_android_views",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "numberOfIosViews": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "number_of_ios_views",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "numberOfViews": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "number_of_views",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "subcategoryId": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "subcategory_id",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "Y"
+      }
+    },
+    "tags": {
+      "type": "String",
+      "required": true,
+      "length": 512,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "tags",
+        "dataType": "varchar",
+        "dataLength": 512,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "title": {
+      "type": "String",
+      "required": true,
+      "length": 1024,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "title",
+        "dataType": "varchar",
+        "dataLength": 1024,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "updated": {
+      "type": "Date",
+      "required": true,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "updated",
+        "dataType": "timestamp",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
+    "updatedBy": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 19,
+      "scale": 0,
+      "mysql": {
+        "columnName": "updated_by",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": 19,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    }
+  },
+  "validations": [],
+  "acls": [],
+  "methods": {}
+}
