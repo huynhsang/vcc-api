@@ -123,12 +123,14 @@
       "length": null,
       "precision": 3,
       "scale": 0,
+      "default": true,
       "mysql": {
         "columnName": "is_enable",
         "dataType": "tinyint",
         "dataLength": null,
         "dataPrecision": 3,
         "dataScale": 0,
+        "default": 1,
         "nullable": "N"
       }
     },
