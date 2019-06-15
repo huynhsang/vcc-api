@@ -4,7 +4,7 @@
   "options": {
     "idInjection": true,
     "mysql": {
-      "schema": "xinchao",
+      "schema": "vcc",
       "table": "category"
     },
     "relations": {

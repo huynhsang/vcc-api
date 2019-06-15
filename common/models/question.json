@@ -4,7 +4,7 @@
   "options": {
     "idInjection": true,
     "mysql": {
-      "schema": "xinchao",
+      "schema": "vcc",
       "table": "question"
     },
     "relations": {
@@ -62,13 +62,13 @@
       "type": "Number",
       "required": true,
       "length": null,
-      "precision": 19,
+      "precision": 11,
       "scale": 0,
       "mysql": {
         "columnName": "asked_by",
-        "dataType": "bigint",
+        "dataType": "int",
         "dataLength": null,
-        "dataPrecision": 19,
+        "dataPrecision": 11,
         "dataScale": 0,
         "nullable": "N"
       }
@@ -76,13 +76,11 @@
     "body": {
       "type": "String",
       "required": true,
-      "length": 16777215,
       "precision": null,
       "scale": null,
       "mysql": {
         "columnName": "body",
         "dataType": "mediumtext",
-        "dataLength": 16777215,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "N"
@@ -92,13 +90,13 @@
       "type": "Number",
       "required": false,
       "length": null,
-      "precision": 19,
+      "precision": 11,
       "scale": 0,
       "mysql": {
         "columnName": "category_id",
-        "dataType": "bigint",
+        "dataType": "int",
         "dataLength": null,
-        "dataPrecision": 19,
+        "dataPrecision": 11,
         "dataScale": 0,
         "nullable": "Y"
       }
@@ -122,13 +120,13 @@
       "type": "Number",
       "required": true,
       "length": null,
-      "precision": 19,
+      "precision": 11,
       "scale": 0,
       "mysql": {
         "columnName": "created_by",
-        "dataType": "bigint",
+        "dataType": "int",
         "dataLength": null,
-        "dataPrecision": 19,
+        "dataPrecision": 11,
         "dataScale": 0,
         "nullable": "N"
       }
@@ -212,13 +210,13 @@
       "type": "Number",
       "required": false,
       "length": null,
-      "precision": 19,
+      "precision": 11,
       "scale": 0,
       "mysql": {
         "columnName": "subcategory_id",
-        "dataType": "bigint",
+        "dataType": "int",
         "dataLength": null,
-        "dataPrecision": 19,
+        "dataPrecision": 11,
         "dataScale": 0,
         "nullable": "Y"
       }
@@ -272,13 +270,13 @@
       "type": "Number",
       "required": true,
       "length": null,
-      "precision": 19,
+      "precision": 11,
       "scale": 0,
       "mysql": {
         "columnName": "updated_by",
-        "dataType": "bigint",
+        "dataType": "int",
         "dataLength": null,
-        "dataPrecision": 19,
+        "dataPrecision": 11,
         "dataScale": 0,
         "nullable": "N"
       }

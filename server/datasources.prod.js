@@ -5,13 +5,13 @@ module.exports = {
     name: 'db',
     connector: 'memory',
   },
-  iamhcmcDS: {
+  vccDS: {
     host: process.env.MYSQL_HOST,
     port: process.env.MYSQL_PORT,
     url: process.env.MYSQL_URL,
     database: process.env.MYSQL_DATABASE,
     password: process.env.MYSQL_PASSWORD,
-    name: 'iamhcmcDS',
+    name: 'vccDS',
     user: process.env.MYSQL_USER,
     connector: 'mysql',
     dateStrings: true,

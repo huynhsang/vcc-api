@@ -5,7 +5,7 @@
     "idInjection": false,
     "forceId": false,
     "mysql": {
-      "schema": "xinchao",
+      "schema": "vcc",
       "table": "tag"
     },
     "relations": {

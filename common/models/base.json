@@ -43,13 +43,13 @@
       "type": "Number",
       "required": false,
       "length": null,
-      "precision": 19,
+      "precision": 11,
       "scale": 0,
       "mysql": {
         "columnName": "created_by",
-        "dataType": "bigint",
+        "dataType": "int",
         "dataLength": null,
-        "dataPrecision": 19,
+        "dataPrecision": 11,
         "dataScale": 0,
         "nullable": "Y"
       }
@@ -58,13 +58,13 @@
       "type": "Number",
       "required": false,
       "length": null,
-      "precision": 19,
+      "precision": 1,
       "scale": 0,
       "mysql": {
         "columnName": "updated_by",
-        "dataType": "bigint",
+        "dataType": "int",
         "dataLength": null,
-        "dataPrecision": 19,
+        "dataPrecision": 11,
         "dataScale": 0,
         "nullable": "Y"
       }
