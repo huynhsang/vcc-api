@@ -20,6 +20,11 @@ app.start = function() {
   });
 };
 
+app.set('view engine', 'ejs');
+// must be set to serve views properly when starting the app via `slc run` from
+// the project root
+app.set('views', path.resolve(__dirname, 'views'));
+
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
 let bootOptions = {

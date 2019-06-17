@@ -6,7 +6,7 @@ let formatter = require('./../../../utils/formatter');
 module.exports = function(app) {
   // verified
   app.get('/verified', function(req, res) {
-    formatter.jsonResponseSuccess(res, {});
+    res.render('verified');
   });
 
   // show password reset form

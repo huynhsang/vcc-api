@@ -36,6 +36,9 @@
     "dataSource": "vccDS",
     "public": false
   },
+  "Email": {
+    "dataSource": "emailDS"
+  },
   "Answer": {
     "dataSource": "vccDS",
     "public": true

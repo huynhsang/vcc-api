@@ -139,7 +139,7 @@
 //       options);
 //
 //     // Create model definition files. Note: Schema name should be vcc
-//     const model = 'xinchao.' + tables[index].name;
+//     const model = 'vcc.' + tables[index].name;
 //     await writeFile(
 //       'common/models/' + tables[index].model,
 //       JSON.stringify(discoveredTable[model], null, 2),
