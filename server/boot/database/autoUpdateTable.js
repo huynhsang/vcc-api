@@ -18,6 +18,7 @@ const TABLE_LIST = [
   'TopupCard',
   'Wallet',
   'BuyAnswer',
+  'Transaction',
 ];
 let migration = {};
 

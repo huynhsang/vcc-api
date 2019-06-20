@@ -121,6 +121,14 @@
 //       public: true,
 //     },
 //   },
+//   {
+//     name: 'transaction',
+//     model: 'transaction.json',
+//     config: {
+//       name: 'Transaction',
+//       public: true,
+//     },
+//   },
 // ];
 //
 // async function discover() {

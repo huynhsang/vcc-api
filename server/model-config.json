@@ -95,5 +95,9 @@
   "Wallet": {
     "dataSource": "vccDS",
     "public": true
+  },
+  "Transaction": {
+    "dataSource": "vccDS",
+    "public": true
   }
 }
