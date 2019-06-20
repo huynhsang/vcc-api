@@ -8,8 +8,37 @@ let logger = require('./../../utils/logger');
 let utility = require('./../../utils/appUtility');
 let message = require('./../constants/messageConstant');
 let appConstant = require('./../constants/appConstant');
+let walletService = require('./../../server/boot/services/walletService');
 
 module.exports = function(User) {
+  /**
+   * To restrict other user can create admin account (Only admin can create
+   * an account with admin role)
+   */
+  User.beforeRemote('create', function(ctx, user, next) {
+    if (user.realm === appConstant.realm.admin) {
+      if (!ctx.req.accessToken) {
+        let err = new Error('UnAuthenticated');
+        err.statusCode = 401;
+        logger.error(err.toString());
+        next(err);
+      } else {
+        User.findById(ctx.req.accessToken.userId, (err, currentUser) => {
+          if (err) return next(err);
+          if (!currentUser || currentUser.realm !== appConstant.realm.admin) {
+            let err = new Error('Forbiden');
+            err.statusCode = 403;
+            logger.error(err.toString());
+            return next(err);
+          }
+          next();
+        });
+      }
+    } else {
+      next();
+    }
+  });
+
   /**
    * Send verification email after registration
    */
@@ -28,25 +57,40 @@ module.exports = function(User) {
       port: process.env.SERVER_PORT,
     };
 
-    roleService.mappingRoleToUser(User.app, user)
-      .then(() => {
-        user.verify(options, function(err, response) {
+    user.verify(options, function(err, response) {
+      if (err) {
+        User.deleteById(user.id);
+        return next(err);
+      }
+      formatter.jsonResponseSuccess(context.res, {
+        title: message.signUpTitleSuccess,
+        content: message.signUpContentSuccess,
+      });
+    });
+  });
+
+  /**
+   *
+   * The method is responsible for handling logic after save user
+   */
+  User.observe('after save', function(ctx, next) {
+    if (ctx.isNewInstance) {
+      roleService.mappingRoleToUser(User.app, ctx.instance)
+        .then(() => {
+          walletService.createWallet(User.app, ctx.instance.id, (err) => {
+            if (err) return next(err);
+            next();
+          });
+        })
+        .catch((err) => {
           if (err) {
-            User.deleteById(user.id);
+            User.deleteById(ctx.instance.id);
             return next(err);
           }
-          formatter.jsonResponseSuccess(context.res, {
-            title: message.signUpTitleSuccess,
-            content: message.signUpContentSuccess,
-          });
         });
-      })
-      .catch((err) => {
-        if (err) {
-          User.deleteById(user.id);
-          return next(err);
-        }
-      });
+    } else {
+      next();
+    }
   });
 
   /**

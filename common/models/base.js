@@ -17,12 +17,11 @@ module.exports = function(Base) {
           email: appConstant.adminEmail,
           realm: appConstant.realm.admin,
         },
-      }).then(user => {
+      }, (err, user) => {
+        if (err) return next(err);
         if (!user) return next(new Error('System account not found!'));
         ctx.args.data.createdBy = ctx.args.data.updatedBy = user.id;
         next();
-      }).catch(err => {
-        next(err);
       });
     } else {
       ctx.args.data.createdBy = ctx.args.data.updatedBy =

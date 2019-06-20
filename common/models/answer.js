@@ -14,18 +14,16 @@ module.exports = function(Answer) {
 
     // Handling logic when Update
     if (!ctx.isNewInstance) {
-      let authorId = ctx.instance ? ctx.instance.id :
+      let answerId = ctx.instance ? ctx.instance.id :
         ctx.currentInstance ? ctx.currentInstance.id : ctx.data.id;
-      repository.findById(Answer, authorId)
-        .then(author => {
-          let data = ctx.instance ? ctx.instance : ctx.data;
-          data.created = author.created;
-          data.createdBy = author.createdBy;
-          next();
-        })
-        .catch(err => {
-          next(err);
-        });
+      repository.findById(Answer, answerId, {}, (err, answer) => {
+        if (err) return next(err);
+        if (!answer) return next(new Error('Answer not found!'));
+        let data = ctx.instance ? ctx.instance : ctx.data;
+        data.created = answer.created;
+        data.createdBy = answer.createdBy;
+        next();
+      });
     } else {
       next();
     }

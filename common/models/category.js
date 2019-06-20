@@ -15,16 +15,16 @@ module.exports = function(Category) {
     if (!ctx.isNewInstance) {
       let categoryId = ctx.instance ? ctx.instance.id :
         ctx.currentInstance ? ctx.currentInstance.id : ctx.data.id;
-      repository.findById(Category, categoryId)
-        .then(category => {
-          let data = ctx.instance ? ctx.instance : ctx.data;
-          data.created = category.created;
-          data.createdBy = category.createdBy;
-          next();
-        })
-        .catch(err => {
-          next(err);
-        });
+      repository.findById(Category, categoryId, {}, (err, category) => {
+        if (err) {
+          return next(err);
+        }
+        if (!category) return next(new Error('Category is not found!'));
+        let data = ctx.instance ? ctx.instance : ctx.data;
+        data.created = category.created;
+        data.createdBy = category.createdBy;
+        next();
+      });
     } else {
       next();
     }
