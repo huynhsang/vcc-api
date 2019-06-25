@@ -84,66 +84,6 @@
         "dataScale": null,
         "nullable": "N"
       }
-    },
-    "created": {
-      "type": "Date",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "created",
-        "dataType": "timestamp",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "updated": {
-      "type": "Date",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "updated",
-        "dataType": "timestamp",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "createdBy": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 11,
-      "scale": 0,
-      "mysql": {
-        "columnName": "created_by",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 11,
-        "dataScale": 0,
-        "nullable": "N"
-      }
-    },
-    "updatedBy": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 11,
-      "scale": 0,
-      "mysql": {
-        "columnName": "updated_by",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 11,
-        "dataScale": 0,
-        "nullable": "N"
-      }
     }
   },
   "validations": [],

@@ -13,11 +13,6 @@
         "type": "belongsTo",
         "foreignKey": "categoryId"
       },
-      "subCategory": {
-        "model": "SubCategory",
-        "type": "belongsTo",
-        "foreignKey": "subcategoryId"
-      },
       "askedBy": {
         "model": "user",
         "type": "belongsTo",
@@ -30,12 +25,6 @@
         "foreignKey": "categoryId",
         "entityKey": "id",
         "entity": "Category"
-      },
-      "subCategory": {
-        "name": "fkQuestionSubcategory",
-        "foreignKey": "subcategoryId",
-        "entityKey": "id",
-        "entity": "SubCategory"
       },
       "askedBy": {
         "name": "fkQuestionOwner",
@@ -88,42 +77,12 @@
     },
     "categoryId": {
       "type": "Number",
-      "required": false,
+      "required": true,
       "length": null,
       "precision": 11,
       "scale": 0,
       "mysql": {
         "columnName": "category_id",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 11,
-        "dataScale": 0,
-        "nullable": "Y"
-      }
-    },
-    "created": {
-      "type": "Date",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "created",
-        "dataType": "timestamp",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "createdBy": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 11,
-      "scale": 0,
-      "mysql": {
-        "columnName": "created_by",
         "dataType": "int",
         "dataLength": null,
         "dataPrecision": 11,
@@ -137,12 +96,14 @@
       "length": null,
       "precision": 1,
       "scale": null,
+      "default": false,
       "mysql": {
         "columnName": "is_hidden",
         "dataType": "tinyint",
         "dataLength": null,
         "dataPrecision": 1,
         "dataScale": null,
+        "default": 0,
         "nullable": "N"
       }
     },
@@ -152,12 +113,14 @@
       "length": null,
       "precision": 1,
       "scale": null,
+      "default": true,
       "mysql": {
         "columnName": "is_verified",
         "dataType": "tinyint",
         "dataLength": null,
         "dataPrecision": 1,
         "dataScale": null,
+        "default": 1,
         "nullable": "N"
       }
     },
@@ -167,12 +130,14 @@
       "length": null,
       "precision": 10,
       "scale": 0,
+      "default": 0,
       "mysql": {
         "columnName": "number_of_android_views",
         "dataType": "int",
         "dataLength": null,
         "dataPrecision": 10,
         "dataScale": 0,
+        "default": 0,
         "nullable": "N"
       }
     },
@@ -182,12 +147,14 @@
       "length": null,
       "precision": 10,
       "scale": 0,
+      "default": 0,
       "mysql": {
         "columnName": "number_of_ios_views",
         "dataType": "int",
         "dataLength": null,
         "dataPrecision": 10,
         "dataScale": 0,
+        "default": 0,
         "nullable": "N"
       }
     },
@@ -197,43 +164,30 @@
       "length": null,
       "precision": 10,
       "scale": 0,
+      "default": 0,
       "mysql": {
         "columnName": "number_of_views",
         "dataType": "int",
         "dataLength": null,
         "dataPrecision": 10,
         "dataScale": 0,
+        "default": 0,
         "nullable": "N"
-      }
-    },
-    "subcategoryId": {
-      "type": "Number",
-      "required": false,
-      "length": null,
-      "precision": 11,
-      "scale": 0,
-      "mysql": {
-        "columnName": "subcategory_id",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 11,
-        "dataScale": 0,
-        "nullable": "Y"
       }
     },
     "tags": {
       "type": "String",
-      "required": true,
-      "length": 512,
+      "required": false,
+      "length": null,
       "precision": null,
       "scale": null,
       "mysql": {
         "columnName": "tags",
-        "dataType": "varchar",
-        "dataLength": 512,
+        "dataType": "json",
+        "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "N"
+        "nullable": "Y"
       }
     },
     "title": {
@@ -251,34 +205,70 @@
         "nullable": "N"
       }
     },
-    "updated": {
-      "type": "Date",
+    "numberOfAnswers": {
+      "type": "Number",
       "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "default": 0,
+      "mysql": {
+        "columnName": "number_of_answers",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "default": 0,
+        "nullable": "N"
+      }
+    },
+    "numberOfVotes": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "default": 0,
+      "mysql": {
+        "columnName": "number_of_votes",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "default": 0,
+        "nullable": "N"
+      }
+    },
+    "hasAcceptedAnswer": {
+      "type": "Boolean",
+      "required": true,
+      "length": null,
+      "precision": 1,
+      "scale": null,
+      "default": false,
+      "mysql": {
+        "columnName": "has_accepted_answer",
+        "dataType": "tinyint",
+        "dataLength": null,
+        "dataPrecision": 1,
+        "dataScale": null,
+        "default": 1,
+        "nullable": "N"
+      }
+    },
+    "expectPeopleAnswer": {
+      "type": "String",
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "updated",
-        "dataType": "timestamp",
+        "columnName": "expect_people_answer",
+        "dataType": "json",
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "updatedBy": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 11,
-      "scale": 0,
-      "mysql": {
-        "columnName": "updated_by",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 11,
-        "dataScale": 0,
-        "nullable": "N"
+        "nullable": "Y"
       }
     }
   },
