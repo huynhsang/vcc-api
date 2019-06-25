@@ -17,6 +17,12 @@
         "model": "user",
         "type": "belongsTo",
         "foreignKey": "createdBy"
+      },
+      "answers": {
+        "type": "hasMany",
+        "model": "Answer",
+        "foreignKey": "questionId",
+        "primaryKey": "id"
       }
     },
     "foreignKeys": {
@@ -248,6 +254,22 @@
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "Y"
+      }
+    },
+    "slug": {
+      "type": "String",
+      "required": true,
+      "length": 512,
+      "precision": null,
+      "scale": null,
+      "index": {"unique": true},
+      "mysql": {
+        "columnName": "slug",
+        "dataType": "varchar",
+        "dataLength": 512,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
       }
     }
   },

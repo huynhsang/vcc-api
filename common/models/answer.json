@@ -69,21 +69,6 @@
         "nullable": "N"
       }
     },
-    "isFree": {
-      "type": "Boolean",
-      "required": true,
-      "length": null,
-      "precision": 1,
-      "scale": null,
-      "mysql": {
-        "columnName": "is_free",
-        "dataType": "tinyint",
-        "dataLength": null,
-        "dataPrecision": 1,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
     "isTheBest": {
       "type": "Boolean",
       "required": true,
@@ -111,6 +96,23 @@
         "dataLength": null,
         "dataPrecision": 11,
         "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "numberOfVotes": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "default": 0,
+      "mysql": {
+        "columnName": "number_of_votes",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "default": 0,
         "nullable": "N"
       }
     }

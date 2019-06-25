@@ -41,7 +41,7 @@ module.exports = function(Question) {
   });
 
   /**
-   * The method will call the runner to start crawl articles
+   * The method will call the service to get questions
    *
    * @param filter {Object} Optional Filter JSON object.
    * @param cb {Function} Callback function.
@@ -64,5 +64,31 @@ module.exports = function(Question) {
     description: 'Find all questions',
     returns: {type: 'array', root: true},
     http: {path: '/find-all', verb: 'get'},
+  });
+
+  /**
+   * The method will call the service to get question detail
+   *
+   * @param id {Number} The question Id
+   * @param cb {Function} Callback function.
+   */
+  Question.getQuestionDetailById = function(id, cb) {
+    logger.debug('Starting to get question detail by id', id);
+    service.getQuestionDetailById(Question, id, (err, question) => {
+      if (err) return cb(err);
+      cb(null, question);
+    });
+  };
+
+  /**
+   * To Describe API end point to get questions
+   */
+  Question.remoteMethod('getQuestionDetailById', {
+    accepts: [
+      {arg: 'id', type: 'number', required: true},
+    ],
+    description: 'Get question detail by Id',
+    returns: {type: 'object', root: true},
+    http: {path: '/get-detail', verb: 'get'},
   });
 };

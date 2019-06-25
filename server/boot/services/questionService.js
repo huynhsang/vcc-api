@@ -10,9 +10,9 @@ let service = {};
 
 /**
  * The method handles logic to get questions with pagination
- * @param Question: {object} The Question model
- * @param filter: {object} Optional Filter JSON object.
- * @param cb: {func} The callback function
+ * @param Question: {Object} The Question model
+ * @param filter: {Object} Optional Filter JSON object.
+ * @param cb: {Function} The callback function
  */
 service.getQuestions = function(Question, filter, cb) {
   logger.debug('Get questions via service');
@@ -32,14 +32,63 @@ service.getQuestions = function(Question, filter, cb) {
       fields: ['id', 'nameEn', 'nameVi'],
     },
   }];
+  filter.where = {
+    isHidden: false,
+    isVerified: true,
+  };
+  filter.order = 'updated DESC';
   repository.findAll(Question, filter, cb);
 };
 
 /**
- * The method handles logic to get a Question by Id
- * @param Question: {object} The Question model
+ * The method handles logic to get question detail by id
+ * @param Question: {Object} The Question model
  * @param id: {number} The question Id
- * @param cb: {func} The callback function
+ * @param cb: {Function} The callback function
+ */
+service.getQuestionDetailById = function(Question, id, cb) {
+  logger.debug('Get question detail by id', id);
+  let filter = {};
+  filter.include = [{
+    relation: 'askedBy',
+    scope: {
+      fields: ['id', 'avatar', 'firstName', 'lastName', 'numberOfQuestions',
+        'numberOfAnswers', 'numberOfBestAnswers', 'points'],
+    },
+  }, {
+    relation: 'category',
+    scope: {
+      fields: ['id', 'nameEn', 'nameVi'],
+    },
+  }, {
+    relation: 'answers',
+    scope: {
+      skip: 0,
+      limit: 10,
+      order: 'created DESC',
+      include: [{
+        relation: 'answerBy',
+        scope: {
+          fields: ['id', 'avatar', 'firstName', 'lastName', 'numberOfQuestions',
+            'numberOfAnswers', 'numberOfBestAnswers', 'points'],
+        },
+      }],
+    },
+  }];
+  filter.where = {
+    isHidden: false,
+    isVerified: true,
+    id: id,
+  };
+  filter.order = 'updated DESC';
+  repository.findOne(Question, filter, cb);
+};
+
+/**
+ * The method handles logic to get a Question by Id
+ * @param Question: {Object} The Question model
+ * @param id: {Number} The question Id
+ * @param cb: {Function} The callback function
  */
 service.findOneById = function(Question, id, cb) {
   logger.debug('Find one question by id via service');
@@ -47,10 +96,25 @@ service.findOneById = function(Question, id, cb) {
 };
 
 /**
+ * The method handles logic to get a Question by slug
+ * @param Question: {Object} The Question model
+ * @param slug: {String} The question slug
+ * @param cb: {Function} The callback function
+ */
+service.findOneBySlug = function(Question, slug, cb) {
+  logger.debug('Find one question by slug via service', slug);
+  repository.findOne(Question, {
+    where: {
+      slug: slug,
+    },
+  }, cb);
+};
+
+/**
  * The method handles logic to update number of questions after create
- * @param app: {object} The application object
- * @param question: {object} The instance of Question
- * @param cb: {func} The callback function
+ * @param app: {Object} The application object
+ * @param question: {Object} The instance of Question
+ * @param cb: {Function} The callback function
  */
 service.updateNumOfQuestionsAfterCreate = function(app, question, cb) {
   logger.debug('Update number of questions after create new one', question.id);
