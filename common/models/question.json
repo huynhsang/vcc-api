@@ -16,7 +16,7 @@
       "askedBy": {
         "model": "user",
         "type": "belongsTo",
-        "foreignKey": "askedBy"
+        "foreignKey": "createdBy"
       }
     },
     "foreignKeys": {
@@ -25,12 +25,6 @@
         "foreignKey": "categoryId",
         "entityKey": "id",
         "entity": "Category"
-      },
-      "askedBy": {
-        "name": "fkQuestionOwner",
-        "foreignKey": "askedBy",
-        "entityKey": "id",
-        "entity": "user"
       },
       "createdBy": {
         "name": "fkQuestionCreatedBy",
@@ -47,21 +41,6 @@
     }
   },
   "properties": {
-    "askedBy": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 11,
-      "scale": 0,
-      "mysql": {
-        "columnName": "asked_by",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 11,
-        "dataScale": 0,
-        "nullable": "N"
-      }
-    },
     "body": {
       "type": "String",
       "required": true,
@@ -273,6 +252,20 @@
     }
   },
   "validations": [],
-  "acls": [],
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "accessType": "WRITE",
+      "permission": "ALLOW"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "user",
+      "accessType": "WRITE",
+      "permission": "ALLOW",
+      "property": ["create"]
+    }
+  ],
   "methods": {}
 }

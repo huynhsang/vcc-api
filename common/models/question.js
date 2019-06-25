@@ -9,6 +9,7 @@ module.exports = function(Question) {
    */
   Question.observe('before save', function(ctx, next) {
     logger.debug('Before saving Question');
+    let data = ctx.instance ? ctx.instance : ctx.data;
 
     // Handling logic when Update
     if (!ctx.isNewInstance) {
@@ -19,14 +20,24 @@ module.exports = function(Question) {
           return next(err);
         }
         if (!question) return next(new Error('Question is not found!'));
-        let data = ctx.instance ? ctx.instance : ctx.data;
         data.created = question.created;
         data.createdBy = question.createdBy;
         next();
       });
     } else {
+      data.createdBy = ctx.options.accessToken.userId;
       next();
     }
+  });
+
+  /**
+   * Send verification email after registration
+   */
+  Question.afterRemote('create', function(context, question, next) {
+    service.updateNumOfQuestionsAfterCreate(Question.app, question, (err) => {
+      if (err) return next(err);
+      next();
+    });
   });
 
   /**

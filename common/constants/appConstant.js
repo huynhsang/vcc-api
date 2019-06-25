@@ -23,4 +23,13 @@ constant.NUMBER_OF = {
   VOTES: 'numberOfVotes',
 };
 
+constant.SUBCATEGORY_TYPE = {
+  LOCATION: 'location',
+  NAME_OF_UNIVERSITY: 'name_of_university',
+  FIELD_OF_STUDY: 'field_of_study',
+  LEVEL: 'level',
+  OTHER: 'other',
+  NAME_OF_COMPANY: 'name_of_company',
+};
+
 module.exports = constant;

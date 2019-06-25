@@ -11,7 +11,7 @@
       "answerBy": {
         "model": "user",
         "type": "belongsTo",
-        "foreignKey": "answerBy"
+        "foreignKey": "createdBy"
       },
       "answerForQuestion": {
         "model": "Question",
@@ -25,12 +25,6 @@
         "foreignKey": "questionId",
         "entityKey": "id",
         "entity": "Question"
-      },
-      "answerBy": {
-        "name": "fkAnswerBy",
-        "foreignKey": "answerBy",
-        "entityKey": "id",
-        "entity": "user"
       },
       "createdBy": {
         "name": "fkAnswerCreatedBy",
@@ -57,21 +51,6 @@
         "dataType": "mediumtext",
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "answerBy": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 11,
-      "scale": 0,
-      "mysql": {
-        "columnName": "answer_by",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 11,
-        "dataScale": 0,
         "nullable": "N"
       }
     },

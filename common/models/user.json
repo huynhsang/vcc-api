@@ -11,7 +11,7 @@
       "questions": {
         "type": "hasMany",
         "model": "Question",
-        "foreignKey": "askedBy",
+        "foreignKey": "createdBy",
         "primaryKey": "id"
       },
       "answers": {
