@@ -45,4 +45,24 @@ service.findOneById = function(Answer, id, cb) {
   repository.findById(Answer, id, {}, cb);
 };
 
+/**
+ * The method handles logic to update number of answers after create
+ * @param app: {Object} The application object
+ * @param answer: {Object} The instance of Question
+ * @param cb: {Function} The callback function
+ */
+service.updateNumOfAnswersAfterCreate = function(app, answer, cb) {
+  logger.debug('Update number of answers after create new one', answer.id);
+  const Question = app.models.Question;
+  const User = app.models.user;
+
+  Promise.all([
+    questionService.plusOrMinusPropertyByValue(Question, answer.questionId,
+      'numberOfAnswers', 1),
+    userService.plusOrMinusPropertyByValue(User, answer.createdBy,
+      'numberOfAnswers', 1),
+  ]).then(() => cb())
+    .catch(err => cb(err));
+};
+
 module.exports = service;

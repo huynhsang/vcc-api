@@ -75,12 +75,14 @@
       "length": null,
       "precision": 1,
       "scale": null,
+      "default": false,
       "mysql": {
         "columnName": "is_the_best",
         "dataType": "tinyint",
         "dataLength": null,
         "dataPrecision": 1,
         "dataScale": null,
+        "default": 0,
         "nullable": "N"
       }
     },
@@ -118,6 +120,20 @@
     }
   },
   "validations": [],
-  "acls": [],
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "accessType": "WRITE",
+      "permission": "ALLOW"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "user",
+      "accessType": "WRITE",
+      "permission": "ALLOW",
+      "property": ["create"]
+    }
+  ],
   "methods": {}
 }

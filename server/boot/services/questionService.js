@@ -1,6 +1,7 @@
 'use strict';
 
 let logger = require('../../../utils/logger');
+let formatter = require('../../../utils/formatter');
 let repository = require('../../common/repositories/persistedModelExtend');
 let categoryService = require('./categoryService');
 let subCategoryService = require('./subCategoryService');
@@ -139,6 +140,60 @@ service.updateNumOfQuestionsAfterCreate = function(app, question, cb) {
     });
   }).catch(err => {
     cb(err);
+  });
+};
+
+/**
+ * The method handles logic to increase or reduce property of question by number
+ * @param Question: The Question model
+ * @param questionId: The question Id
+ * @param propertyName: The property name need to update
+ * @param number: The number of increment (positive) or reduction (negative)
+ * @return {Promise<>} updated value of the property or error
+ */
+service.plusOrMinusPropertyByValue = function(Question, questionId,
+                                              propertyName, number) {
+  logger.info(formatter.string('Updating {0} of question with id {1} by 1',
+    [propertyName, questionId]));
+  return new Promise((resolve, reject) => {
+    // Start the transaction
+    Question.beginTransaction({
+      isolationLevel: Question.Transaction.READ_COMMITTED,
+    }, function(err, tx) {
+      // Perform operations in a transaction
+      repository.findById(Question, questionId, {
+        transaction: tx,
+      }, (err, question) => {
+        if (err || !question) {
+          const errorMsg = err ? err : formatter.string(
+            'Question not found with id {0}', [questionId]);
+          logger.error(errorMsg);
+          tx.rollback();
+          return reject();
+        }
+
+        let inc = question[propertyName] + number;
+
+        question.updateAttribute(propertyName, inc, {
+          transaction: tx,
+        }, (err, updated) => {
+          if (err) {
+            logger.error(err);
+            tx.rollback();
+            return reject(err);
+          }
+
+          // Commit the transaction to make it happen
+          tx.commit(function(err) {
+            if (err) return reject(err);
+            // Counter should have been incremented
+            logger.info(formatter.string('Updated question {0} for Id {1}',
+              [propertyName, questionId]));
+            resolve(updated[propertyName]);
+          });
+        });
+      });
+    });
   });
 };
 

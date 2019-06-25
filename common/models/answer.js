@@ -53,8 +53,18 @@ module.exports = function(Answer) {
       {arg: 'id', type: 'number', required: true, description: 'Question Id'},
       {arg: 'filter', type: 'object', http: {source: 'query'}},
     ],
-    description: 'Find all answers By Question Id',
+    description: 'Find all Answers By question Id',
     returns: {type: 'array', root: true},
     http: {path: '/find-all-by-question-id', verb: 'get'},
+  });
+
+  /**
+   * The method observe then run after create method is called
+   */
+  Answer.afterRemote('create', function(context, answer, next) {
+    service.updateNumOfAnswersAfterCreate(Answer.app, answer, (err) => {
+      if (err) return next(err);
+      next();
+    });
   });
 };

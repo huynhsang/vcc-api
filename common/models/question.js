@@ -31,7 +31,7 @@ module.exports = function(Question) {
   });
 
   /**
-   * Send verification email after registration
+   * The method observe then run after create method is called
    */
   Question.afterRemote('create', function(context, question, next) {
     service.updateNumOfQuestionsAfterCreate(Question.app, question, (err) => {
