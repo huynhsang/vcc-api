@@ -22,7 +22,7 @@ service.getQuestions = function(Question, filter, cb) {
   }
   filter.limit = 10;
   filter.include = [{
-    relation: 'askedBy',
+    relation: 'createdBy',
     scope: {
       fields: ['id', 'avatar', 'firstName', 'lastName', 'numberOfQuestions',
         'numberOfAnswers', 'numberOfBestAnswers', 'points'],
@@ -33,11 +33,7 @@ service.getQuestions = function(Question, filter, cb) {
       fields: ['id', 'nameEn', 'nameVi'],
     },
   }];
-  filter.where = {
-    isHidden: false,
-    isVerified: true,
-  };
-  filter.order = 'updated DESC';
+  if (!filter.order) filter.order = 'updated DESC';
   repository.findAll(Question, filter, cb);
 };
 
@@ -51,7 +47,7 @@ service.getQuestionDetailById = function(Question, id, cb) {
   logger.debug('Get question detail by id', id);
   let filter = {};
   filter.include = [{
-    relation: 'askedBy',
+    relation: 'createdBy',
     scope: {
       fields: ['id', 'avatar', 'firstName', 'lastName', 'numberOfQuestions',
         'numberOfAnswers', 'numberOfBestAnswers', 'points'],
@@ -68,7 +64,7 @@ service.getQuestionDetailById = function(Question, id, cb) {
       limit: 10,
       order: 'created DESC',
       include: [{
-        relation: 'answerBy',
+        relation: 'createdBy',
         scope: {
           fields: ['id', 'avatar', 'firstName', 'lastName', 'numberOfQuestions',
             'numberOfAnswers', 'numberOfBestAnswers', 'points'],

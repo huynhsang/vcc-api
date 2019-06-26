@@ -8,7 +8,7 @@
       "table": "answer"
     },
     "relations": {
-      "answerBy": {
+      "createdBy": {
         "model": "user",
         "type": "belongsTo",
         "foreignKey": "createdBy"

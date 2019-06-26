@@ -13,7 +13,7 @@
         "type": "belongsTo",
         "foreignKey": "categoryId"
       },
-      "askedBy": {
+      "createdBy": {
         "model": "user",
         "type": "belongsTo",
         "foreignKey": "createdBy"
