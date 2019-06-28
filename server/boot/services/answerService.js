@@ -21,10 +21,10 @@ service.getAnswersByQuestionId = function(Answer, questionId, filter, cb) {
   }
   filter.limit = 10;
   filter.include = [{
-    relation: 'createdBy',
+    relation: 'answerBy',
     scope: {
       fields: ['id', 'avatar', 'firstName', 'lastName', 'numberOfQuestions',
-        'numberOfAnswers', 'numberOfBestAnswers', 'points'],
+        'numberOfAnswers', 'numberOfBestAnswers', 'points', 'level'],
     },
   }];
   filter.where = {

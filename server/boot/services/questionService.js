@@ -22,10 +22,10 @@ service.getQuestions = function(Question, filter, cb) {
   }
   filter.limit = 10;
   filter.include = [{
-    relation: 'createdBy',
+    relation: 'askedBy',
     scope: {
       fields: ['id', 'avatar', 'firstName', 'lastName', 'numberOfQuestions',
-        'numberOfAnswers', 'numberOfBestAnswers', 'points'],
+        'numberOfAnswers', 'numberOfBestAnswers', 'points', 'level'],
     },
   }, {
     relation: 'category',
@@ -47,10 +47,10 @@ service.getQuestionDetailById = function(Question, id, cb) {
   logger.debug('Get question detail by id', id);
   let filter = {};
   filter.include = [{
-    relation: 'createdBy',
+    relation: 'askedBy',
     scope: {
       fields: ['id', 'avatar', 'firstName', 'lastName', 'numberOfQuestions',
-        'numberOfAnswers', 'numberOfBestAnswers', 'points'],
+        'numberOfAnswers', 'numberOfBestAnswers', 'points', 'level'],
     },
   }, {
     relation: 'category',
@@ -64,10 +64,10 @@ service.getQuestionDetailById = function(Question, id, cb) {
       limit: 10,
       order: 'created DESC',
       include: [{
-        relation: 'createdBy',
+        relation: 'answerBy',
         scope: {
           fields: ['id', 'avatar', 'firstName', 'lastName', 'numberOfQuestions',
-            'numberOfAnswers', 'numberOfBestAnswers', 'points'],
+            'numberOfAnswers', 'numberOfBestAnswers', 'points', 'level'],
         },
       }],
     },

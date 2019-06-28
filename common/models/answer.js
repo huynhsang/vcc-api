@@ -67,4 +67,56 @@ module.exports = function(Answer) {
       next();
     });
   });
+
+  /**
+   * Hide the default 'create' remote method
+   */
+  Answer.disableRemoteMethod('create', true);
+
+  /**
+   * Add a custom 'customCreate' remote method
+   */
+  Answer.remoteMethod('customCreate', {
+    description:
+      'Create a new instance of the model and persist it into the data source.',
+    accessType: 'WRITE',
+    accepts: [
+      {
+        arg: 'data',
+        type: 'object',
+        model: 'Answer',
+        allowArray: true,
+        description: 'Model instance data',
+        http: {source: 'body'},
+      },
+      {arg: 'options', type: 'object', http: 'optionsFromRequest'},
+    ],
+    returns: {arg: 'data', type: 'Answer', root: true},
+    http: {verb: 'post', path: '/'},
+    isStatic: true,
+  });
+
+  /**
+   * Implement the customCreate function
+   * @param data: {Object} The answer data
+   * @param options: {Object} The options
+   * @param cb: {Function} Callback function
+   */
+  Answer.customCreate = function(data, options, cb) {
+    Answer.create(data, options, function(err, newObj) {
+      if (err) {
+        cb(err);
+      } else {
+        // here we try to load the user value
+        newObj.answerBy(function(err, user) {
+          if (user) {
+            // if we found a user we add it to __data, so it appears in the output (a bit hacky way)
+            newObj.__data.answerBy = user;
+          }
+
+          cb(err, newObj);
+        });
+      }
+    });
+  };
 };

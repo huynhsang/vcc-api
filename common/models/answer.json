@@ -8,7 +8,7 @@
       "table": "answer"
     },
     "relations": {
-      "createdBy": {
+      "answerBy": {
         "model": "user",
         "type": "belongsTo",
         "foreignKey": "createdBy"
@@ -41,13 +41,13 @@
     }
   },
   "properties": {
-    "answer": {
+    "body": {
       "type": "String",
       "required": true,
       "precision": null,
       "scale": null,
       "mysql": {
-        "columnName": "answer",
+        "columnName": "body",
         "dataType": "mediumtext",
         "dataPrecision": null,
         "dataScale": null,
@@ -132,7 +132,7 @@
       "principalId": "user",
       "accessType": "WRITE",
       "permission": "ALLOW",
-      "property": ["create"]
+      "property": ["customCreate"]
     }
   ],
   "methods": {}

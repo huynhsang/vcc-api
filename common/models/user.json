@@ -358,6 +358,23 @@
         "default": 0,
         "nullable": "N"
       }
+    },
+    "level": {
+      "type": "String",
+      "required": false,
+      "length": 45,
+      "precision": null,
+      "scale": null,
+      "default": "beginner",
+      "mysql": {
+        "columnName": "level",
+        "dataType": "varchar",
+        "dataLength": 45,
+        "dataPrecision": null,
+        "dataScale": null,
+        "default": "beginner",
+        "nullable": "Y"
+      }
     }
   },
   "validations": [],
