@@ -43,12 +43,15 @@ module.exports = function(Question) {
   /**
    * The method will call the service to get questions
    *
+   * @param options: {Object} The options
    * @param filter {Object} Optional Filter JSON object.
    * @param cb {Function} Callback function.
    */
-  Question.getQuestions = function(filter = {}, cb) {
+  Question.getQuestions = function(filter = {}, options, cb) {
     logger.debug('Starting to get questions...');
-    service.getQuestions(Question, filter, (err, questions) => {
+    const token = options && options.accessToken;
+    const userId = token && token.userId;
+    service.getQuestions(Question, filter, userId, (err, questions) => {
       if (err) return cb(err);
       cb(null, questions);
     });
@@ -60,6 +63,7 @@ module.exports = function(Question) {
   Question.remoteMethod('getQuestions', {
     accepts: [
       {arg: 'filter', type: 'object', http: {source: 'query'}},
+      {arg: 'options', type: 'object', http: 'optionsFromRequest'},
     ],
     description: 'Find all questions',
     returns: {type: 'array', root: true},

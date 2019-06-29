@@ -61,7 +61,7 @@ module.exports = function(Answer) {
   /**
    * The method observe then run after create method is called
    */
-  Answer.afterRemote('create', function(context, answer, next) {
+  Answer.afterRemote('customCreate', function(context, answer, next) {
     service.updateNumOfAnswersAfterCreate(Answer.app, answer, (err) => {
       if (err) return next(err);
       next();
@@ -71,7 +71,7 @@ module.exports = function(Answer) {
   /**
    * Hide the default 'create' remote method
    */
-  Answer.disableRemoteMethod('create', true);
+  Answer.disableRemoteMethodByName('create');
 
   /**
    * Add a custom 'customCreate' remote method

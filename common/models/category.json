@@ -2,7 +2,8 @@
   "name": "Category",
   "base": "Base",
   "options": {
-    "idInjection": true,
+    "idInjection": false,
+    "forceId": false,
     "mysql": {
       "schema": "vcc",
       "table": "category"
@@ -11,8 +12,8 @@
       "subCategories": {
         "type": "hasMany",
         "model": "SubCategory",
-        "foreignKey": "categoryId",
-        "primaryKey": "id"
+        "foreignKey": "categorySlug",
+        "primaryKey": "slug"
       }
     },
     "foreignKeys": {
@@ -31,6 +32,22 @@
     }
   },
   "properties": {
+    "slug": {
+      "type": "String",
+      "required": true,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "id": 1,
+      "mysql": {
+        "columnName": "slug",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
     "nameEn": {
       "type": "String",
       "required": true,
@@ -54,21 +71,6 @@
       "scale": null,
       "mysql": {
         "columnName": "name_vi",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "slug": {
-      "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "slug",
         "dataType": "varchar",
         "dataLength": 255,
         "dataPrecision": null,

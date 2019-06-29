@@ -8,7 +8,6 @@ const TABLE_LIST = [
   'AccessToken',
   'Category',
   'SubCategory',
-  'Tag',
   'Education',
   'Experience',
   'Point',
@@ -19,6 +18,8 @@ const TABLE_LIST = [
   'Wallet',
   'BuyAnswer',
   'Transaction',
+  'UsersVoteQuestions',
+  'UsersVoteAnswers',
 ];
 let migration = {};
 

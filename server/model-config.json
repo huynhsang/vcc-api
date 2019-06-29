@@ -99,5 +99,13 @@
   "Transaction": {
     "dataSource": "vccDS",
     "public": true
+  },
+  "UsersVoteQuestions": {
+    "dataSource": "vccDS",
+    "public": true
+  },
+  "UsersVoteAnswers": {
+    "dataSource": "vccDS",
+    "public": true
   }
 }

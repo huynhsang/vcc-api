@@ -55,6 +55,18 @@
         "model": "BuyAnswer",
         "foreignKey": "userId",
         "primaryKey": "id"
+      },
+      "voteQuestions": {
+        "type": "hasMany",
+        "model": "UsersVoteQuestions",
+        "foreignKey": "userId",
+        "primaryKey": "id"
+      },
+      "voteAnswers": {
+        "type": "hasMany",
+        "model": "UsersVoteAnswers",
+        "foreignKey": "userId",
+        "primaryKey": "id"
       }
     }
   },

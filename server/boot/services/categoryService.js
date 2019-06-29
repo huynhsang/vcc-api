@@ -9,26 +9,26 @@ let service = {};
 /**
  * The method handles logic to increase or reduce property of category by number
  * @param Category: The Category model
- * @param categoryId: The category Id
+ * @param categorySlug: The category slug
  * @param number: The number of increment (positive) or reduction (negative)
  * @return {Promise<>} updated value of the property or error
  */
-service.plusOrMinusNumOfQuestionsByValue = function(Category, categoryId,
+service.plusOrMinusNumOfQuestionsByValue = function(Category, categorySlug,
                                                     number) {
   logger.info(formatter.string('Updating {0} of category with id {1} by 1',
-    ['numberOfQuestions', categoryId]));
+    ['numberOfQuestions', categorySlug]));
   return new Promise((resolve, reject) => {
     // Start the transaction
     Category.beginTransaction({
       isolationLevel: Category.Transaction.READ_COMMITTED,
     }, function(err, tx) {
       // Perform operations in a transaction
-      repository.findById(Category, categoryId, {
+      repository.findById(Category, categorySlug, {
         transaction: tx,
       }, (err, category) => {
         if (err || !category) {
           const errorMsg = err ? err : formatter.string(
-            'Category not found with id {0}', [categoryId]);
+            'Category not found with id {0}', [categorySlug]);
           logger.error(errorMsg);
           tx.rollback();
           return reject();
@@ -50,7 +50,7 @@ service.plusOrMinusNumOfQuestionsByValue = function(Category, categoryId,
             if (err) return reject(err);
             // Counter should have been incremented
             logger.info(formatter.string('Updated category {0} for Id {1}',
-              ['numberOfQuestions', categoryId]));
+              ['numberOfQuestions', categorySlug]));
             resolve(updated['numberOfQuestions']);
           });
         });

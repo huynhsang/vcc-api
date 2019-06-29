@@ -12,10 +12,11 @@ let service = {};
 /**
  * The method handles logic to get questions with pagination
  * @param Question: {Object} The Question model
- * @param filter: {Object} Optional Filter JSON object.
+ * @param filter: {Object} Optional Filter JSON object
+ * @param userId: {Number} The user Id
  * @param cb: {Function} The callback function
  */
-service.getQuestions = function(Question, filter, cb) {
+service.getQuestions = function(Question, filter, userId, cb) {
   logger.debug('Get questions via service');
   if (!filter || !filter.skip) {
     filter = {skip: 0};
@@ -30,9 +31,21 @@ service.getQuestions = function(Question, filter, cb) {
   }, {
     relation: 'category',
     scope: {
-      fields: ['id', 'nameEn', 'nameVi'],
+      fields: ['slug', 'nameEn', 'nameVi'],
     },
   }];
+  if (userId) {
+    filter.include.push({
+      relation: 'votes',
+      scope: {
+        fields: ['id', 'questionId', 'userId', 'isPositiveVote', 'reason'],
+        where: {
+          userId: userId,
+        },
+        limit: 1,
+      },
+    });
+  }
   if (!filter.order) filter.order = 'updated DESC';
   repository.findAll(Question, filter, cb);
 };
@@ -55,7 +68,7 @@ service.getQuestionDetailById = function(Question, id, cb) {
   }, {
     relation: 'category',
     scope: {
-      fields: ['id', 'nameEn', 'nameVi'],
+      fields: ['slug', 'nameEn', 'nameVi'],
     },
   }, {
     relation: 'answers',
@@ -121,7 +134,7 @@ service.updateNumOfQuestionsAfterCreate = function(app, question, cb) {
 
   Promise.all([
     categoryService.plusOrMinusNumOfQuestionsByValue(Category,
-      question.categoryId, 1),
+      question.categorySlug, 1),
     userService.plusOrMinusPropertyByValue(User, question.createdBy,
       'numberOfQuestions', 1),
   ]).then(() => {
