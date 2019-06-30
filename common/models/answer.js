@@ -14,15 +14,19 @@ module.exports = function(Answer) {
 
     // Handling logic when Update
     if (!ctx.isNewInstance) {
-      let answerId = ctx.instance ? ctx.instance.id :
-        ctx.currentInstance ? ctx.currentInstance.id : ctx.data.id;
-      service.findOneById(Answer, answerId, {}, (err, answer) => {
-        if (err) return next(err);
-        if (!answer) return next(new Error('Answer not found!'));
-        data.created = answer.created;
-        data.createdBy = answer.createdBy;
-        next();
-      });
+      // In case, User try to change created || createdBy values
+      if (data.created || data.createdBy) {
+        let answerId = ctx.instance ? ctx.instance.id :
+          ctx.currentInstance ? ctx.currentInstance.id : ctx.data.id;
+
+        service.findOneById(Answer, answerId, (err, answer) => {
+          if (err) return next(err);
+          if (!answer) return next(new Error('Answer not found!'));
+          data.created = answer.created;
+          data.createdBy = answer.createdBy;
+          next();
+        });
+      } else next();
     } else {
       data.createdBy = ctx.options.accessToken.userId;
       next();
@@ -34,11 +38,14 @@ module.exports = function(Answer) {
    *
    * @param id {Number} The question Id
    * @param filter {Object} Optional Filter JSON object.
+   * @param options: {Object} The options
    * @param cb {Function} Callback function.
    */
-  Answer.getAnswersByQuestionId = function(id, filter = {}, cb) {
+  Answer.getAnswersByQuestionId = function(id, filter = {}, options, cb) {
     logger.debug('Starting to get answers by questionId', id);
-    service.getAnswersByQuestionId(Answer, id, filter,
+    const token = options && options.accessToken;
+    const userId = token && token.userId;
+    service.getAnswersByQuestionId(Answer, id, filter, userId,
       (err, answers) => {
         if (err) return cb(err);
         cb(null, answers);
@@ -52,6 +59,7 @@ module.exports = function(Answer) {
     accepts: [
       {arg: 'id', type: 'number', required: true, description: 'Question Id'},
       {arg: 'filter', type: 'object', http: {source: 'query'}},
+      {arg: 'options', type: 'object', http: 'optionsFromRequest'},
     ],
     description: 'Find all Answers By question Id',
     returns: {type: 'array', root: true},
@@ -62,6 +70,7 @@ module.exports = function(Answer) {
    * The method observe then run after create method is called
    */
   Answer.afterRemote('customCreate', function(context, answer, next) {
+    logger.debug('Update number of Answers after create an answer');
     service.updateNumOfAnswersAfterCreate(Answer.app, answer, (err) => {
       if (err) return next(err);
       next();

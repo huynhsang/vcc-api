@@ -17,6 +17,12 @@
         "model": "Question",
         "type": "belongsTo",
         "foreignKey": "questionId"
+      },
+      "votes": {
+        "type": "hasMany",
+        "model": "UsersVoteAnswers",
+        "foreignKey": "answerId",
+        "primaryKey": "id"
       }
     },
     "foreignKeys": {

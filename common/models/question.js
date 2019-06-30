@@ -13,17 +13,21 @@ module.exports = function(Question) {
 
     // Handling logic when Update
     if (!ctx.isNewInstance) {
-      let questionId = ctx.instance ? ctx.instance.id :
-        ctx.currentInstance ? ctx.currentInstance.id : ctx.data.id;
-      service.findOneById(Question, questionId, (err, question) => {
-        if (err) {
-          return next(err);
-        }
-        if (!question) return next(new Error('Question is not found!'));
-        data.created = question.created;
-        data.createdBy = question.createdBy;
-        next();
-      });
+      // In case, User try to change created || createdBy values
+      if (data.createdBy || data.created) {
+        let questionId = ctx.instance ? ctx.instance.id :
+          ctx.currentInstance ? ctx.currentInstance.id : ctx.data.id;
+
+        service.findOneById(Question, questionId, (err, question) => {
+          if (err) {
+            return next(err);
+          }
+          if (!question) return next(new Error('Question is not found!'));
+          data.created = question.created;
+          data.createdBy = question.createdBy;
+          next();
+        });
+      } else next();
     } else {
       data.createdBy = ctx.options.accessToken.userId;
       next();
@@ -43,8 +47,8 @@ module.exports = function(Question) {
   /**
    * The method will call the service to get questions
    *
-   * @param options: {Object} The options
    * @param filter {Object} Optional Filter JSON object.
+   * @param options: {Object} The options
    * @param cb {Function} Callback function.
    */
   Question.getQuestions = function(filter = {}, options, cb) {
@@ -74,11 +78,14 @@ module.exports = function(Question) {
    * The method will call the service to get question detail
    *
    * @param id {Number} The question Id
+   * @param options: {Object} The options
    * @param cb {Function} Callback function.
    */
-  Question.getQuestionDetailById = function(id, cb) {
+  Question.getQuestionDetailById = function(id, options, cb) {
     logger.debug('Starting to get question detail by id', id);
-    service.getQuestionDetailById(Question, id, (err, question) => {
+    const token = options && options.accessToken;
+    const userId = token && token.userId;
+    service.getQuestionDetailById(Question, id, userId, (err, question) => {
       if (err) return cb(err);
       cb(null, question);
     });
@@ -90,6 +97,7 @@ module.exports = function(Question) {
   Question.remoteMethod('getQuestionDetailById', {
     accepts: [
       {arg: 'id', type: 'number', required: true},
+      {arg: 'options', type: 'object', http: 'optionsFromRequest'},
     ],
     description: 'Get question detail by Id',
     returns: {type: 'object', root: true},

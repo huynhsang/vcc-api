@@ -54,9 +54,10 @@ service.getQuestions = function(Question, filter, userId, cb) {
  * The method handles logic to get question detail by id
  * @param Question: {Object} The Question model
  * @param id: {number} The question Id
+ * @param userId: {Number} The user Id
  * @param cb: {Function} The callback function
  */
-service.getQuestionDetailById = function(Question, id, cb) {
+service.getQuestionDetailById = function(Question, id, userId, cb) {
   logger.debug('Get question detail by id', id);
   let filter = {};
   filter.include = [{
@@ -85,6 +86,29 @@ service.getQuestionDetailById = function(Question, id, cb) {
       }],
     },
   }];
+
+  if (userId) {
+    filter.include.push({
+      relation: 'votes',
+      scope: {
+        fields: ['id', 'questionId', 'userId', 'isPositiveVote', 'reason'],
+        where: {
+          userId: userId,
+        },
+        limit: 1,
+      },
+    });
+    filter.include[2].scope.include.push({
+      relation: 'votes',
+      scope: {
+        fields: ['id', 'questionId', 'userId', 'isPositiveVote', 'reason'],
+        where: {
+          userId: userId,
+        },
+        limit: 1,
+      },
+    });
+  }
   filter.where = {
     isHidden: false,
     isVerified: true,
