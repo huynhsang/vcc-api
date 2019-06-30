@@ -289,6 +289,12 @@
     },
     {
       "principalType": "ROLE",
+      "principalId": "$owner",
+      "accessType": "EXECUTE",
+      "permission": "ALLOW"
+    },
+    {
+      "principalType": "ROLE",
       "principalId": "user",
       "accessType": "WRITE",
       "permission": "ALLOW",

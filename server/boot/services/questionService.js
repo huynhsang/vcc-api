@@ -230,4 +230,78 @@ service.plusOrMinusPropertyByValue = function(Question, questionId,
   });
 };
 
+/**
+ * The method handles logic for approving the best answer for question
+ * @param app: {Object} The application object
+ * @param answerId: {Number} The answer Id
+ * @param questionId: {Number} The question Id
+ * @param cb: {Function} The callback function
+ */
+service.handleApproveAnswer = function(app, answerId, questionId, cb) {
+  const Answer = app.models.Answer;
+  const Question = app.models.Question;
+  repository.findById(Answer, answerId, {}, (err, answer) => {
+    if (err) return cb(err);
+    if (!answer) return cb(new Error('Answer is not found!'));
+    if (answer.questionId !== questionId) {
+      return cb(new Error('Answer doesn\'t match with question'));
+    }
+
+    // Updating the best answer for question
+    service.handleUpdateTheBestAnswerProperty(Question, questionId,
+      (err) => {
+        if (err) {
+          logger.error(err);
+          return cb(err);
+        }
+        answer.updateAttribute('isTheBest', true, cb);
+      });
+  });
+};
+
+/**
+ * The method processes to sets the 'hasAcceptedAnswer' to true
+ * @param Question: {Object} The Question model
+ * @param questionId: {Number} The question Id
+ * @param cb: {Function} The callback function
+ */
+service.handleUpdateTheBestAnswerProperty = function(Question, questionId, cb) {
+  // Start transaction to update the best answer
+  Question.beginTransaction({
+    isolationLevel: Question.Transaction.READ_COMMITTED,
+  }, function(err, tx) {
+    repository.findById(Question, questionId, {
+      transaction: tx,
+    }, (err, question) => {
+      // In case, cannot find question by Id
+      if (err) {
+        tx.rollback();
+        return cb(err);
+      }
+
+      // In case, question already has the approved answer
+      if (question.hasAcceptedAnswer) {
+        return cb(new Error('The best answer already exists'));
+      }
+
+      question.updateAttribute('hasAcceptedAnswer', true, {
+        transaction: tx,
+      }, (err, updated) => {
+        if (err) {
+          tx.rollback();
+          return cb(err);
+        }
+
+        // Commit the transaction to make it happen
+        tx.commit(function(err) {
+          if (err) return cb(err);
+          // Counter should have been incremented
+          logger.info('Updated the best answer for question id', questionId);
+          cb(null, updated);
+        });
+      });
+    });
+  });
+};
+
 module.exports = service;

@@ -1,5 +1,6 @@
 'use strict';
 let logger = require('./../../utils/logger');
+let formatter = require('./../../utils/formatter');
 let service = require('./../../server/boot/services/questionService');
 
 module.exports = function(Question) {
@@ -102,5 +103,36 @@ module.exports = function(Question) {
     description: 'Get question detail by Id',
     returns: {type: 'object', root: true},
     http: {path: '/get-detail', verb: 'get'},
+  });
+
+  /**
+   * The method call service to handle approve answer
+   * @param data: {Object} The data uses for approving function
+   * @param options: {Object} The options
+   * @param cb: {Function} The callback function
+   */
+  Question.approveAnswer = function(data, options, cb) {
+    logger.debug(formatter.string('Approve Answer {0} for question {1}',
+      [data.answerId, data.id]));
+    if (!data.answerId) cb(new Error('answerId is required'));
+    service.handleApproveAnswer(Question.app, data.answerId, data.id, cb);
+  };
+
+  /**
+   * To Describe API end point to approve answer
+   */
+  Question.remoteMethod('approveAnswer', {
+    accepts: [
+      {arg: 'data', type: 'object', http: {source: 'body'},
+        default: {
+          id: 0,
+          answerId: 0,
+        }},
+      {arg: 'options', type: 'object', http: 'optionsFromRequest'},
+    ],
+    description: 'Approve answer for question',
+    accessType: 'EXECUTE',
+    returns: {type: 'Question', root: true},
+    http: {path: '/approve-answer', verb: 'post'},
   });
 };
