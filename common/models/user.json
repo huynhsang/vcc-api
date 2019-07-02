@@ -77,12 +77,14 @@
       "length": 255,
       "precision": null,
       "scale": null,
+      "default": "https://cdn0.iconfinder.com/data/icons/user-pictures/100/malecostume-512.png",
       "mysql": {
         "columnName": "avatar",
         "dataType": "varchar",
         "dataLength": 255,
         "dataPrecision": null,
         "dataScale": null,
+        "default": "https://cdn0.iconfinder.com/data/icons/user-pictures/100/malecostume-512.png",
         "nullable": "Y"
       }
     },
@@ -407,6 +409,12 @@
       "principalType": "ROLE",
       "principalId": "admin",
       "accessType": "READ",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
       "permission": "ALLOW"
     }
   ],
