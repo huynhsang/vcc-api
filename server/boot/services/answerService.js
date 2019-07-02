@@ -127,7 +127,7 @@ service.plusOrMinusPropertyByValue = function(Answer, answerId,
             // Counter should have been incremented
             logger.info(formatter.string('Updated answer {0} for Id {1}',
               [propertyName, answerId]));
-            resolve(updated[propertyName]);
+            resolve(updated);
           });
         });
       });

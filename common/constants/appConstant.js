@@ -32,4 +32,18 @@ constant.SUBCATEGORY_TYPE = {
   NAME_OF_COMPANY: 'name_of_company',
 };
 
+constant.REPUTATION_ACTION = {
+  ACCEPT: 'accept',
+  DOWN_VOTE: 'down vote',
+  UP_VOTE: 'up vote',
+};
+
+constant.REPUTATION_POINT = {
+  ACCEPT: 15,
+  DOWN_VOTE: -2,
+  UP_VOTE: 10,
+  POSITIVE_SUM: 12,
+  NEGATIVE_SUM: -12,
+};
+
 module.exports = constant;

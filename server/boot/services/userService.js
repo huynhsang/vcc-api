@@ -2,6 +2,7 @@
 
 let logger = require('../../../utils/logger');
 let formatter = require('../../../utils/formatter');
+let constant = require('../../../common/constants/appConstant');
 let repository = require('../../common/repositories/persistedModelExtend');
 
 let service = {};
@@ -58,6 +59,25 @@ service.plusOrMinusPropertyByValue = function(User, userId,
       });
     });
   });
+};
+
+/**
+ * The method will update user points
+ * @param User: {Object} The user model
+ * @param reputation: {Object} The reputation
+ * @param isNewInstance: {Boolean} Is new instance
+ * @param cb: {Function} The callback function
+ */
+service.updateUserPoints = function(User, reputation, isNewInstance, cb) {
+  let point = reputation.point;
+  if (!isNewInstance) {
+    point = reputation.point > 0 ? constant.REPUTATION_POINT.POSITIVE_SUM :
+      constant.REPUTATION_POINT.NEGATIVE_SUM;
+  }
+  service.plusOrMinusPropertyByValue(User, reputation.ownerId,
+    'points', point)
+    .then(() => cb())
+    .catch(err => cb(err));
 };
 
 module.exports = service;

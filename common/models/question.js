@@ -114,8 +114,10 @@ module.exports = function(Question) {
   Question.approveAnswer = function(data, options, cb) {
     logger.debug(formatter.string('Approve Answer {0} for question {1}',
       [data.answerId, data.id]));
+    const userId = options.accessToken.userId;
     if (!data.answerId) cb(new Error('answerId is required'));
-    service.handleApproveAnswer(Question.app, data.answerId, data.id, cb);
+    service.handleApproveAnswer(Question.app, data.answerId, data.id,
+      userId, cb);
   };
 
   /**
@@ -132,7 +134,15 @@ module.exports = function(Question) {
     ],
     description: 'Approve answer for question',
     accessType: 'EXECUTE',
-    returns: {type: 'Question', root: true},
+    returns: {type: 'Answer', root: true},
     http: {path: '/approve-answer', verb: 'post'},
+  });
+
+  Question.afterRemote('approveAnswer', function(context, answer, next) {
+    const userId = context.options.accessToken.userId;
+    service.handleAfterApproveAnswer(Question.app, answer, userId, (err) => {
+      if (err) return next(err);
+      next();
+    });
   });
 };

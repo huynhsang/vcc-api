@@ -6,6 +6,7 @@ let repository = require('../../common/repositories/persistedModelExtend');
 let categoryService = require('./categoryService');
 let subCategoryService = require('./subCategoryService');
 let userService = require('./userService');
+let reputationService = require('./reputationService');
 
 let service = {};
 
@@ -46,7 +47,7 @@ service.getQuestions = function(Question, filter, userId, cb) {
       },
     });
   }
-  if (!filter.order) filter.order = 'updated DESC';
+  if (!filter.order) filter.order = 'created DESC';
   repository.findAll(Question, filter, cb);
 };
 
@@ -222,7 +223,7 @@ service.plusOrMinusPropertyByValue = function(Question, questionId,
             // Counter should have been incremented
             logger.info(formatter.string('Updated question {0} for Id {1}',
               [propertyName, questionId]));
-            resolve(updated[propertyName]);
+            resolve(updated);
           });
         });
       });
@@ -235,9 +236,10 @@ service.plusOrMinusPropertyByValue = function(Question, questionId,
  * @param app: {Object} The application object
  * @param answerId: {Number} The answer Id
  * @param questionId: {Number} The question Id
+ * @param userId: {Number} The user Id
  * @param cb: {Function} The callback function
  */
-service.handleApproveAnswer = function(app, answerId, questionId, cb) {
+service.handleApproveAnswer = function(app, answerId, questionId, userId, cb) {
   const Answer = app.models.Answer;
   const Question = app.models.Question;
   repository.findById(Answer, answerId, {}, (err, answer) => {
@@ -245,6 +247,9 @@ service.handleApproveAnswer = function(app, answerId, questionId, cb) {
     if (!answer) return cb(new Error('Answer is not found!'));
     if (answer.questionId !== questionId) {
       return cb(new Error('Answer doesn\'t match with question'));
+    }
+    if (answer.createdBy === userId) {
+      return cb(new Error('Cannot Approve your answer'));
     }
 
     // Updating the best answer for question
@@ -302,6 +307,21 @@ service.handleUpdateTheBestAnswerProperty = function(Question, questionId, cb) {
       });
     });
   });
+};
+
+/**
+ * The method handles logic after approve answer successfully
+ * @param app: {Object} The application
+ * @param answer: {Object} The instance of answer
+ * @param userId: {Object} The question owner
+ * @param cb: {Function} The callback function
+ */
+service.handleAfterApproveAnswer = function(app, answer, userId, cb) {
+  logger.debug('Handle after approve answer', answer.id);
+  const Reputation = app.models.Reputation;
+  const User = app.models.user;
+  reputationService.createReputationWithAcceptAction(Reputation, answer, userId,
+    cb);
 };
 
 module.exports = service;

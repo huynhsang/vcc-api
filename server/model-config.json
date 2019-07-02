@@ -63,7 +63,7 @@
     "dataSource": "vccDS",
     "public": true
   },
-  "Point": {
+  "Reputation": {
     "dataSource": "vccDS",
     "public": true
   },

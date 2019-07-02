@@ -19,17 +19,20 @@ module.exports = function(UsersVoteAnswers) {
   UsersVoteAnswers.observe('before save', function(ctx, next) {
     logger.debug('Before save UsersVoteAnswers');
 
-    if (!ctx.isNewInstance) {
-      let data = ctx.instance ? ctx.instance : ctx.data;
-      service.findOneById(UsersVoteAnswers, data.id, (err, instance) => {
-        if (err) return next(err);
-        if (!instance) return next(new Error('Not found!'));
-        data.isPositiveVote = !instance.isPositiveVote;
+    let data = ctx.instance ? ctx.instance : ctx.data;
+    service.validateBeforeSave(UsersVoteAnswers, data, (err) => {
+      if (err) return next(err);
+      if (!ctx.isNewInstance) {
+        service.findOneById(UsersVoteAnswers, data.id, (err, instance) => {
+          if (err) return next(err);
+          if (!instance) return next(new Error('Not found!'));
+          data.isPositiveVote = !instance.isPositiveVote;
+          next();
+        });
+      } else {
         next();
-      });
-    } else {
-      next();
-    }
+      }
+    });
   });
 
   /**
@@ -47,6 +50,5 @@ module.exports = function(UsersVoteAnswers) {
       if (err) next(err);
       else next();
     });
-    // next();
   });
 };
