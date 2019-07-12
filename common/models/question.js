@@ -52,7 +52,7 @@ module.exports = function(Question) {
    * @param options: {Object} The options
    * @param cb {Function} Callback function.
    */
-  Question.getQuestions = function(filter = {}, options, cb) {
+  Question.getQuestions = function(filter, options, cb) {
     logger.debug('Starting to get questions...');
     const token = options && options.accessToken;
     const userId = token && token.userId;

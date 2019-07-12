@@ -19,7 +19,7 @@ let service = {};
  */
 service.getQuestions = function(Question, filter, userId, cb) {
   logger.debug('Get questions via service');
-  if (!filter || !filter.skip) {
+  if (!filter || filter.skip === undefined) {
     filter = {skip: 0};
   }
   filter.limit = 10;
