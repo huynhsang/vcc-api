@@ -57,7 +57,7 @@ module.exports = function(User) {
       port: process.env.SERVER_PORT,
     };
 
-    user.verify(options, function(err, response) {
+    user.verify(options, function(err) {
       if (err) {
         User.deleteById(user.id);
         return next(err);

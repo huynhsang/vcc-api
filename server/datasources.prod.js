@@ -31,8 +31,8 @@ module.exports = {
           rejectUnauthorized: false,
         },
         auth: {
-          user: 'soulkjngqn1@gmail.com',
-          pass: 'kshtgyarn12',
+          user: 'no.reply.vcnc@gmail.com',
+          pass: 'aaAA11!!',
         },
       },
     ],
