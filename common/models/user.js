@@ -50,7 +50,7 @@ module.exports = function(User) {
       subject: message.emailVerificationSubject,
       template: path.resolve(__dirname,
         '../../server/views/emailVerificationTemplate.ejs'),
-      redirect: '/verified',
+      redirect: null,
       host: process.env.SERVER_ADDRESS,
       user: user,
       protocol: process.env.SERVER_PROTOCOL,
