@@ -27,9 +27,6 @@ module.exports = {
         host: 'smtp.gmail.com',
         secure: true,
         port: 465,
-        tls: {
-          rejectUnauthorized: false,
-        },
         auth: {
           user: 'no.reply.vcnc@gmail.com',
           pass: 'aaAA11!!',
