@@ -22,7 +22,7 @@ service.getQuestions = function(Question, filter, userId, cb) {
   if (!filter || filter.skip === undefined) {
     filter = {skip: 0};
   }
-  filter.limit = 10;
+  filter.limit = filter.limit || 10;
   filter.include = [{
     relation: 'askedBy',
     scope: {
@@ -52,14 +52,14 @@ service.getQuestions = function(Question, filter, userId, cb) {
 };
 
 /**
- * The method handles logic to get question detail by id
+ * The method handles logic to get question detail by slug
  * @param Question: {Object} The Question model
- * @param id: {number} The question Id
+ * @param slug: {string} The question slug
  * @param userId: {Number} The user Id
  * @param cb: {Function} The callback function
  */
-service.getQuestionDetailById = function(Question, id, userId, cb) {
-  logger.debug('Get question detail by id', id);
+service.getQuestionDetailBySlug = function(Question, slug, userId, cb) {
+  logger.debug('Get question detail by slug', slug);
   let filter = {};
   filter.include = [{
     relation: 'askedBy',
@@ -113,7 +113,7 @@ service.getQuestionDetailById = function(Question, id, userId, cb) {
   filter.where = {
     isHidden: false,
     isVerified: true,
-    id: id,
+    slug: slug,
   };
   filter.order = 'updated DESC';
   repository.findOne(Question, filter, cb);

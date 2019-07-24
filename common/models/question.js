@@ -78,15 +78,15 @@ module.exports = function(Question) {
   /**
    * The method will call the service to get question detail
    *
-   * @param id {Number} The question Id
+   * @param slug {String} The question slug
    * @param options: {Object} The options
    * @param cb {Function} Callback function.
    */
-  Question.getQuestionDetailById = function(id, options, cb) {
-    logger.debug('Starting to get question detail by id', id);
+  Question.getQuestionDetailBySlug = function(slug, options, cb) {
+    logger.debug('Starting to get question detail by slug', slug);
     const token = options && options.accessToken;
     const userId = token && token.userId;
-    service.getQuestionDetailById(Question, id, userId, (err, question) => {
+    service.getQuestionDetailBySlug(Question, slug, userId, (err, question) => {
       if (err) return cb(err);
       cb(null, question);
     });
@@ -95,9 +95,9 @@ module.exports = function(Question) {
   /**
    * To Describe API end point to get questions
    */
-  Question.remoteMethod('getQuestionDetailById', {
+  Question.remoteMethod('getQuestionDetailBySlug', {
     accepts: [
-      {arg: 'id', type: 'number', required: true},
+      {arg: 'slug', type: 'string', required: true},
       {arg: 'options', type: 'object', http: 'optionsFromRequest'},
     ],
     description: 'Get question detail by Id',

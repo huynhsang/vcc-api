@@ -401,6 +401,12 @@
     },
     {
       "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "getProfileById"
+    },
+    {
+      "principalType": "ROLE",
       "principalId": "admin",
       "permission": "ALLOW",
       "property": "deleteById"

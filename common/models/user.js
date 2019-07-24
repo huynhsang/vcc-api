@@ -7,9 +7,11 @@ let utility = require('./../../utils/appUtility');
 let message = require('./../constants/messageConstant');
 let appConstant = require('./../constants/appConstant');
 const createUserRoute = require('./user/createUserRoute');
+const getProfileByIdRoute = require('./user/getProfileByIdRoute');
 
 module.exports = function(User) {
   createUserRoute(User);
+  getProfileByIdRoute(User);
 
   /**
    * Method to re-set the email configuration before do verify
