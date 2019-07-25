@@ -5,7 +5,13 @@ let logger = require('./../../utils/logger');
 let repository = require(
   '../../server/common/repositories/persistedModelExtend');
 
+const getTrendingTagsRoute = require('./subcategory/getTrendingTagsRoute');
+const getTagsRoute = require('./subcategory/getTagsRoute');
+
 module.exports = function(SubCategory) {
+  getTrendingTagsRoute(SubCategory);
+  getTagsRoute(SubCategory);
+
   /**
    * The method is responsible for handling logic before create new SubCategory
    */

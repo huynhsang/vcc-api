@@ -127,6 +127,21 @@
         "dataScale": null,
         "nullable": "N"
       }
+    },
+    "parent": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 11,
+      "scale": 0,
+      "mysql": {
+        "columnName": "parent",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 11,
+        "dataScale": 0,
+        "nullable": "Y"
+      }
     }
   },
   "validations": [],
