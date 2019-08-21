@@ -63,13 +63,13 @@
     "description": {
       "type": "String",
       "required": true,
-      "length": 255,
+      "length": 2048,
       "precision": null,
       "scale": null,
       "mysql": {
         "columnName": "description",
         "dataType": "varchar",
-        "dataLength": 255,
+        "dataLength": 2048,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "N"

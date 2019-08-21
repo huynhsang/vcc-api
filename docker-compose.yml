@@ -1,0 +1,14 @@
+version: "3"
+services:
+    vccdb:
+        image: mysql:8.0.16
+        container_name: vcc_mysqldb
+        volumes:
+            # The MySQL image will execute all .sql, .sh and .sql.gz files in /docker-entrypoint-initdb.d on startup.
+            - ./storage/database/dumps:/tmp/vcc_database
+            - ./storage/database/init:/docker-entrypoint-initdb.d # MacOS should export docker-entrypoint-initdb.d for using by docker.
+        ports:
+            - "3306:3306"
+        restart: always
+        env_file:
+            - ./.env

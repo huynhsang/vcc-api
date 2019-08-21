@@ -1,39 +1,58 @@
 {
-  "name": "vcc",
+  "name": "vcnc",
   "version": "1.0.0",
   "main": "server/server.js",
   "engines": {
-    "node": ">=4"
+    "node": ">=8"
   },
   "scripts": {
     "lint": "eslint .",
-    "start": "export NODE_ENV=development && DEBUG=loopback:storage:service,strong-remoting:* node .",
-    "start:prod": "node -r dotenv/config . dotenv_config_path=./.env.prod",
-    "posttest": "npm run lint"
+    "dev": "rm -rf ./build && webpack --config webpack.dev.config.js",
+    "staging": "export NODE_ENV=staging && node start.js",
+    "prod": "export NODE_ENV=production && node build/server.js",
+    "build": "rm -rf ./build && webpack --mode production --config webpack.prod.config.js",
+    "posttest": "npm run lint && npm audit"
   },
   "dependencies": {
-    "axios": "0.18.0",
-    "bcrypt": "3.0.4",
+    "async": "3.1.0",
+    "body-parser": "^1.19.0",
     "bunyan": "1.8.12",
-    "compression": "1.7.3",
-    "cors": "2.5.2",
-    "dotenv": "8.0.0",
-    "helmet": "3.15.0",
-    "loopback": "3.24.0",
-    "loopback-boot": "3.2.0",
-    "loopback-component-explorer": "6.3.1",
-    "loopback-connector-mysql": "5.4.0",
-    "serve-favicon": "2.5.0",
-    "strong-error-handler": "3.2.0"
+    "compression": "^1.0.3",
+    "cors": "^2.5.2",
+    "glob": "^7.1.4",
+    "helmet": "^3.10.0",
+    "i18n": "^0.8.3",
+    "joi": "^14.3.1",
+    "lodash": "latest",
+    "loopback": "^3.22.0",
+    "loopback-boot": "^2.6.5",
+    "loopback-component-explorer": "^6.2.0",
+    "loopback-component-storage": "^3.6.3",
+    "loopback-connector-mysql": "^5.4.2",
+    "node-constants": "0.0.2",
+    "nodemon": "^1.19.1",
+    "serve-favicon": "^2.0.1",
+    "strong-error-handler": "^3.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
+    "babel-eslint": "^10.0.2",
+    "babel-loader": "^8.0.6",
     "eslint": "^3.17.1",
-    "eslint-config-loopback": "^8.0.0"
+    "eslint-config-loopback": "^8.0.0",
+    "eslint-loader": "^2.2.1",
+    "json-loader": "^0.5.7",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6",
+    "webpack-node-externals": "^1.7.2"
   },
   "repository": {
     "type": "",
     "url": ""
   },
   "license": "UNLICENSED",
-  "description": "VCC"
+  "description": "VCNC"
 }

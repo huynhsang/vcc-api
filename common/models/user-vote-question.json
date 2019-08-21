@@ -1,0 +1,146 @@
+{
+  "name": "UserVoteQuestion",
+  "base": "Base",
+  "options": {
+    "mysql": {
+      "schema": "vcc",
+      "table": "user_vote_question"
+    },
+    "relations": {
+      "owner": {
+        "model": "user",
+        "type": "belongsTo",
+        "foreignKey": "userId"
+      },
+      "question": {
+        "model": "Question",
+        "type": "belongsTo",
+        "foreignKey": "questionId"
+      }
+    },
+    "foreignKeys": {
+      "questionId": {
+        "name": "fkUserVoteQuestionAnswer",
+        "foreignKey": "questionId",
+        "entityKey": "id",
+        "entity": "Question"
+      },
+      "userId": {
+        "name": "fkUserVoteQuestionOwner",
+        "foreignKey": "userId",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "createdBy": {
+        "name": "fkUserVoteQuestionCreatedBy",
+        "foreignKey": "createdBy",
+        "entityKey": "id",
+        "entity": "user"
+      },
+      "updatedBy": {
+        "name": "fkUserVoteQuestionUpdatedBy",
+        "foreignKey": "updatedBy",
+        "entityKey": "id",
+        "entity": "user"
+      }
+    },
+    "indexes": {
+      "uqUserVoteQuestion": {
+        "keys": {
+          "question_id": 1,
+          "user_id": 1
+        },
+        "options": {
+          "unique": true
+        }
+      }
+    }
+  },
+  "properties": {
+    "isPositiveVote": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 1,
+      "scale": null,
+      "default": false,
+      "mysql": {
+        "columnName": "is_positive_vote",
+        "dataType": "tinyint",
+        "dataLength": null,
+        "dataPrecision": 3,
+        "dataScale": null,
+        "default": 0,
+        "nullable": "N"
+      }
+    },
+    "questionId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "question_id",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    },
+    "reason": {
+      "type": "String",
+      "required": false,
+      "length": 512,
+      "precision": null,
+      "scale": null,
+      "mysql": {
+        "columnName": "reason",
+        "dataType": "varchar",
+        "dataLength": 512,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "Y"
+      }
+    },
+    "userId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mysql": {
+        "columnName": "user_id",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "N"
+      }
+    }
+  },
+  "validations": [],
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "accessType": "WRITE",
+      "permission": "ALLOW"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "accessType": "READ",
+      "permission": "ALLOW"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "user",
+      "accessType": "WRITE",
+      "permission": "ALLOW",
+      "property": ["create"]
+    }
+  ],
+  "methods": {}
+}

@@ -1,102 +1,147 @@
 {
-  "name": "Category",
-  "base": "Base",
-  "options": {
-    "idInjection": false,
-    "forceId": false,
-    "mysql": {
-      "schema": "vcc",
-      "table": "category"
+    "name": "Category",
+    "base": "PersistedModel",
+    "options": {
+        "idInjection": false,
+        "forceId": false,
+        "mysql": {
+            "schema": "vcc",
+            "table": "category"
+        },
+        "relations": {
+            "subCategories": {
+                "type": "hasMany",
+                "model": "SubCategory",
+                "foreignKey": "categorySlug",
+                "primaryKey": "slug"
+            }
+        }
     },
-    "relations": {
-      "subCategories": {
-        "type": "hasMany",
-        "model": "SubCategory",
-        "foreignKey": "categorySlug",
-        "primaryKey": "slug"
-      }
+    "properties": {
+        "slug": {
+            "type": "String",
+            "required": true,
+            "length": 255,
+            "precision": null,
+            "scale": null,
+            "id": 1,
+            "mysql": {
+                "columnName": "slug",
+                "dataType": "varchar",
+                "dataLength": 255,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "nameEn": {
+            "type": "String",
+            "required": true,
+            "length": 255,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "name_en",
+                "dataType": "varchar",
+                "dataLength": 255,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "nameVi": {
+            "type": "String",
+            "required": true,
+            "length": 255,
+            "precision": null,
+            "scale": null,
+            "mysql": {
+                "columnName": "name_vi",
+                "dataType": "varchar",
+                "dataLength": 255,
+                "dataPrecision": null,
+                "dataScale": null,
+                "nullable": "N"
+            }
+        },
+        "numberOfQuestions": {
+            "type": "Number",
+            "required": true,
+            "length": null,
+            "precision": 10,
+            "scale": 0,
+            "default": 0,
+            "mysql": {
+                "columnName": "number_of_questions",
+                "dataType": "int",
+                "dataLength": null,
+                "dataPrecision": 10,
+                "dataScale": 0,
+                "default": 0,
+                "nullable": "N"
+            }
+        },
+        "created": {
+            "type": "Date",
+            "required": true,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": "$now",
+            "mysql": {
+                "columnName": "created",
+                "dataType": "timestamp",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "default": "CURRENT_TIMESTAMP",
+                "nullable": "N"
+            }
+        },
+        "updated": {
+            "type": "Date",
+            "required": true,
+            "length": null,
+            "precision": null,
+            "scale": null,
+            "default": "$now",
+            "mysql": {
+                "columnName": "updated",
+                "dataType": "timestamp",
+                "dataLength": null,
+                "dataPrecision": null,
+                "dataScale": null,
+                "default": "CURRENT_TIMESTAMP",
+                "nullable": "N"
+            }
+        }
     },
-    "foreignKeys": {
-      "createdBy": {
-        "name": "fkCategoryCreatedBy",
-        "foreignKey": "createdBy",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "updatedBy": {
-        "name": "fkCategoryUpdatedBy",
-        "foreignKey": "updatedBy",
-        "entityKey": "id",
-        "entity": "user"
-      }
-    }
-  },
-  "properties": {
-    "slug": {
-      "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "id": 1,
-      "mysql": {
-        "columnName": "slug",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "nameEn": {
-      "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "name_en",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "nameVi": {
-      "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "name_vi",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "numberOfQuestions": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "number_of_questions",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
-    }
-  },
-  "validations": [],
-  "acls": [],
-  "methods": {}
+    "validations": [],
+    "acls": [
+        {
+            "accessType": "*",
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "permission": "DENY"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "$everyone",
+            "accessType": "READ",
+            "permission": "ALLOW"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "admin",
+            "accessType": "WRITE",
+            "permission": "ALLOW"
+        },
+        {
+            "principalType": "ROLE",
+            "principalId": "admin",
+            "accessType": "EXECUTE",
+            "permission": "ALLOW"
+        }
+    ],
+    "methods": {}
 }

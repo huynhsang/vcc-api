@@ -1,0 +1,85 @@
+import _ from 'lodash';
+import async from 'async';
+import logger from './../../../utils/logger';
+
+const TABLE_LIST = [
+    'Role',
+    'RoleMapping',
+    'user',
+    'AccessToken',
+    'Category',
+    'SubCategory',
+    'Education',
+    'Experience',
+    'Question',
+    'Answer',
+    'Reputation',
+    'Notification',
+    'TopupCard',
+    'Wallet',
+    'BuyAnswer',
+    'Transaction',
+    'UserVoteQuestion',
+    'UserVoteAnswer'
+];
+const databaseHelper = {};
+
+databaseHelper.autoUpdateTables = function (app, callback) {
+    const mysqlDS = app.dataSources.vccDS;
+
+    const waitDBReady = function (next) {
+        if (mysqlDS.connected) {
+            next();
+        } else {
+            mysqlDS.once('connected', () => {
+                next();
+            });
+        }
+    };
+
+    const syncDBTables = function (next) {
+        const queue = async.queue(function (tableName, cb) {
+            mysqlDS.autoupdate(tableName, (err) => {
+                if (err) {
+                    return cb(err);
+                }
+                logger.info('Updated table', tableName);
+                cb();
+            });
+        }, 1);
+
+        let queueErr;
+
+        // assign a callback
+        queue.drain(() => {
+            if (queueErr) {
+                return next(queueErr);
+            }
+            logger.info('Updated tables');
+            return next();
+        });
+
+        // assign an error callback
+        queue.error(next);
+
+        _.forEach(TABLE_LIST, (tableName) => {
+            queue.push(tableName, (err) => {
+                if (err && !queueErr) {
+                    queueErr = err;
+                }
+            });
+        });
+    };
+
+    async.waterfall([
+        waitDBReady,
+        syncDBTables
+    ], (err) => {
+        if (err) {
+            return callback(err);
+        }
+        callback();
+    });
+};
+
+module.exports = databaseHelper;

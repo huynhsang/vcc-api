@@ -1,94 +1,14 @@
-'use strict';
+import accountHandler from './user/accountHandler';
+import createUserRoute from './user/createUserRoute';
+import getProfileByIdRoute from './user/getProfileByIdRoute';
+import userUtils from './user/utils/userUtils';
 
-let path = require('path');
-let formatter = require('../../utils/formatter');
-let logger = require('./../../utils/logger');
-let utility = require('./../../utils/appUtility');
-let message = require('./../constants/messageConstant');
-let appConstant = require('./../constants/appConstant');
-const createUserRoute = require('./user/createUserRoute');
-const getProfileByIdRoute = require('./user/getProfileByIdRoute');
+module.exports = function (user) {
+    // Utils
+    userUtils(user);
+    accountHandler(user);
 
-module.exports = function(User) {
-  createUserRoute(User);
-  getProfileByIdRoute(User);
-
-  /**
-   * Method to re-set the email configuration before do verify
-   */
-  User.beforeRemote('prototype.verify', function(context, user, next) {
-    context.args.verifyOptions = {
-      type: 'email',
-      to: user.email,
-      from: appConstant.senderEmail,
-      subject: message.emailVerificationSubject,
-      template: path.resolve(__dirname,
-        '../../server/views/emailVerificationTemplate.ejs'),
-      redirect: '/verified',
-      host: process.env.SERVER_ADDRESS,
-      user: user,
-      protocol: process.env.SERVER_PROTOCOL,
-      port: process.env.SERVER_PORT,
-    };
-    next();
-  });
-
-  /**
-   * Method to request a verification email for re-verifying account
-   */
-  User.afterRemote('prototype.verify', function(context, user, next) {
-    formatter.jsonResponseSuccess(context.res, {
-      title: message.reverificationResponseTitle,
-      content: message.reverificationResponseContent,
-    });
-  });
-
-  /**
-   * Send password reset link when requested
-   */
-  User.on('resetPasswordRequest', function(info) {
-    let url = utility.getFullDomain(User.app) + '/reset-password';
-    let html = 'Click <a href="' + url + '?accessToken=' +
-      info.accessToken.id + '">here</a> to reset your password';
-
-    User.app.models.Email.send({
-      to: info.email,
-      from: appConstant.senderEmail,
-      subject: message.resetPasswordEmailSubject,
-      html: html,
-    }, function(err) {
-      if (err) return logger.error(message.sendingPasswordResetToEmailError);
-      logger.info(message.sendingPasswordResetToEmailSuccess, info.email);
-    });
-  });
-
-  /**
-   * Response after password change
-   */
-  User.afterRemote('changePassword', function(context, user, next) {
-    formatter.jsonResponseSuccess(context.res, {
-      title: message.changePasswordResponseTitleSuccess,
-      content: message.changePasswordResponseContentSuccess,
-    });
-  });
-
-  /**
-   * Response after password reset
-   */
-  User.afterRemote('setPassword', function(context, user, next) {
-    formatter.jsonResponseSuccess(context.res, {
-      title: message.resetPasswordResponseTitleSuccess,
-      content: message.resetPasswordResponseContentSuccess,
-    });
-  });
-
-  /**
-   * Response after logout
-   */
-  User.afterRemote('logout', function(context, user, next) {
-    formatter.jsonResponseSuccess(context.res, {
-      title: message.logoutSuccess,
-      content: '',
-    });
-  });
+    // Route
+    createUserRoute(user);
+    getProfileByIdRoute(user);
 };
