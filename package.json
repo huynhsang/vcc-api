@@ -16,7 +16,6 @@
   "dependencies": {
     "async": "3.1.0",
     "body-parser": "^1.19.0",
-    "bunyan": "1.8.12",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
     "glob": "^7.1.4",
@@ -29,10 +28,14 @@
     "loopback-component-explorer": "^6.2.0",
     "loopback-component-storage": "^3.6.3",
     "loopback-connector-mysql": "^5.4.2",
+    "loopback-ds-timestamp-mixin": "^3.4.1",
     "node-constants": "0.0.2",
     "nodemon": "^1.19.1",
     "serve-favicon": "^2.0.1",
-    "strong-error-handler": "^3.0.0"
+    "shortid": "^2.2.14",
+    "strong-error-handler": "^3.0.0",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^3.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -53,6 +56,5 @@
     "type": "",
     "url": ""
   },
-  "license": "UNLICENSED",
   "description": "VCNC"
 }

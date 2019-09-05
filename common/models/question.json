@@ -6,53 +6,29 @@
     "mysql": {
       "schema": "vcc",
       "table": "question"
-    },
-    "relations": {
-      "category": {
-        "model": "Category",
-        "type": "belongsTo",
-        "foreignKey": "categorySlug"
-      },
-      "askedBy": {
-        "model": "user",
-        "type": "belongsTo",
-        "foreignKey": "createdBy"
-      },
-      "answers": {
-        "type": "hasMany",
-        "model": "Answer",
-        "foreignKey": "questionId",
-        "primaryKey": "id"
-      },
-      "votes": {
-        "type": "hasMany",
-        "model": "UsersVoteQuestions",
-        "foreignKey": "questionId",
-        "primaryKey": "id"
-      }
-    },
-    "foreignKeys": {
-      "categorySlug": {
-        "name": "fkQuestionCategory",
-        "foreignKey": "categorySlug",
-        "entityKey": "slug",
-        "entity": "Category"
-      },
-      "createdBy": {
-        "name": "fkQuestionCreatedBy",
-        "foreignKey": "createdBy",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "updatedBy": {
-        "name": "fkQuestionUpdatedBy",
-        "foreignKey": "updatedBy",
-        "entityKey": "id",
-        "entity": "user"
-      }
     }
   },
+  "hidden": [
+    "isVerified",
+    "isHidden"
+  ],
   "properties": {
+    "shortId": {
+      "type": "String",
+      "required": true,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "index": {"unique": true},
+      "mysql": {
+        "columnName": "short_id",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
     "body": {
       "type": "String",
       "required": true,
@@ -280,6 +256,50 @@
     }
   },
   "validations": [],
+  "relations": {
+    "category": {
+      "model": "Category",
+      "type": "belongsTo",
+      "foreignKey": "categorySlug"
+    },
+    "askedBy": {
+      "model": "user",
+      "type": "belongsTo",
+      "foreignKey": "createdBy"
+    },
+    "answers": {
+      "type": "hasMany",
+      "model": "Answer",
+      "foreignKey": "questionId",
+      "primaryKey": "id"
+    },
+    "votes": {
+      "type": "hasMany",
+      "model": "UsersVoteQuestions",
+      "foreignKey": "questionId",
+      "primaryKey": "id"
+    }
+  },
+  "foreignKeys": {
+    "categorySlug": {
+      "name": "fkQuestionCategory",
+      "foreignKey": "categorySlug",
+      "entityKey": "slug",
+      "entity": "Category"
+    },
+    "createdBy": {
+      "name": "fkQuestionCreatedBy",
+      "foreignKey": "createdBy",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "updatedBy": {
+      "name": "fkQuestionUpdatedBy",
+      "foreignKey": "updatedBy",
+      "entityKey": "id",
+      "entity": "user"
+    }
+  },
   "acls": [
     {
       "principalType": "ROLE",

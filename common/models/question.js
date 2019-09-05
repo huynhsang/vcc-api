@@ -1,9 +1,16 @@
 import async from 'async';
+import * as shortid from 'shortid';
 import questionUtils from './question/utils/questionUtils';
 import approveAnswerRoute from './question/approveAnswerRoute';
-import {errorHandler} from '../modelUtils/modelHelpers';
+import {errorHandler} from '../utils/modelHelpers';
+import getQuestionDetailBySlugRoute from './question/getQuestionDetailBySlugRoute';
+import getQuestionsRoute from './question/getQuestionsRoute';
+import validation from './question/validation';
 
 module.exports = function (Question) {
+    // Validation
+    validation(Question);
+
     /**
      *
      * The method is responsible for handling logic before saving Question
@@ -15,6 +22,7 @@ module.exports = function (Question) {
             delete data.created;
             delete data.createdBy;
         } else {
+            data.shortId = shortid.generate();
             data.createdBy = ctx.options.accessToken.userId;
         }
         next();
@@ -60,4 +68,6 @@ module.exports = function (Question) {
 
     // Routes
     approveAnswerRoute(Question);
+    getQuestionDetailBySlugRoute(Question);
+    getQuestionsRoute(Question);
 };

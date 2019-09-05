@@ -1,7 +1,7 @@
 /* global __ */
 import async from 'async';
 import Joi from 'joi';
-import {errorHandler, notFoundErrorHandler} from '../../modelUtils/modelHelpers';
+import {errorHandler, notFoundErrorHandler} from '../../utils/modelHelpers';
 
 export default function (Question) {
     /**

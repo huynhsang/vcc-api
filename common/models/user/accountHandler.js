@@ -1,9 +1,7 @@
+/* global __ */
 import path from 'path';
-import appConstant from '../../constants/appConstant';
-import message from '../../constants/messageConstant';
-import formatter from '../../../utils/formatter';
-import logger from '../../../utils/logger';
-import utility from '../../../utils/appUtility';
+import {logError, logInfo} from '../../services/loggerService';
+import config from '../../../configs/global/config.global';
 
 export default function (User) {
     /**
@@ -13,8 +11,8 @@ export default function (User) {
         ctx.args.verifyOptions = {
             type: 'email',
             to: user.email,
-            from: appConstant.senderEmail,
-            subject: message.emailVerificationSubject,
+            from: config.SENDER_EMAIL,
+            subject: __('account.verification.emailSubject'),
             template: path.resolve(__dirname,
                 '../../../server/views/emailVerificationTemplate.ejs'),
             redirect: '/verified',
@@ -30,10 +28,12 @@ export default function (User) {
      * Method to request a verification email for re-verifying account
      */
     User.afterRemote('prototype.verify', function (ctx, user, next) {
-        formatter.jsonResponseSuccess(ctx.res, {
-            title: message.reverificationResponseTitle,
-            content: message.reverificationResponseContent
-        });
+        const data = {
+            isSuccess: true,
+            title: __('account.verification.title'),
+            content: __('account.verification.content')
+        };
+        ctx.res.status(204).json(data);
         next();
     });
 
@@ -41,18 +41,24 @@ export default function (User) {
      * Send password reset link when requested
      */
     User.on('resetPasswordRequest', function (info) {
-        const url = utility.getFullDomain(User.app) + '/reset-password';
+        const url = config.FULL_DOMAIN + '/reset-password';
         const html = 'Click <a href="' + url + '?accessToken=' +
             info.accessToken.id + '">here</a> to reset your password';
 
         User.app.models.Email.send({
             to: info.email,
-            from: appConstant.senderEmail,
-            subject: message.resetPasswordEmailSubject,
+            from: config.SENDER_EMAIL,
+            subject: __('account.resetPassword.emailSubject'),
             html
         }, function (err) {
-            if (err) return logger.error(message.sendingPasswordResetToEmailError);
-            logger.info(message.sendingPasswordResetToEmailSuccess, info.email);
+            if (err) {
+                err.metaData = {
+                    message: __('err.account.resetPassword.emailRequest'),
+                    toEmail: info.email
+                };
+                return logError(err);
+            }
+            logInfo(`${__('account.resetPassword.requestSuccess')} ${info.email}`);
         });
     });
 
@@ -60,10 +66,12 @@ export default function (User) {
      * Response after password change
      */
     User.afterRemote('changePassword', function (ctx, user, next) {
-        formatter.jsonResponseSuccess(ctx.res, {
-            title: message.changePasswordResponseTitleSuccess,
-            content: message.changePasswordResponseContentSuccess
-        });
+        const data = {
+            isSuccess: true,
+            title: __('account.changePassword.title'),
+            content: __('account.changePassword.content')
+        };
+        ctx.res.status(204).json(data);
         next();
     });
 
@@ -71,10 +79,12 @@ export default function (User) {
      * Response after password reset
      */
     User.afterRemote('setPassword', function (ctx, user, next) {
-        formatter.jsonResponseSuccess(ctx.res, {
-            title: message.resetPasswordResponseTitleSuccess,
-            content: message.resetPasswordResponseContentSuccess
-        });
+        const data = {
+            isSuccess: true,
+            title: __('account.resetPassword.title'),
+            content: __('account.resetPassword.content')
+        };
+        ctx.res.status(204).json(data);
         next();
     });
 
@@ -82,10 +92,12 @@ export default function (User) {
      * Response after logout
      */
     User.afterRemote('logout', function (ctx, user, next) {
-        formatter.jsonResponseSuccess(ctx.res, {
-            title: message.logoutSuccess,
+        const data = {
+            isSuccess: true,
+            title: __('account.logout.title'),
             content: ''
-        });
+        };
+        ctx.res.status(204).json(data);
         next();
     });
 };

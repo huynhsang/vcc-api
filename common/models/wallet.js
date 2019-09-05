@@ -1,6 +1,10 @@
 import walletUtils from './wallet/utils/walletUtils';
+import validation from './wallet/validation';
 
 module.exports = function (Wallet) {
+    // Validation
+    validation(Wallet);
+
     /**
      *
      * The method is responsible for handling logic before saving Wallet

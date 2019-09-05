@@ -6,44 +6,6 @@
       "schema": "vcc",
       "table": "user_vote_question"
     },
-    "relations": {
-      "owner": {
-        "model": "user",
-        "type": "belongsTo",
-        "foreignKey": "userId"
-      },
-      "question": {
-        "model": "Question",
-        "type": "belongsTo",
-        "foreignKey": "questionId"
-      }
-    },
-    "foreignKeys": {
-      "questionId": {
-        "name": "fkUserVoteQuestionAnswer",
-        "foreignKey": "questionId",
-        "entityKey": "id",
-        "entity": "Question"
-      },
-      "userId": {
-        "name": "fkUserVoteQuestionOwner",
-        "foreignKey": "userId",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "createdBy": {
-        "name": "fkUserVoteQuestionCreatedBy",
-        "foreignKey": "createdBy",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "updatedBy": {
-        "name": "fkUserVoteQuestionUpdatedBy",
-        "foreignKey": "updatedBy",
-        "entityKey": "id",
-        "entity": "user"
-      }
-    },
     "indexes": {
       "uqUserVoteQuestion": {
         "keys": {
@@ -56,6 +18,7 @@
       }
     }
   },
+  "hidden": [],
   "properties": {
     "isPositiveVote": {
       "type": "Number",
@@ -121,6 +84,44 @@
     }
   },
   "validations": [],
+  "relations": {
+    "owner": {
+      "model": "user",
+      "type": "belongsTo",
+      "foreignKey": "userId"
+    },
+    "question": {
+      "model": "Question",
+      "type": "belongsTo",
+      "foreignKey": "questionId"
+    }
+  },
+  "foreignKeys": {
+    "questionId": {
+      "name": "fkUserVoteQuestionAnswer",
+      "foreignKey": "questionId",
+      "entityKey": "id",
+      "entity": "Question"
+    },
+    "userId": {
+      "name": "fkUserVoteQuestionOwner",
+      "foreignKey": "userId",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "createdBy": {
+      "name": "fkUserVoteQuestionCreatedBy",
+      "foreignKey": "createdBy",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "updatedBy": {
+      "name": "fkUserVoteQuestionUpdatedBy",
+      "foreignKey": "updatedBy",
+      "entityKey": "id",
+      "entity": "user"
+    }
+  },
   "acls": [
     {
       "principalType": "ROLE",

@@ -1,4 +1,6 @@
-import * as appConstant from '../../constants/appConstant';
+/* global __ */
+import serverConstant from '../../../configs/constants/serverConstant';
+import {errorHandler, notFoundErrorHandler} from '../../utils/modelHelpers';
 
 export default function (User) {
     User.getProfileById = function (id, cb) {
@@ -6,31 +8,17 @@ export default function (User) {
             where: {
                 id,
                 emailVerified: true,
-                realm: appConstant.realm.user
+                isEnable: true,
+                realm: serverConstant.USER_REALM
             }
         }, (err, _user) => {
             if (err) {
-                return cb(err);
+                return cb(errorHandler(err));
             }
             if (!_user) {
-                const error = new Error('Not Found');
-                error.statusCode = 404;
-                return cb(error);
+                return cb(notFoundErrorHandler(__('err.user.notExists')));
             }
-            const data = {
-                id: _user.id,
-                avatar: _user.avatar,
-                email: _user.email,
-                firstName: _user.firstName,
-                lastName: _user.lastName,
-                headline: _user.headline,
-                points: _user.points,
-                level: _user.level,
-                numberOfQuestions: _user.numberOfQuestions,
-                numberOfAnswers: _user.numberOfAnswers,
-                numberOfBestAnswers: _user.numberOfBestAnswers
-            };
-            cb(null, data);
+            cb(null, _user);
         });
     };
 

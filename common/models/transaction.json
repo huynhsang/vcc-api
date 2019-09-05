@@ -5,35 +5,9 @@
     "mysql": {
       "schema": "vcc",
       "table": "transaction"
-    },
-    "relations": {
-      "owner": {
-        "model": "user",
-        "type": "belongsTo",
-        "foreignKey": "userId"
-      }
-    },
-    "foreignKeys": {
-      "userId": {
-        "name": "fkTransactionOwner",
-        "foreignKey": "userId",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "createdBy": {
-        "name": "fkTransactionCreatedBy",
-        "foreignKey": "createdBy",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "updatedBy": {
-        "name": "fkTransactionUpdatedBy",
-        "foreignKey": "updatedBy",
-        "entityKey": "id",
-        "entity": "user"
-      }
     }
   },
+  "hidden": [],
   "properties": {
     "amount": {
       "type": "Number",
@@ -97,6 +71,33 @@
     }
   },
   "validations": [],
+  "relations": {
+    "owner": {
+      "model": "user",
+      "type": "belongsTo",
+      "foreignKey": "userId"
+    }
+  },
+  "foreignKeys": {
+    "userId": {
+      "name": "fkTransactionOwner",
+      "foreignKey": "userId",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "createdBy": {
+      "name": "fkTransactionCreatedBy",
+      "foreignKey": "createdBy",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "updatedBy": {
+      "name": "fkTransactionUpdatedBy",
+      "foreignKey": "updatedBy",
+      "entityKey": "id",
+      "entity": "user"
+    }
+  },
   "acls": [
     {
       "principalType": "ROLE",

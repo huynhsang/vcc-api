@@ -1,10 +1,10 @@
+/* global __ */
 import async from 'async';
 import path from 'path';
-import appConstant from '../../constants/appConstant';
-import message from '../../constants/messageConstant';
-import formatter from '../../../utils/formatter';
-import roleService from '../../../server/boot/services/roleService';
-import {permissionErrorHandler} from '../../modelUtils/modelHelpers';
+import {permissionErrorHandler} from '../../utils/modelHelpers';
+import serverConstant from '../../../configs/constants/serverConstant';
+import config from '../../../configs/global/config.global';
+import * as roleService from '../../services/roleService';
 
 export default function (User) {
     /**
@@ -12,7 +12,7 @@ export default function (User) {
      * an account with admin role)
      */
     User.beforeRemote('create', function (ctx, user, next) {
-        if (user.realm === appConstant.realm.admin) {
+        if (user.realm === serverConstant.ADMIN_REALM) {
             User.isAdmin(ctx.req, (err, isAdmin) => {
                 if (err) {
                     return next(err);
@@ -35,15 +35,15 @@ export default function (User) {
             const options = {
                 type: 'email',
                 to: user.email,
-                from: appConstant.senderEmail,
-                subject: message.emailVerificationSubject,
+                from: config.SENDER_EMAIL,
+                subject: __('account.verification.emailSubject'),
                 template: path.resolve(__dirname,
                     '../../../server/views/emailVerificationTemplate.ejs'),
                 redirect: null,
-                host: process.env.SERVER_ADDRESS,
+                host: config.SERVER_ADDRESS,
                 user,
-                protocol: process.env.SERVER_PROTOCOL,
-                port: process.env.SERVER_PORT
+                protocol: config.SERVER_PROTOCOL,
+                port: config.SERVER_PORT
             };
             user.verify(options, (err) => {
                 if (err) {
@@ -70,18 +70,20 @@ export default function (User) {
         };
 
         async.waterfall([
-            sendEmailVerification,
             roleMapping,
-            createWallet
+            createWallet,
+            sendEmailVerification
         ], (err) => {
             if (err) {
                 User.deleteById(user.id);
                 return next(err);
             }
-            formatter.jsonResponseSuccess(ctx.res, {
-                title: message.signUpTitleSuccess,
-                content: message.signUpContentSuccess
-            });
+            const data = {
+                isSuccess: true,
+                title: __('account.register.title'),
+                content: __('account.register.content')
+            };
+            next(null, data);
         });
     });
 };

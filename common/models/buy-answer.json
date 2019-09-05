@@ -6,46 +6,9 @@
     "mysql": {
       "schema": "vcc",
       "table": "buy_answer"
-    },
-    "relations": {
-      "boughtAnswer": {
-        "model": "Answer",
-        "type": "belongsTo",
-        "foreignKey": "answerId"
-      },
-      "BoughtBy": {
-        "model": "User",
-        "type": "belongsTo",
-        "foreignKey": "userId"
-      }
-    },
-    "foreignKeys": {
-      "answerId": {
-        "name": "fkBuyAnswerId",
-        "foreignKey": "answerId",
-        "entityKey": "id",
-        "entity": "Answer"
-      },
-      "userId": {
-        "name": "fkBoughtAnswerBy",
-        "foreignKey": "userId",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "createdBy": {
-        "name": "fkBuyAnswerCreatedBy",
-        "foreignKey": "createdBy",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "updatedBy": {
-        "name": "fkBuyAnswerUpdatedBy",
-        "foreignKey": "updatedBy",
-        "entityKey": "id",
-        "entity": "user"
-      }
     }
   },
+  "hidden": [],
   "properties": {
     "answerId": {
       "type": "Number",
@@ -126,6 +89,44 @@
     }
   },
   "validations": [],
+  "relations": {
+    "boughtAnswer": {
+      "model": "Answer",
+      "type": "belongsTo",
+      "foreignKey": "answerId"
+    },
+    "BoughtBy": {
+      "model": "User",
+      "type": "belongsTo",
+      "foreignKey": "userId"
+    }
+  },
+  "foreignKeys": {
+    "answerId": {
+      "name": "fkBuyAnswerId",
+      "foreignKey": "answerId",
+      "entityKey": "id",
+      "entity": "Answer"
+    },
+    "userId": {
+      "name": "fkBoughtAnswerBy",
+      "foreignKey": "userId",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "createdBy": {
+      "name": "fkBuyAnswerCreatedBy",
+      "foreignKey": "createdBy",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "updatedBy": {
+      "name": "fkBuyAnswerUpdatedBy",
+      "foreignKey": "updatedBy",
+      "entityKey": "id",
+      "entity": "user"
+    }
+  },
   "acls": [],
   "methods": {}
 }

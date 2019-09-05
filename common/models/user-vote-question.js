@@ -1,6 +1,6 @@
 /* global __ */
 import async from 'async';
-import {errorHandler, notFoundErrorHandler} from '../modelUtils/modelHelpers';
+import {errorHandler, notFoundErrorHandler} from '../utils/modelHelpers';
 import userVoteQuestionUtils from './userVoteQuestion/utils/userVoteQuestionUtils';
 
 module.exports = function (UserVoteQuestion) {

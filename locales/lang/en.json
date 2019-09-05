@@ -1,0 +1,41 @@
+{
+  "err": {
+    "account": {
+      "resetPassword": {
+        "emailRequest": "error sending password reset to email"
+      }
+    },
+    "validation": {
+      "user": {
+        "username": "Username must be valid text between {{minLength}} and {{maxLength}} characters.",
+        "password": "Password must contain number, must contain uppercase and lowercase and min length = 8.",
+        "firstName": "FirstName must be valid.",
+        "lastName": "LastName must be valid."
+      }
+    }
+  },
+  "account": {
+    "register": {
+      "title": "Signed up successfully",
+      "content":"Please check your email and click on the verification link before logging in."
+    },
+    "verification": {
+      "emailSubject": "Thanks for registering.",
+      "title": "A Link to verify your identity has been sent to your email successfully",
+      "content": "Please check your email and click on the verification link before logging in"
+    },
+    "resetPassword": {
+      "emailSubject": "Password reset",
+      "title": "Password reset success",
+      "content": "Your password has been reset successfully",
+      "requestSuccess": "Sent password reset via email to:"
+    },
+    "changePassword": {
+      "title": "Password changed successfully",
+      "content": "Please login again with your new password"
+    },
+    "logout": {
+      "title": "Logout successfully"
+    }
+  }
+}

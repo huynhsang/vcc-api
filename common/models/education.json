@@ -6,35 +6,9 @@
     "mysql": {
       "schema": "vcc",
       "table": "education"
-    },
-    "relations": {
-      "owner": {
-        "model": "user",
-        "type": "belongsTo",
-        "foreignKey": "ownerId"
-      }
-    },
-    "foreignKeys": {
-      "ownerId": {
-        "name": "fkEducationOwner",
-        "foreignKey": "ownerId",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "createdBy": {
-        "name": "fkEducationCreatedBy",
-        "foreignKey": "createdBy",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "updatedBy": {
-        "name": "fkEducationUpdatedBy",
-        "foreignKey": "updatedBy",
-        "entityKey": "id",
-        "entity": "user"
-      }
     }
   },
+  "hidden": [],
   "properties": {
     "degree": {
       "type": "String",
@@ -173,6 +147,33 @@
     }
   },
   "validations": [],
+  "relations": {
+    "owner": {
+      "model": "user",
+      "type": "belongsTo",
+      "foreignKey": "ownerId"
+    }
+  },
+  "foreignKeys": {
+    "ownerId": {
+      "name": "fkEducationOwner",
+      "foreignKey": "ownerId",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "createdBy": {
+      "name": "fkEducationCreatedBy",
+      "foreignKey": "createdBy",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "updatedBy": {
+      "name": "fkEducationUpdatedBy",
+      "foreignKey": "updatedBy",
+      "entityKey": "id",
+      "entity": "user"
+    }
+  },
   "acls": [],
   "methods": {}
 }

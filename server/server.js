@@ -2,12 +2,23 @@
 // Node module: loopback-workspace
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
-
 const loopback = require('loopback');
 const boot = require('loopback-boot');
 const path = require('path');
+const i18n = require('i18n');
+const {logError} = require('../common/services/loggerService');
 
 const app = module.exports = loopback();
+
+i18n.configure({
+    updateFiles: false,
+    locales: ['en', 'en_VN'],
+    defaultLocale: 'en',
+    directory: path.join(__dirname, '../locales/lang'),
+    register: global,
+    objectNotation: true
+});
+i18n.setLocale('en_VN');
 
 app.start = function () {
     // start the web server
@@ -47,4 +58,12 @@ boot(app, bootOptions, function (err) {
 
     app.loaded = true;
     app.emit('loaded');
+});
+
+// EXCEPTION HANDLER
+process.on('uncaughtException', function (err) {
+    logError(err, function () {
+        console.error(err);
+        process.exit(1);
+    });
 });

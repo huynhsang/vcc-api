@@ -6,35 +6,9 @@
     "mysql": {
       "schema": "vcc",
       "table": "experience"
-    },
-    "relations": {
-      "owner": {
-        "model": "user",
-        "type": "belongsTo",
-        "foreignKey": "ownerId"
-      }
-    },
-    "foreignKeys": {
-      "ownerId": {
-        "name": "fkExperienceOwner",
-        "foreignKey": "ownerId",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "createdBy": {
-        "name": "fkExperienceCreatedBy",
-        "foreignKey": "createdBy",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "updatedBy": {
-        "name": "fkExperienceUpdatedBy",
-        "foreignKey": "updatedBy",
-        "entityKey": "id",
-        "entity": "user"
-      }
     }
   },
+  "hidden": [],
   "properties": {
     "title": {
       "type": "String",
@@ -173,6 +147,33 @@
     }
   },
   "validations": [],
+  "relations": {
+    "owner": {
+      "model": "user",
+      "type": "belongsTo",
+      "foreignKey": "ownerId"
+    }
+  },
+  "foreignKeys": {
+    "ownerId": {
+      "name": "fkExperienceOwner",
+      "foreignKey": "ownerId",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "createdBy": {
+      "name": "fkExperienceCreatedBy",
+      "foreignKey": "createdBy",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "updatedBy": {
+      "name": "fkExperienceUpdatedBy",
+      "foreignKey": "updatedBy",
+      "entityKey": "id",
+      "entity": "user"
+    }
+  },
   "acls": [],
   "methods": {}
 }

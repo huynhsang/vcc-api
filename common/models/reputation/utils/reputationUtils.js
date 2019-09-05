@@ -1,4 +1,4 @@
-import * as constant from '../../../constants/appConstant';
+import serverConstant from '../../../../configs/constants/serverConstant';
 export default function (Reputation) {
     /**
      * The method will be called after user approve an answer
@@ -9,8 +9,8 @@ export default function (Reputation) {
     Reputation.createReputationWithAcceptAction = function (answer, userId, callback) {
         const reputation = {
             ownerId: answer.createdBy,
-            action: constant.REPUTATION_ACTION.ACCEPT,
-            point: constant.REPUTATION_POINT.ACCEPT,
+            action: serverConstant.REPUTATION_ACTION.ACCEPT,
+            point: serverConstant.REPUTATION_POINT.ACCEPT,
             questionId: answer.questionId,
             answerId: answer.id,
             createdBy: userId,

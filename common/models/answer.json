@@ -6,47 +6,26 @@
     "mysql": {
       "schema": "vcc",
       "table": "answer"
-    },
-    "relations": {
-      "answerBy": {
-        "model": "user",
-        "type": "belongsTo",
-        "foreignKey": "createdBy"
-      },
-      "answerForQuestion": {
-        "model": "Question",
-        "type": "belongsTo",
-        "foreignKey": "questionId"
-      },
-      "votes": {
-        "type": "hasMany",
-        "model": "UsersVoteAnswers",
-        "foreignKey": "answerId",
-        "primaryKey": "id"
-      }
-    },
-    "foreignKeys": {
-      "questionId": {
-        "name": "fkAnswerQuestionId",
-        "foreignKey": "questionId",
-        "entityKey": "id",
-        "entity": "Question"
-      },
-      "createdBy": {
-        "name": "fkAnswerCreatedBy",
-        "foreignKey": "createdBy",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "updatedBy": {
-        "name": "fkAnswerUpdatedBy",
-        "foreignKey": "updatedBy",
-        "entityKey": "id",
-        "entity": "user"
-      }
     }
   },
+  "hidden": [],
   "properties": {
+    "shortId": {
+      "type": "String",
+      "required": true,
+      "length": 255,
+      "precision": null,
+      "scale": null,
+      "index": {"unique": true},
+      "mysql": {
+        "columnName": "short_id",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "N"
+      }
+    },
     "body": {
       "type": "String",
       "required": true,
@@ -126,6 +105,44 @@
     }
   },
   "validations": [],
+  "relations": {
+    "answerBy": {
+      "model": "user",
+      "type": "belongsTo",
+      "foreignKey": "createdBy"
+    },
+    "answerForQuestion": {
+      "model": "Question",
+      "type": "belongsTo",
+      "foreignKey": "questionId"
+    },
+    "votes": {
+      "type": "hasMany",
+      "model": "UsersVoteAnswers",
+      "foreignKey": "answerId",
+      "primaryKey": "id"
+    }
+  },
+  "foreignKeys": {
+    "questionId": {
+      "name": "fkAnswerQuestionId",
+      "foreignKey": "questionId",
+      "entityKey": "id",
+      "entity": "Question"
+    },
+    "createdBy": {
+      "name": "fkAnswerCreatedBy",
+      "foreignKey": "createdBy",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "updatedBy": {
+      "name": "fkAnswerUpdatedBy",
+      "foreignKey": "updatedBy",
+      "entityKey": "id",
+      "entity": "user"
+    }
+  },
   "acls": [
     {
       "principalType": "ROLE",

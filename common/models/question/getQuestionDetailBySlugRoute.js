@@ -1,5 +1,5 @@
 /* global __ */
-import {errorHandler, notFoundErrorHandler} from '../../modelUtils/modelHelpers';
+import {errorHandler, notFoundErrorHandler} from '../../utils/modelHelpers';
 
 export default function (Question) {
     /**

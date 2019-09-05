@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import async from 'async';
-import logger from './../../../utils/logger';
+import logger from '../../../configs/logger/logger';
+import {logError} from '../../../common/services/loggerService';
 
 const TABLE_LIST = [
     'Role',
@@ -43,7 +44,7 @@ databaseHelper.autoUpdateTables = function (app, callback) {
                 if (err) {
                     return cb(err);
                 }
-                logger.info('Updated table', tableName);
+                logger.info(`Updated table ${tableName}`);
                 cb();
             });
         }, 1);
@@ -56,7 +57,7 @@ databaseHelper.autoUpdateTables = function (app, callback) {
                 return next(queueErr);
             }
             logger.info('Updated tables');
-            return next();
+            next();
         });
 
         // assign an error callback
@@ -76,6 +77,7 @@ databaseHelper.autoUpdateTables = function (app, callback) {
         syncDBTables
     ], (err) => {
         if (err) {
+            logError(err);
             return callback(err);
         }
         callback();

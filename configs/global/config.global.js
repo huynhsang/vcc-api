@@ -21,4 +21,16 @@ switch (process.env.NODE_ENV) {
         break;
 }
 
+config.EMAIL_ACCOUNT = {
+    email: process.env.email || 'no.reply.vcnc@gmail.com',
+    password: process.env.emailPassword || 'aaAA11!!'
+};
+config.SENDER_EMAIL = config.EMAIL_ACCOUNT.email;
+
+const protocol = config.SERVER_PROTOCOL;
+const port = config.SERVER_PORT;
+const displayPort = ((protocol === 'http' && port === '80') ||
+    (protocol === 'https' && port === '443')) ? '' : ':' + port;
+config.FULL_DOMAIN = `${protocol}://${config.SERVER_ADDRESS}${displayPort}`;
+
 export default config;

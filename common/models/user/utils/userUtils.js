@@ -1,7 +1,7 @@
 /* global __ */
 import async from 'async';
-import {accessDeniedErrorHandler, errorHandler, notFoundErrorHandler} from '../../../modelUtils/modelHelpers';
-import * as appConstant from '../../../constants/appConstant';
+import {accessDeniedErrorHandler, errorHandler, notFoundErrorHandler} from '../../../utils/modelHelpers';
+import serverConstant from '../../../../configs/constants/serverConstant';
 
 export default function (User) {
     /**
@@ -48,7 +48,7 @@ export default function (User) {
         const getRole = function (next) {
             User.app.Role.findOne({
                 where: {
-                    name: appConstant.realm.admin
+                    name: serverConstant.ADMIN_ROLE
                 }
             }, (err, role) => {
                 if (err) {
@@ -156,8 +156,8 @@ export default function (User) {
     User.updatePoint = function (reputation, isNewInstance, callback) {
         let point = reputation.point;
         if (!isNewInstance) {
-            point = point > 0 ? appConstant.REPUTATION_POINT.POSITIVE_SUM :
-                appConstant.REPUTATION_POINT.NEGATIVE_SUM;
+            point = point > 0 ? serverConstant.REPUTATION_POINT.POSITIVE_SUM :
+                serverConstant.REPUTATION_POINT.NEGATIVE_SUM;
         }
         User.updateAmountOfProperties(reputation.ownerId, 'points', point, (err) => {
             if (err) {

@@ -6,24 +6,9 @@
     "mysql": {
       "schema": "vcc",
       "table": "topup_card"
-    },
-    "relations": {
-    },
-    "foreignKeys": {
-      "createdBy": {
-        "name": "fkTopupCreatedBy",
-        "foreignKey": "createdBy",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "updatedBy": {
-        "name": "fkTopupUpdatedBy",
-        "foreignKey": "updatedBy",
-        "entityKey": "id",
-        "entity": "user"
-      }
     }
   },
+  "hidden": [],
   "properties": {
     "seriNumber": {
       "type": "String",
@@ -87,6 +72,21 @@
     }
   },
   "validations": [],
+  "relations": {},
+  "foreignKeys": {
+    "createdBy": {
+      "name": "fkTopupCreatedBy",
+      "foreignKey": "createdBy",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "updatedBy": {
+      "name": "fkTopupUpdatedBy",
+      "foreignKey": "updatedBy",
+      "entityKey": "id",
+      "entity": "user"
+    }
+  },
   "acls": [],
   "methods": {}
 }

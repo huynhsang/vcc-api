@@ -1,5 +1,6 @@
 import async from 'async';
-import {errorHandler} from '../../modelUtils/modelHelpers';
+import * as shortid from 'shortid';
+import {errorHandler} from '../../utils/modelHelpers';
 
 export default function (Answer) {
     /**
@@ -15,6 +16,7 @@ export default function (Answer) {
      */
     Answer.customCreate = function (data, options, callback) {
         const createAnswer = function (next) {
+            data.shortId = shortid.generate();
             Answer.create(data, options, (err, _answer) => {
                 if (err) {
                     return next(err);

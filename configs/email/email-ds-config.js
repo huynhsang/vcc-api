@@ -1,3 +1,5 @@
+import config from '../global/config.global';
+
 const emailDS = {
     name: 'emailDS',
     connector: 'mail',
@@ -8,8 +10,8 @@ const emailDS = {
             secure: true,
             port: 465,
             auth: {
-                user: 'no.reply.vcnc@gmail.com',
-                pass: 'aaAA11!!'
+                user: config.EMAIL_ACCOUNT.email,
+                pass: config.EMAIL_ACCOUNT.password
             }
         }
     ]

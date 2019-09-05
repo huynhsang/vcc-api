@@ -7,55 +7,6 @@
       "schema": "vcc",
       "table": "reputation"
     },
-    "relations": {
-      "stranger": {
-        "model": "user",
-        "type": "belongsTo",
-        "foreignKey": "createdBy"
-      },
-      "question": {
-        "model": "Question",
-        "type": "belongsTo",
-        "foreignKey": "questionId"
-      },
-      "answer": {
-        "model": "Answer",
-        "type": "belongsTo",
-        "foreignKey": "answerId"
-      }
-    },
-    "foreignKeys": {
-      "ownerId": {
-        "name": "fkReputationOwner",
-        "foreignKey": "ownerId",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "questionId": {
-        "name": "fkReputationQuestion",
-        "foreignKey": "questionId",
-        "entityKey": "id",
-        "entity": "Question"
-      },
-      "answerId": {
-        "name": "fkReputationAnswer",
-        "foreignKey": "answerId",
-        "entityKey": "id",
-        "entity": "Answer"
-      },
-      "createdBy": {
-        "name": "fkReputationCreatedBy",
-        "foreignKey": "createdBy",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "updatedBy": {
-        "name": "fkReputationUpdatedBy",
-        "foreignKey": "updatedBy",
-        "entityKey": "id",
-        "entity": "user"
-      }
-    },
     "indexes": {
       "uqReputation": {
         "keys": {
@@ -70,6 +21,7 @@
       }
     }
   },
+  "hidden": [],
   "properties": {
     "ownerId": {
       "type": "Number",
@@ -148,6 +100,55 @@
     }
   },
   "validations": [],
+  "relations": {
+    "stranger": {
+      "model": "user",
+      "type": "belongsTo",
+      "foreignKey": "createdBy"
+    },
+    "question": {
+      "model": "Question",
+      "type": "belongsTo",
+      "foreignKey": "questionId"
+    },
+    "answer": {
+      "model": "Answer",
+      "type": "belongsTo",
+      "foreignKey": "answerId"
+    }
+  },
+  "foreignKeys": {
+    "ownerId": {
+      "name": "fkReputationOwner",
+      "foreignKey": "ownerId",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "questionId": {
+      "name": "fkReputationQuestion",
+      "foreignKey": "questionId",
+      "entityKey": "id",
+      "entity": "Question"
+    },
+    "answerId": {
+      "name": "fkReputationAnswer",
+      "foreignKey": "answerId",
+      "entityKey": "id",
+      "entity": "Answer"
+    },
+    "createdBy": {
+      "name": "fkReputationCreatedBy",
+      "foreignKey": "createdBy",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "updatedBy": {
+      "name": "fkReputationUpdatedBy",
+      "foreignKey": "updatedBy",
+      "entityKey": "id",
+      "entity": "user"
+    }
+  },
   "acls": [
     {
       "principalType": "ROLE",

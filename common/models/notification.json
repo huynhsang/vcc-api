@@ -6,35 +6,9 @@
     "mysql": {
       "schema": "vcc",
       "table": "notification"
-    },
-    "relations": {
-      "owner": {
-        "model": "user",
-        "type": "belongsTo",
-        "foreignKey": "ownerId"
-      }
-    },
-    "foreignKeys": {
-      "ownerId": {
-        "name": "fkNotificationOwner",
-        "foreignKey": "ownerId",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "createdBy": {
-        "name": "fkNotificationCreatedBy",
-        "foreignKey": "createdBy",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "updatedBy": {
-        "name": "fkNotificationUpdatedBy",
-        "foreignKey": "updatedBy",
-        "entityKey": "id",
-        "entity": "user"
-      }
     }
   },
+  "hidden": [],
   "properties": {
     "code": {
       "type": "Number",
@@ -113,6 +87,33 @@
     }
   },
   "validations": [],
+  "relations": {
+    "owner": {
+      "model": "user",
+      "type": "belongsTo",
+      "foreignKey": "ownerId"
+    }
+  },
+  "foreignKeys": {
+    "ownerId": {
+      "name": "fkNotificationOwner",
+      "foreignKey": "ownerId",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "createdBy": {
+      "name": "fkNotificationCreatedBy",
+      "foreignKey": "createdBy",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "updatedBy": {
+      "name": "fkNotificationUpdatedBy",
+      "foreignKey": "updatedBy",
+      "entityKey": "id",
+      "entity": "user"
+    }
+  },
   "acls": [],
   "methods": {}
 }

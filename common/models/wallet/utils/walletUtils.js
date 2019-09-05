@@ -1,3 +1,5 @@
+import * as shortid from 'shortid';
+
 export default function (Wallet) {
     /**
      * The method handles logic to create new wallet for given user id
@@ -9,7 +11,8 @@ export default function (Wallet) {
             amount: 0,
             ownerId: userId,
             createdBy: userId,
-            updatedBy: userId
+            updatedBy: userId,
+            shortId: shortid.generate()
         };
         Wallet.upsert(newWallet, (err, _wallet) => {
             if (err) {

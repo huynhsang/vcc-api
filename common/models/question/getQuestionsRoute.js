@@ -1,4 +1,4 @@
-import {errorHandler} from '../../modelUtils/modelHelpers';
+import {errorHandler} from '../../utils/modelHelpers';
 
 export default function (Question) {
     /**

@@ -1,20 +1,21 @@
+import async from 'async';
 import * as databaseHelper from './database/databaseHelper';
-import * as roleService from './services/roleService';
-import logger from './../../utils/logger';
+import dataInitialization from './database/dataInitialization';
+import {logError} from '../../common/services/loggerService';
 
 module.exports = function (app) {
-    databaseHelper.autoUpdateTables(app, (err) => {
+    async.waterfall([
+        (next) => {
+            databaseHelper.autoUpdateTables(app, next);
+        },
+        (next) => {
+            dataInitialization(app, next);
+        }
+    ], (err) => {
         if (err) {
+            logError(err);
             process.exit(1);
         }
-        logger.info('Executing init roles');
-        roleService.initRoles(app, (_err) => {
-            if (_err) {
-                process.exit(1);
-            }
-            logger.info('Executing create default accounts');
-            roleService.initDefaultAdmin(app);
-        });
     });
 
     // Routes

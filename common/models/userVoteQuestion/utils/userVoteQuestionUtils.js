@@ -1,7 +1,7 @@
 /* global __ */
 import async from 'async';
-import {notFoundErrorHandler} from '../../../modelUtils/modelHelpers';
-import * as appConstant from '../../../constants/appConstant';
+import {notFoundErrorHandler} from '../../../utils/modelHelpers';
+import serverConstant from '../../../../configs/constants/serverConstant';
 
 export default function (UserVoteQuestion) {
     /**
@@ -38,11 +38,11 @@ export default function (UserVoteQuestion) {
 
         const updateRelatedModel = function (question, next) {
             const isNewInstance = number % 2 !== 0;
-            let point = appConstant.REPUTATION_POINT.DOWN_VOTE;
-            let action = appConstant.REPUTATION_ACTION.DOWN_VOTE;
+            let point = serverConstant.REPUTATION_POINT.DOWN_VOTE;
+            let action = serverConstant.REPUTATION_ACTION.DOWN_VOTE;
             if (data.isPositiveVote) {
-                point = appConstant.REPUTATION_POINT.UP_VOTE;
-                action = appConstant.REPUTATION_ACTION.UP_VOTE;
+                point = serverConstant.REPUTATION_POINT.UP_VOTE;
+                action = serverConstant.REPUTATION_ACTION.UP_VOTE;
             }
 
             const _updateReputation = function (cb) {
@@ -72,7 +72,7 @@ export default function (UserVoteQuestion) {
                         answerId: null,
                         createdBy: data.userId,
                         action: {
-                            neq: appConstant.REPUTATION_ACTION.ACCEPT
+                            neq: serverConstant.REPUTATION_ACTION.ACCEPT
                         }
                     }, updateData, (err) => {
                         if (err) {

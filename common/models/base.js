@@ -9,9 +9,6 @@ module.exports = function (Base) {
             if (ctx.options.accessToken) {
                 data.updatedBy = ctx.options.accessToken.userId;
             }
-            // Whenever Write method is called, updating values should up to date.
-            data.updated = new Date();
-            delete data.created;
             delete data.createdBy;
         }
         next();

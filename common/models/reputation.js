@@ -1,6 +1,10 @@
 import reputationUtils from './reputation/utils/reputationUtils';
+import validation from './reputation/validation';
 
 module.exports = function (Reputation) {
+    // Validation
+    validation(Reputation);
+
     /**
      *
      * The method is responsible for handling logic before saving Reputation

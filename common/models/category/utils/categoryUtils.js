@@ -1,6 +1,6 @@
 /* global __ */
 import async from 'async';
-import {notFoundErrorHandler} from '../../../modelUtils/modelHelpers';
+import {notFoundErrorHandler} from '../../../utils/modelHelpers';
 
 export default function (Category) {
     /**

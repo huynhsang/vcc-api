@@ -1,44 +1,18 @@
 {
   "name": "Base",
   "base": "PersistedModel",
+  "mixins": {
+    "TimeStamp": {
+      "createdAt": "createdOn",
+      "updatedAt": "updatedOn",
+      "required": false
+    }
+  },
   "options": {
-    "idInjection": true
+    "idInjection": true,
+    "validateUpsert": true
   },
   "properties": {
-    "created": {
-      "type": "Date",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "default": "$now",
-      "mysql": {
-        "columnName": "created",
-        "dataType": "timestamp",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "default": "CURRENT_TIMESTAMP",
-        "nullable": "N"
-      }
-    },
-    "updated": {
-      "type": "Date",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "default": "$now",
-      "mysql": {
-        "columnName": "updated",
-        "dataType": "timestamp",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "default": "CURRENT_TIMESTAMP",
-        "nullable": "N"
-      }
-    },
     "createdBy": {
       "type": "Number",
       "required": false,

@@ -6,12 +6,8 @@ const readFile = promisify(fs.readFile);
 const mkdirp = promisify(require('mkdirp'));
 
 const DATASOURCE_NAME = 'vccDS';
-let dataSourceConfig;
-if (process.env.NODE_ENV === 'prod') {
-    dataSourceConfig = require('../../datasources.prod.js');
-} else {
-    dataSourceConfig = require('../../datasources.json');
-}
+const dataSourceConfig = require('../../../configs/lb-datasources/datasources.local');
+
 const db = new loopback.DataSource(dataSourceConfig[DATASOURCE_NAME]);
 
 const tables = [
@@ -152,7 +148,7 @@ async function discover () {
     const options = {relations: true};
 
     await mkdirp('common/models');
-    const configJson = await readFile('server/model-config.json', 'utf-8');
+    const configJson = await readFile('configs/lb-model-config/model-config.json', 'utf-8');
     const modelConfig = JSON.parse(configJson);
 
     for (var index = 0; index < tables.length; index++) {
@@ -173,7 +169,7 @@ async function discover () {
             public: tables[index].config.public
         };
         await writeFile(
-            'server/model-config.json',
+            'configs/lb-model-config/model-config.json',
             JSON.stringify(modelConfig, null, 2)
         );
     }

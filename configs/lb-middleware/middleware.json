@@ -37,6 +37,9 @@
       }
     }
   },
+  "auth:before": {
+    "../../server/middleware/set-locale": {}
+  },
   "auth": {},
   "parse": {},
   "routes": {
@@ -51,6 +54,12 @@
     "loopback#urlNotFound": {}
   },
   "final:after": {
-    "strong-error-handler": {}
+    "../../server/middleware/error-logger": {},
+    "strong-error-handler": {
+      "params": {
+        "safeFields": ["errorCode"],
+        "log": false
+      }
+    }
   }
 }

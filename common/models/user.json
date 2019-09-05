@@ -1,75 +1,27 @@
 {
   "name": "user",
   "base": "User",
+  "mixins": {
+    "TimeStamp": {
+      "createdAt": "createdOn",
+      "updatedAt": "updatedOn",
+      "required": false
+    }
+  },
   "options": {
     "idInjection": true,
     "mysql": {
       "schema": "vcc",
       "table": "user"
-    },
-    "relations": {
-      "questions": {
-        "type": "hasMany",
-        "model": "Question",
-        "foreignKey": "createdBy",
-        "primaryKey": "id"
-      },
-      "answers": {
-        "type": "hasMany",
-        "model": "Answer",
-        "foreignKey": "createdBy",
-        "primaryKey": "id"
-      },
-      "educations": {
-        "type": "hasMany",
-        "model": "Education",
-        "foreignKey": "ownerId",
-        "primaryKey": "id"
-      },
-      "experiences": {
-        "type": "hasMany",
-        "model": "Experience",
-        "foreignKey": "ownerId",
-        "primaryKey": "id"
-      },
-      "wallet": {
-        "type": "hasOne",
-        "model": "Wallet",
-        "foreignKey": "ownerId",
-        "primaryKey": "id"
-      },
-      "notifications": {
-        "type": "hasMany",
-        "model": "Notification",
-        "foreignKey": "ownerId",
-        "primaryKey": "id"
-      },
-      "transactions": {
-        "type": "hasMany",
-        "model": "Transaction",
-        "foreignKey": "userId",
-        "primaryKey": "id"
-      },
-      "buyAnswers": {
-        "type": "hasMany",
-        "model": "BuyAnswer",
-        "foreignKey": "userId",
-        "primaryKey": "id"
-      },
-      "voteQuestions": {
-        "type": "hasMany",
-        "model": "UsersVoteQuestions",
-        "foreignKey": "userId",
-        "primaryKey": "id"
-      },
-      "voteAnswers": {
-        "type": "hasMany",
-        "model": "UsersVoteAnswers",
-        "foreignKey": "userId",
-        "primaryKey": "id"
-      }
     }
   },
+  "hidden": [
+    "password",
+    "emailVerified",
+    "verificationToken",
+    "realm",
+    "isEnable"
+  ],
   "properties": {
     "avatar": {
       "type": "String",
@@ -85,38 +37,6 @@
         "dataPrecision": null,
         "dataScale": null,
         "default": "https://cdn0.iconfinder.com/data/icons/user-pictures/100/malecostume-512.png",
-        "nullable": "Y"
-      }
-    },
-    "created": {
-      "type": "Date",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "default": "$now",
-      "mysql": {
-        "columnName": "created",
-        "dataType": "datetime",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "default": "CURRENT_TIMESTAMP",
-        "nullable": "N"
-      }
-    },
-    "createdBy": {
-      "type": "String",
-      "required": false,
-      "length": 512,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "created_by",
-        "dataType": "varchar",
-        "dataLength": 512,
-        "dataPrecision": null,
-        "dataScale": null,
         "nullable": "Y"
       }
     },
@@ -273,38 +193,6 @@
         "nullable": "Y"
       }
     },
-    "updated": {
-      "type": "Date",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "default": "$now",
-      "mysql": {
-        "columnName": "updated",
-        "dataType": "datetime",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "default": "CURRENT_TIMESTAMP",
-        "nullable": "N"
-      }
-    },
-    "updatedBy": {
-      "type": "String",
-      "required": false,
-      "length": 512,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "updated_by",
-        "dataType": "varchar",
-        "dataLength": 512,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      }
-    },
     "numberOfQuestions": {
       "type": "Number",
       "required": true,
@@ -392,6 +280,68 @@
     }
   },
   "validations": [],
+  "relations": {
+    "questions": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": "createdBy",
+      "primaryKey": "id"
+    },
+    "answers": {
+      "type": "hasMany",
+      "model": "Answer",
+      "foreignKey": "createdBy",
+      "primaryKey": "id"
+    },
+    "educations": {
+      "type": "hasMany",
+      "model": "Education",
+      "foreignKey": "ownerId",
+      "primaryKey": "id"
+    },
+    "experiences": {
+      "type": "hasMany",
+      "model": "Experience",
+      "foreignKey": "ownerId",
+      "primaryKey": "id"
+    },
+    "wallet": {
+      "type": "hasOne",
+      "model": "Wallet",
+      "foreignKey": "ownerId",
+      "primaryKey": "id"
+    },
+    "notifications": {
+      "type": "hasMany",
+      "model": "Notification",
+      "foreignKey": "ownerId",
+      "primaryKey": "id"
+    },
+    "transactions": {
+      "type": "hasMany",
+      "model": "Transaction",
+      "foreignKey": "userId",
+      "primaryKey": "id"
+    },
+    "buyAnswers": {
+      "type": "hasMany",
+      "model": "BuyAnswer",
+      "foreignKey": "userId",
+      "primaryKey": "id"
+    },
+    "voteQuestions": {
+      "type": "hasMany",
+      "model": "UsersVoteQuestions",
+      "foreignKey": "userId",
+      "primaryKey": "id"
+    },
+    "voteAnswers": {
+      "type": "hasMany",
+      "model": "UsersVoteAnswers",
+      "foreignKey": "userId",
+      "primaryKey": "id"
+    }
+  },
   "acls": [
     {
       "principalType": "ROLE",

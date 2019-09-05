@@ -7,24 +7,9 @@
     "mysql": {
       "schema": "vcc",
       "table": "tag"
-    },
-    "relations": {
-    },
-    "foreignKeys": {
-      "createdBy": {
-        "name": "fkTagCreatedBy",
-        "foreignKey": "createdBy",
-        "entityKey": "id",
-        "entity": "user"
-      },
-      "updatedBy": {
-        "name": "fkTagUpdatedBy",
-        "foreignKey": "updatedBy",
-        "entityKey": "id",
-        "entity": "user"
-      }
     }
   },
+  "hidden": [],
   "properties": {
     "name": {
       "type": "String",
@@ -44,6 +29,21 @@
     }
   },
   "validations": [],
+  "relations": {},
+  "foreignKeys": {
+    "createdBy": {
+      "name": "fkTagCreatedBy",
+      "foreignKey": "createdBy",
+      "entityKey": "id",
+      "entity": "user"
+    },
+    "updatedBy": {
+      "name": "fkTagUpdatedBy",
+      "foreignKey": "updatedBy",
+      "entityKey": "id",
+      "entity": "user"
+    }
+  },
   "acls": [],
   "methods": {}
 }

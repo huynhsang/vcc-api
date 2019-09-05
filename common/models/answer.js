@@ -1,7 +1,11 @@
 import postAnswerRoute from './answer/postAnswerRoute';
 import findAllByQuestionIdRoute from './answer/findAllByQuestionIdRoute';
+import validation from './answer/validation';
 
 module.exports = function (Answer) {
+    // Validation
+    validation(Answer);
+
     /**
      *
      * The method is responsible for handling logic before saving Answer
