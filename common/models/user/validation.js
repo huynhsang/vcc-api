@@ -5,11 +5,11 @@ import {validationErrorHandler} from '../../utils/modelHelpers';
 
 export default function (User) {
     User.validate('username', function (err) {
-        if (Joi.string().trim().regex(validationUtils.USERNAME_REGEX).min(validationUtils.MIN_USERNAME_LENGTH)
-            .max(validationUtils.MAX_USERNAME_LENGTH).required().validate(this.username).error) {
+        if (this.username && Joi.string().trim().regex(validationUtils.USERNAME_REGEX)
+            .min(validationUtils.MIN_USERNAME_LENGTH).max(validationUtils.MAX_USERNAME_LENGTH).required()
+            .validate(this.username).error) {
             return err();
         }
-        this.username = this.username.trim();
     }, {
         message: __('err.validation.user.username', {
             minLength: validationUtils.MIN_USERNAME_LENGTH,

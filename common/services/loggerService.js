@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import logger from '../../configs/logger/logger';
+import config from '../../configs/global/config.global';
 
 export function logError (err, callback) {
     if (!_.isObject(err)) {
@@ -12,7 +13,9 @@ export function logError (err, callback) {
         return;
     }
     const metaData = err.metaData || {};
-    metaData['stack'] = err.stack;
+    if (config.DEBUG) {
+        metaData['stack'] = err.stack;
+    }
     metaData['code'] = err.code;
     metaData['statusCode'] = err.statusCode;
     logger.error(err.message, metaData, callback);

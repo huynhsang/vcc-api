@@ -33,7 +33,7 @@ const logger = createLogger({
             dirname: LOG_DIR,
             filename: 'api-%DATE%.log',
             datePattern: 'YYYY-MM-DD',
-            zippedArchive: true,
+            zippedArchive: false,
             maxSize: '20m',
             maxFiles: '30d',
             json: true,

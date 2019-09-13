@@ -8,8 +8,8 @@
   "scripts": {
     "lint": "eslint .",
     "dev": "rm -rf ./build && webpack --config webpack.dev.config.js",
-    "staging": "export NODE_ENV=staging && node start.js",
-    "prod": "export NODE_ENV=production && node build/server.js",
+    "staging": "export NODE_ENV=staging && pm2 start build/server.js",
+    "prod": "export NODE_ENV=production && pm2 start build/server.js",
     "build": "rm -rf ./build && webpack --mode production --config webpack.prod.config.js",
     "posttest": "npm run lint && npm audit"
   },
