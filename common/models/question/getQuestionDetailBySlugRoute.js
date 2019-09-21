@@ -29,7 +29,7 @@ export default function (Question) {
             scope: {
                 skip: 0,
                 limit: 10,
-                order: 'created DESC',
+                order: 'createdOn DESC',
                 include: [{
                     relation: 'answerBy',
                     scope: {
