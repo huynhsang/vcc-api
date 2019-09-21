@@ -14,7 +14,6 @@ module.exports = function (Reputation) {
 
         // Handling logic when Update
         if (!ctx.isNewInstance) {
-            delete data.created;
             delete data.createdBy;
         } else {
             next();

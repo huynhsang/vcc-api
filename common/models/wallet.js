@@ -14,12 +14,9 @@ module.exports = function (Wallet) {
 
         // Handling logic when Update
         if (!ctx.isNewInstance) {
-            delete data.created;
             delete data.createdBy;
-            next();
-        } else {
-            next();
         }
+        next();
     });
 
     // Utils

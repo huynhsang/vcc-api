@@ -19,7 +19,6 @@ module.exports = function (Question) {
         const data = ctx.instance ? ctx.instance : ctx.data;
 
         if (!ctx.isNewInstance) {
-            delete data.created;
             delete data.createdBy;
         } else {
             data.shortId = shortid.generate();

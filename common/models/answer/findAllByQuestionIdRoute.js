@@ -38,7 +38,7 @@ export default function (Answer) {
         filter.where = {
             questionId: id
         };
-        filter.order = 'created DESC';
+        filter.order = 'createdOn DESC';
 
         Answer.find(filter, (err, _answers) => {
             if (err) {

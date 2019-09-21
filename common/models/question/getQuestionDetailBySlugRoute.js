@@ -67,7 +67,7 @@ export default function (Question) {
             isVerified: true,
             slug
         };
-        filter.order = 'updated DESC';
+        filter.order = 'updatedOn DESC';
         Question.findOne(filter, (err, _question) => {
             if (err) {
                 return callback(errorHandler(err));

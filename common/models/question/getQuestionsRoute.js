@@ -40,7 +40,7 @@ export default function (Question) {
                 }
             });
         }
-        if (!filter.order) filter.order = 'created DESC';
+        if (!filter.order) filter.order = 'createdOn DESC';
         Question.find(filter, (err, _questions) => {
             if (err) {
                 return callback(errorHandler(err));

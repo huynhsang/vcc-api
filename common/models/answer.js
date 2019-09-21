@@ -15,7 +15,6 @@ module.exports = function (Answer) {
 
         // Handling logic when Update
         if (!ctx.isNewInstance) {
-            delete data.created;
             delete data.createdBy;
         } else {
             data.createdBy = ctx.options.accessToken.userId;
