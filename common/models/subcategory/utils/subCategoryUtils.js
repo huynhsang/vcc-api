@@ -55,7 +55,7 @@ export default function (SubCategory) {
                 if (_err) {
                     return callback(_err);
                 }
-                callback(subCategory);
+                callback(null, subCategory);
             });
         });
     };

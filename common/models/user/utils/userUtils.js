@@ -85,7 +85,7 @@ export default function (User) {
             if (err) {
                 return callback(errorHandler(err));
             }
-            callback(result);
+            callback(null, result);
         });
     };
 
@@ -142,7 +142,7 @@ export default function (User) {
                 if (_err) {
                     return callback(_err);
                 }
-                callback(user);
+                callback(null, user);
             });
         });
     };

@@ -56,7 +56,7 @@ export default function (Question) {
                 if (_err) {
                     return callback(_err);
                 }
-                callback(question);
+                callback(null, question);
             });
         });
     };

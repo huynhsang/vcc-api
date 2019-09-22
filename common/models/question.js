@@ -44,7 +44,7 @@ module.exports = function (Question) {
                 const SubCategory = Question.app.models.SubCategory;
                 const tags = JSON.parse(question.tags);
                 tags.forEach((tag, index) => {
-                    SubCategory.updateNumberOfQuestions(tag.id, 'numberOfQuestions', 1, (err) => {
+                    SubCategory.updateNumberOfQuestions(tag.id, 1, (err) => {
                         if (err) {
                             return cb(err);
                         }

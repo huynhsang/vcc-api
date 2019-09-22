@@ -88,7 +88,7 @@ export default function (Question) {
                 if (err) {
                     return next(err);
                 }
-                next(answer);
+                next(null, answer);
             });
         };
 

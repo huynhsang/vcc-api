@@ -55,7 +55,7 @@ export default function (Category) {
                 if (_err) {
                     return callback(_err);
                 }
-                callback(category);
+                callback(null, category);
             });
         });
     };

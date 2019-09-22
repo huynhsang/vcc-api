@@ -57,7 +57,7 @@ export default function (Answer) {
                 if (_err) {
                     return callback(_err);
                 }
-                callback(answer);
+                callback(null, answer);
             });
         });
     };
