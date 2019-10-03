@@ -118,7 +118,7 @@
     },
     "votes": {
       "type": "hasMany",
-      "model": "UsersVoteAnswers",
+      "model": "UserVoteAnswer",
       "foreignKey": "answerId",
       "primaryKey": "id"
     }

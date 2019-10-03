@@ -331,13 +331,13 @@
     },
     "voteQuestions": {
       "type": "hasMany",
-      "model": "UsersVoteQuestions",
+      "model": "UserVoteQuestion",
       "foreignKey": "userId",
       "primaryKey": "id"
     },
     "voteAnswers": {
       "type": "hasMany",
-      "model": "UsersVoteAnswers",
+      "model": "UserVoteAnswer",
       "foreignKey": "userId",
       "primaryKey": "id"
     }

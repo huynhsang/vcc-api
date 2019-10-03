@@ -35,6 +35,7 @@ module.exports = function (UserVoteAnswer) {
                             return cb(notFoundErrorHandler(__('err.userVoteAnswer.notExists')));
                         }
                         data.isPositiveVote = !instance.isPositiveVote;
+                        cb();
                     });
                 } else {
                     cb();

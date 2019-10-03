@@ -28,7 +28,7 @@ export default function (Question) {
     }, {message: __('err.validation.question.numberOfAnswers')});
 
     Question.validate('numberOfVotes', function (err) {
-        if (Joi.number().integer().min(0).default(0).validate(this.numberOfVotes).error) {
+        if (Joi.number().integer().default(0).validate(this.numberOfVotes).error) {
             return err();
         }
     }, {message: __('err.validation.question.numberOfVotes')});
