@@ -1,107 +1,42 @@
 {
   "name": "Answer",
-  "base": "Base",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "strict": true,
   "options": {
-    "idInjection": true,
-    "mysql": {
-      "schema": "vcc",
-      "table": "answer"
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "createdAt": "created",
+      "updatedAt": "modified",
+      "required": false
     }
   },
   "hidden": [],
   "properties": {
     "shortId": {
-      "type": "String",
+      "type": "string",
       "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "index": {"unique": true},
-      "mysql": {
-        "columnName": "short_id",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "index": {"unique": true}
     },
     "body": {
       "type": "String",
-      "required": true,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "body",
-        "dataType": "mediumtext",
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "required": true
     },
     "description": {
       "type": "String",
-      "required": true,
-      "length": 2048,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "description",
-        "dataType": "varchar",
-        "dataLength": 2048,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "required": true
     },
     "isTheBest": {
       "type": "Boolean",
       "required": true,
-      "length": null,
-      "precision": 1,
-      "scale": null,
-      "default": false,
-      "mysql": {
-        "columnName": "is_the_best",
-        "dataType": "tinyint",
-        "dataLength": null,
-        "dataPrecision": 1,
-        "dataScale": null,
-        "default": 0,
-        "nullable": "N"
-      }
+      "default": false
     },
-    "questionId": {
+    "votesCount": {
       "type": "Number",
       "required": true,
-      "length": null,
-      "precision": 11,
-      "scale": 0,
-      "mysql": {
-        "columnName": "question_id",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 11,
-        "dataScale": 0,
-        "nullable": "N"
-      }
-    },
-    "numberOfVotes": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "number_of_votes",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
+      "default": 0
     }
   },
   "validations": [],
@@ -109,9 +44,9 @@
     "answerBy": {
       "model": "user",
       "type": "belongsTo",
-      "foreignKey": "createdBy"
+      "foreignKey": "ownerId"
     },
-    "answerForQuestion": {
+    "question": {
       "model": "Question",
       "type": "belongsTo",
       "foreignKey": "questionId"
@@ -123,27 +58,19 @@
       "primaryKey": "id"
     }
   },
-  "foreignKeys": {
-    "questionId": {
-      "name": "fkAnswerQuestionId",
-      "foreignKey": "questionId",
-      "entityKey": "id",
-      "entity": "Question"
-    },
-    "createdBy": {
-      "name": "fkAnswerCreatedBy",
-      "foreignKey": "createdBy",
-      "entityKey": "id",
-      "entity": "user"
-    },
-    "updatedBy": {
-      "name": "fkAnswerUpdatedBy",
-      "foreignKey": "updatedBy",
-      "entityKey": "id",
-      "entity": "user"
-    }
-  },
   "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "accessType": "READ",
+      "permission": "ALLOW"
+    },
     {
       "principalType": "ROLE",
       "principalId": "$owner",
@@ -156,6 +83,12 @@
       "accessType": "WRITE",
       "permission": "ALLOW",
       "property": ["customCreate"]
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "accessType": "*",
+      "permission": "ALLOW"
     }
   ],
   "methods": {}

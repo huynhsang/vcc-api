@@ -1,145 +1,53 @@
 {
   "name": "SubCategory",
   "base": "PersistedModel",
+  "strict": true,
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
   "mixins": {
     "TimeStamp": {
-      "createdAt": "createdOn",
-      "updatedAt": "updatedOn",
+      "createdAt": "created",
+      "updatedAt": "modified",
       "required": false
     }
-  },
-  "options": {
-    "idInjection": true,
-    "mysql": {
-      "schema": "vcc",
-      "table": "subcategory"
-    },
-    "validateUpsert": true
   },
   "hidden": [],
   "properties": {
     "slug": {
       "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "slug",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "required": true
     },
     "nameEn": {
       "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "name_en",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "required": true
     },
     "nameVi": {
       "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "name_vi",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "required": true
     },
-    "categorySlug": {
-      "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "category_slug",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "numberOfQuestions": {
+    "questionsCount": {
       "type": "Number",
       "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "number_of_questions",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
+      "default": 0
     },
     "type": {
       "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "type",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "parent": {
-      "type": "Number",
-      "required": false,
-      "length": null,
-      "precision": 11,
-      "scale": 0,
-      "mysql": {
-        "columnName": "parent",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 11,
-        "dataScale": 0,
-        "nullable": "Y"
-      }
+      "required": true
     }
   },
   "validations": [],
   "relations": {
     "category": {
+      "type": "embedsOne",
       "model": "Category",
-      "type": "belongsTo",
-      "foreignKey": "categorySlug"
-    }
-  },
-  "foreignKeys": {
-    "categorySlug": {
-      "name": "fkSubCategoryParent",
-      "foreignKey": "categorySlug",
-      "entityKey": "slug",
-      "entity": "Category"
+      "property": "categoryItem",
+      "required": true,
+      "options": {
+        "persistent": true,
+        "validate": true
+      }
     }
   },
   "acls": [

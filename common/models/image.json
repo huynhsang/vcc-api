@@ -1,46 +1,46 @@
 {
-  "name": "Notification",
+  "name": "Image",
   "base": "PersistedModel",
   "strict": true,
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
-  "hidden": [],
   "mixins": {
     "TimeStamp": {
-      "createdAt": "createdOn",
-      "updatedAt": "updatedOn",
+      "createdAt": "created",
+      "updatedAt": "modified",
       "required": false
     }
   },
+  "hidden": [],
   "properties": {
+    "index": {
+      "type": "number"
+    },
     "type": {
       "type": "string",
       "required": true
     },
-    "metaData": {
-      "type": "object"
-    },
-    "isHidden": {
-      "type": "Boolean",
-      "required": true,
-      "default": false
-    },
-    "status": {
+    "lrg": {
       "type": "string",
-      "default": "NEW"
+      "required": true
     },
-    "emailable": {
-      "type": "boolean",
-      "default": false
+    "med": {
+      "type": "string"
+    },
+    "sml": {
+      "type": "string"
+    },
+    "thm": {
+      "type": "string"
     }
   },
   "validations": [],
   "relations": {
     "owner": {
-      "model": "user",
       "type": "belongsTo",
+      "model": "user",
       "foreignKey": "ownerId"
     }
   },
@@ -52,16 +52,19 @@
       "permission": "DENY"
     },
     {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "accessType": "READ",
-      "permission": "ALLOW"
-    },
-    {
+      "accessType": "*",
       "principalType": "ROLE",
       "principalId": "admin",
-      "accessType": "*",
-      "permission": "ALLOW"
+      "permission": "ALLOW",
+      "property": [
+        "find",
+        "count",
+        "findById",
+        "findOne",
+        "exists",
+        "deleteById",
+        "destroyById"
+      ]
     }
   ],
   "methods": {}

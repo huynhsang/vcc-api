@@ -1,11 +1,16 @@
 {
   "name": "Question",
-  "base": "Base",
+  "base": "PersistedModel",
+  "strict": true,
+  "idInjection": true,
   "options": {
-    "idInjection": true,
-    "mysql": {
-      "schema": "vcc",
-      "table": "question"
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "createdAt": "created",
+      "updatedAt": "modified",
+      "required": false
     }
   },
   "hidden": [
@@ -16,256 +21,87 @@
     "shortId": {
       "type": "String",
       "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "index": {"unique": true},
-      "mysql": {
-        "columnName": "short_id",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "body": {
-      "type": "String",
-      "required": true,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "body",
-        "dataType": "mediumtext",
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "categorySlug": {
-      "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "category_slug",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "isHidden": {
-      "type": "Boolean",
-      "required": true,
-      "length": null,
-      "precision": 1,
-      "scale": null,
-      "default": false,
-      "mysql": {
-        "columnName": "is_hidden",
-        "dataType": "tinyint",
-        "dataLength": null,
-        "dataPrecision": 1,
-        "dataScale": null,
-        "default": 0,
-        "nullable": "N"
-      }
-    },
-    "isVerified": {
-      "type": "Boolean",
-      "required": true,
-      "length": null,
-      "precision": 1,
-      "scale": null,
-      "default": true,
-      "mysql": {
-        "columnName": "is_verified",
-        "dataType": "tinyint",
-        "dataLength": null,
-        "dataPrecision": 1,
-        "dataScale": null,
-        "default": 1,
-        "nullable": "N"
-      }
-    },
-    "numberOfAndroidViews": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "number_of_android_views",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
-    },
-    "numberOfIosViews": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "number_of_ios_views",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
-    },
-    "numberOfViews": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "number_of_views",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
-    },
-    "tags": {
-      "type": "String",
-      "required": false,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "tags",
-        "dataType": "json",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      }
-    },
-    "title": {
-      "type": "String",
-      "required": true,
-      "length": 1024,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "title",
-        "dataType": "varchar",
-        "dataLength": 1024,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "numberOfAnswers": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "number_of_answers",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
-    },
-    "numberOfVotes": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "number_of_votes",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
-    },
-    "hasAcceptedAnswer": {
-      "type": "Boolean",
-      "required": true,
-      "length": null,
-      "precision": 1,
-      "scale": null,
-      "default": false,
-      "mysql": {
-        "columnName": "has_accepted_answer",
-        "dataType": "tinyint",
-        "dataLength": null,
-        "dataPrecision": 1,
-        "dataScale": null,
-        "default": 1,
-        "nullable": "N"
-      }
-    },
-    "expectPeopleAnswer": {
-      "type": "String",
-      "required": false,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "expect_people_answer",
-        "dataType": "json",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      }
+      "index": {"unique": true}
     },
     "slug": {
       "type": "String",
       "required": true,
-      "length": 512,
-      "precision": null,
-      "scale": null,
-      "index": {"unique": true},
-      "mysql": {
-        "columnName": "slug",
-        "dataType": "varchar",
-        "dataLength": 512,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "index": {"unique": true}
+    },
+    "body": {
+      "type": "String",
+      "required": true
+    },
+    "isHidden": {
+      "type": "Boolean",
+      "required": true,
+      "default": false
+    },
+    "isPublic": {
+      "type": "Boolean",
+      "required": true,
+      "default": true
+    },
+    "isVerified": {
+      "type": "Boolean",
+      "required": true,
+      "default": true
+    },
+    "viewsCount": {
+      "type": "Number",
+      "required": true,
+      "default": 0
+    },
+    "title": {
+      "type": "String",
+      "required": true
+    },
+    "answersCount": {
+      "type": "Number",
+      "required": true,
+      "default": 0
+    },
+    "votesCount": {
+      "type": "Number",
+      "required": true,
+      "default": 0
     }
   },
   "validations": [],
   "relations": {
     "category": {
+      "type": "embedsOne",
       "model": "Category",
-      "type": "belongsTo",
-      "foreignKey": "categorySlug"
+      "property": "categoryItem",
+      "required": true,
+      "options": {
+        "persistent": true,
+        "validate": true
+      }
+    },
+    "bestAnswer": {
+      "type": "embedsOne",
+      "model": "Answer",
+      "property": "bestAnswer",
+      "options": {
+        "persistent": true,
+        "validate": true
+      }
+    },
+    "tags": {
+      "type": "embedsMany",
+      "model": "SubCategory",
+      "property": "tags",
+      "options": {
+        "persistent": true,
+        "validate": true
+      }
     },
     "askedBy": {
       "model": "user",
       "type": "belongsTo",
-      "foreignKey": "createdBy"
+      "foreignKey": "ownerId",
+      "required": true
     },
     "answers": {
       "type": "hasMany",
@@ -275,50 +111,55 @@
     },
     "votes": {
       "type": "hasMany",
-      "model": "UserVoteQuestion",
-      "foreignKey": "questionId",
-      "primaryKey": "id"
-    }
-  },
-  "foreignKeys": {
-    "categorySlug": {
-      "name": "fkQuestionCategory",
-      "foreignKey": "categorySlug",
-      "entityKey": "slug",
-      "entity": "Category"
+      "model": "Vote",
+      "polymorphic": {
+        "foreignKey": "modelId",
+        "discriminator": "modelType"
+      }
     },
-    "createdBy": {
-      "name": "fkQuestionCreatedBy",
-      "foreignKey": "createdBy",
-      "entityKey": "id",
-      "entity": "user"
-    },
-    "updatedBy": {
-      "name": "fkQuestionUpdatedBy",
-      "foreignKey": "updatedBy",
-      "entityKey": "id",
-      "entity": "user"
+    "expecters": {
+      "type": "embedsMany",
+      "model": "user",
+      "property": "expecters",
+      "options": {
+        "persistent": true,
+        "validate": true
+      }
     }
   },
   "acls": [
     {
+      "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$owner",
-      "accessType": "WRITE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
       "permission": "ALLOW"
     },
     {
+      "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$owner",
-      "accessType": "EXECUTE",
       "permission": "ALLOW"
     },
     {
+      "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "user",
-      "accessType": "WRITE",
+      "principalId": "$authenticated",
       "permission": "ALLOW",
-      "property": ["create"]
+      "property": [
+        "create"
+      ]
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
     }
   ],
   "methods": {}

@@ -27,7 +27,7 @@
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^6.2.0",
     "loopback-component-storage": "^3.6.3",
-    "loopback-connector-mysql": "^5.4.2",
+    "loopback-connector-mongodb": "^5.0.1",
     "loopback-ds-timestamp-mixin": "^3.4.1",
     "node-constants": "0.0.2",
     "nodemon": "^1.19.1",
@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.6.0",
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
     "babel-eslint": "^10.0.2",

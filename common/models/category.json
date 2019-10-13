@@ -1,6 +1,11 @@
 {
   "name": "Category",
   "base": "PersistedModel",
+  "strict": true,
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
   "mixins": {
     "TimeStamp": {
       "createdAt": "createdOn",
@@ -8,79 +13,25 @@
       "required": false
     }
   },
-  "options": {
-    "idInjection": false,
-    "forceId": false,
-    "mysql": {
-      "schema": "vcc",
-      "table": "category"
-    },
-    "validateUpsert": true
-  },
   "hidden": [],
   "properties": {
     "slug": {
       "type": "String",
       "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "id": 1,
-      "mysql": {
-        "columnName": "slug",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "index": {"unique": true}
     },
     "nameEn": {
       "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "name_en",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "required": true
     },
     "nameVi": {
       "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "name_vi",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "required": true
     },
-    "numberOfQuestions": {
+    "questionsCount": {
       "type": "Number",
       "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "number_of_questions",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
+      "default": 0
     }
   },
   "validations": [],

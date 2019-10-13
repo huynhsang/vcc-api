@@ -12,16 +12,13 @@ const TABLE_LIST = [
     'SubCategory',
     'Education',
     'Experience',
+    'Image',
     'Question',
     'Answer',
     'Reputation',
     'Notification',
-    'TopupCard',
     'Wallet',
-    'BuyAnswer',
-    'Transaction',
-    'UserVoteQuestion',
-    'UserVoteAnswer'
+    'Vote'
 ];
 const databaseHelper = {};
 

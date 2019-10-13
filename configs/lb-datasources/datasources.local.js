@@ -1,19 +1,19 @@
 import emailDS from '../email/email-ds-config';
 import storage from '../local-storage/local-storage';
+import {loadConfig} from '../mongodb';
 
+const dburi = loadConfig();
 module.exports = {
     'vccDS': {
-        'host': 'localhost',
-        'port': 3306,
-        'url': 'mysql://root:aaAA11!!@localhost:3306/vcc?charset=utf8mb4&collation=utf8mb4_general_ci',
-        'database': 'vcc',
-        'password': 'aaAA11!!',
         'name': 'vccDS',
-        'user': 'root',
-        'connector': 'mysql',
-        'dateStrings': true,
-        'charset': 'utf8mb4',
-        'collation': 'utf8mb4_general_ci'
+        'connector': 'mongodb',
+        'url': dburi,
+        'debug': false,
+        'server': {
+            'auto_reconnect': true,
+            'reconnectTries': 100,
+            'reconnectInterval': 1000
+        }
     },
     emailDS,
     storage

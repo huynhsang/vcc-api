@@ -13,16 +13,12 @@
             "./mixins"
         ]
     },
-    "User": {
-        "dataSource": "db",
-        "public": false
-    },
     "AccessToken": {
         "dataSource": "vccDS",
         "public": false
     },
     "ACL": {
-        "dataSource": "db",
+        "dataSource": "vccDS",
         "public": false
     },
     "RoleMapping": {
@@ -36,14 +32,19 @@
         "dataSource": "vccDS",
         "public": false
     },
+    "user": {
+        "dataSource": "vccDS",
+        "options": {
+            "emailVerificationRequired": true,
+            "realmRequired": true,
+            "realmDelimiter": ":"
+        },
+        "public": true
+    },
     "Email": {
         "dataSource": "emailDS"
     },
     "Answer": {
-        "dataSource": "vccDS",
-        "public": true
-    },
-    "BuyAnswer": {
         "dataSource": "vccDS",
         "public": true
     },
@@ -56,6 +57,10 @@
         "public": true
     },
     "Experience": {
+        "dataSource": "vccDS",
+        "public": true
+    },
+    "Image": {
         "dataSource": "vccDS",
         "public": true
     },
@@ -75,37 +80,16 @@
         "dataSource": "vccDS",
         "public": true
     },
-    "Tag": {
+    "Vote": {
         "dataSource": "vccDS",
-        "public": true
-    },
-    "TopupCard": {
-        "dataSource": "vccDS",
-        "public": true
-    },
-    "user": {
-        "dataSource": "vccDS",
-        "options": {
-            "emailVerificationRequired": true,
-            "realmRequired": true,
-            "realmDelimiter": ":"
-        },
         "public": true
     },
     "Wallet": {
         "dataSource": "vccDS",
         "public": true
     },
-    "Transaction": {
-        "dataSource": "vccDS",
-        "public": true
-    },
-    "UserVoteQuestion": {
-        "dataSource": "vccDS",
-        "public": true
-    },
-    "UserVoteAnswer": {
-        "dataSource": "vccDS",
+    "Badge": {
+        "dataSource": "transient",
         "public": true
     }
 }

@@ -1,18 +1,16 @@
 {
   "name": "user",
   "base": "User",
+  "idInjection": true,
+  "strict": true,
+  "options": {
+    "validateUpsert": true
+  },
   "mixins": {
     "TimeStamp": {
-      "createdAt": "createdOn",
-      "updatedAt": "updatedOn",
+      "createdAt": "created",
+      "updatedAt": "modified",
       "required": false
-    }
-  },
-  "options": {
-    "idInjection": true,
-    "mysql": {
-      "schema": "vcc",
-      "table": "user"
     }
   },
   "hidden": [
@@ -23,274 +21,94 @@
     "isEnable"
   ],
   "properties": {
-    "avatar": {
-      "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "default": "https://cdn0.iconfinder.com/data/icons/user-pictures/100/malecostume-512.png",
-      "mysql": {
-        "columnName": "avatar",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "default": "https://cdn0.iconfinder.com/data/icons/user-pictures/100/malecostume-512.png",
-        "nullable": "Y"
-      }
-    },
     "dateOfBirth": {
       "type": "Date",
-      "required": false,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "date_of_birth",
-        "dataType": "datetime",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      }
+      "required": false
     },
     "email": {
       "type": "String",
       "required": true,
-      "length": 512,
-      "precision": null,
-      "scale": null,
-      "index": {"unique": true},
-      "mysql": {
-        "columnName": "email",
-        "dataType": "varchar",
-        "dataLength": 512,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "index": {"unique": true}
     },
     "firstName": {
       "type": "String",
-      "required": true,
-      "length": 512,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "first_name",
-        "dataType": "varchar",
-        "dataLength": 512,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "required": true
     },
     "headline": {
       "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "headline",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      }
+      "required": false
     },
     "isEnable": {
       "type": "Number",
       "required": true,
-      "length": null,
-      "precision": 3,
-      "scale": 0,
-      "default": true,
-      "mysql": {
-        "columnName": "is_enable",
-        "dataType": "tinyint",
-        "dataLength": null,
-        "dataPrecision": 3,
-        "dataScale": 0,
-        "default": 1,
-        "nullable": "N"
-      }
+      "default": true
     },
     "lastName": {
       "type": "String",
-      "required": true,
-      "length": 512,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "last_name",
-        "dataType": "varchar",
-        "dataLength": 512,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "required": true
     },
     "nationality": {
       "type": "String",
-      "required": false,
-      "length": 45,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "nationality",
-        "dataType": "varchar",
-        "dataLength": 45,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      }
+      "required": false
     },
     "password": {
       "type": "String",
       "required": true,
-      "length": 60,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "password",
-        "dataType": "varchar",
-        "dataLength": 60,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "phone": {
-      "type": "String",
-      "required": false,
-      "length": 45,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "phone",
-        "dataType": "varchar",
-        "dataLength": 45,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      }
+      "length": 60
     },
     "summary": {
       "type": "String",
       "required": false,
-      "length": 512,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "summary",
-        "dataType": "varchar",
-        "dataLength": 512,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      }
+      "length": 512
     },
-    "numberOfQuestions": {
+    "questionsCount": {
       "type": "Number",
       "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "number_of_questions",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
+      "default": 0
     },
-    "numberOfAnswers": {
+    "answersCount": {
       "type": "Number",
       "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "number_of_answers",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
+      "default": 0
     },
-    "numberOfBestAnswers": {
+    "bestAnswers": {
       "type": "Number",
       "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "number_of_best_answers",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
+      "default": 0
     },
     "points": {
       "type": "Number",
       "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "points",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
-    },
-    "level": {
-      "type": "String",
-      "required": false,
-      "length": 45,
-      "precision": null,
-      "scale": null,
-      "default": "beginner",
-      "mysql": {
-        "columnName": "level",
-        "dataType": "varchar",
-        "dataLength": 45,
-        "dataPrecision": null,
-        "dataScale": null,
-        "default": "beginner",
-        "nullable": "Y"
-      }
+      "default": 0
     }
   },
   "validations": [],
   "relations": {
+    "avatar": {
+      "type": "embedsOne",
+      "model": "Image",
+      "property": "avatarImage",
+      "options": {
+        "persistent": true,
+        "validate": true,
+        "forceId": false
+      }
+    },
+    "badge": {
+      "type": "embedsOne",
+      "model": "Badge",
+      "foreignKey": "badgeItem"
+    },
     "questions": {
       "type": "hasMany",
       "model": "Question",
-      "foreignKey": "createdBy",
+      "foreignKey": "ownerId",
       "primaryKey": "id"
     },
     "answers": {
       "type": "hasMany",
       "model": "Answer",
-      "foreignKey": "createdBy",
+      "foreignKey": "ownerId",
       "primaryKey": "id"
     },
     "educations": {
@@ -317,28 +135,10 @@
       "foreignKey": "ownerId",
       "primaryKey": "id"
     },
-    "transactions": {
+    "votes": {
       "type": "hasMany",
-      "model": "Transaction",
-      "foreignKey": "userId",
-      "primaryKey": "id"
-    },
-    "buyAnswers": {
-      "type": "hasMany",
-      "model": "BuyAnswer",
-      "foreignKey": "userId",
-      "primaryKey": "id"
-    },
-    "voteQuestions": {
-      "type": "hasMany",
-      "model": "UserVoteQuestion",
-      "foreignKey": "userId",
-      "primaryKey": "id"
-    },
-    "voteAnswers": {
-      "type": "hasMany",
-      "model": "UserVoteAnswer",
-      "foreignKey": "userId",
+      "model": "Vote",
+      "foreignKey": "ownerId",
       "primaryKey": "id"
     }
   },

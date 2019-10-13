@@ -1,19 +1,17 @@
 {
   "name": "Reputation",
-  "base": "Base",
+  "base": "PersistedModel",
+  "strict": true,
+  "idInjection": true,
   "options": {
-    "idInjection": true,
-    "mysql": {
-      "schema": "vcc",
-      "table": "reputation"
-    },
+    "validateUpsert": true,
     "indexes": {
       "uqReputation": {
         "keys": {
-          "question_id": 1,
-          "answer_id": 1,
-          "created_by": 1,
-          "action": 1
+          "modelId": 1,
+          "modelType": 1,
+          "giverId": 1,
+          "type": 1
         },
         "options": {
           "unique": true
@@ -21,132 +19,42 @@
       }
     }
   },
+  "mixins": {
+    "TimeStamp": {
+      "createdAt": "created",
+      "updatedAt": "modified",
+      "required": false
+    }
+  },
   "hidden": [],
   "properties": {
-    "ownerId": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 11,
-      "scale": 0,
-      "mysql": {
-        "columnName": "owner_id",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 11,
-        "dataScale": 0,
-        "nullable": "N"
-      }
-    },
-    "action": {
+    "type": {
       "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "action",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "required": true
     },
     "point": {
       "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "mysql": {
-        "columnName": "point",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "nullable": "N"
-      }
-    },
-    "questionId": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "mysql": {
-        "columnName": "question_id",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "nullable": "N"
-      }
-    },
-    "answerId": {
-      "type": "Number",
-      "required": false,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "mysql": {
-        "columnName": "answer_id",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "nullable": "Y"
-      }
+      "required": true
     }
   },
   "validations": [],
   "relations": {
-    "stranger": {
+    "giver": {
       "model": "user",
       "type": "belongsTo",
-      "foreignKey": "createdBy"
+      "foreignKey": "giverId"
     },
-    "question": {
-      "model": "Question",
+    "receiver": {
+      "model": "user",
       "type": "belongsTo",
-      "foreignKey": "questionId"
+      "foreignKey": "receiverId"
     },
-    "answer": {
-      "model": "Answer",
+    "model": {
       "type": "belongsTo",
-      "foreignKey": "answerId"
-    }
-  },
-  "foreignKeys": {
-    "ownerId": {
-      "name": "fkReputationOwner",
-      "foreignKey": "ownerId",
-      "entityKey": "id",
-      "entity": "user"
-    },
-    "questionId": {
-      "name": "fkReputationQuestion",
-      "foreignKey": "questionId",
-      "entityKey": "id",
-      "entity": "Question"
-    },
-    "answerId": {
-      "name": "fkReputationAnswer",
-      "foreignKey": "answerId",
-      "entityKey": "id",
-      "entity": "Answer"
-    },
-    "createdBy": {
-      "name": "fkReputationCreatedBy",
-      "foreignKey": "createdBy",
-      "entityKey": "id",
-      "entity": "user"
-    },
-    "updatedBy": {
-      "name": "fkReputationUpdatedBy",
-      "foreignKey": "updatedBy",
-      "entityKey": "id",
-      "entity": "user"
+      "polymorphic": {
+        "foreignKey": "modelId",
+        "discriminator": "modelType"
+      }
     }
   },
   "acls": [
@@ -164,7 +72,7 @@
     },
     {
       "principalType": "ROLE",
-      "principalId": "user",
+      "principalId": "$authenticated",
       "accessType": "WRITE",
       "permission": "ALLOW",
       "property": ["create"]

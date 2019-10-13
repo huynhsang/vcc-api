@@ -1,10 +1,16 @@
 {
   "name": "Wallet",
-  "base": "Base",
+  "base": "PersistedModel",
+  "strict": true,
+  "idInjection": true,
   "options": {
-    "mysql": {
-      "schema": "vcc",
-      "table": "wallet"
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "createdAt": "created",
+      "updatedAt": "modified",
+      "required": false
     }
   },
   "hidden": [],
@@ -12,50 +18,12 @@
     "amount": {
       "type": "Number",
       "required": true,
-      "length": null,
-      "precision": 20,
-      "scale": 0,
-      "default": 0,
-      "mysql": {
-        "columnName": "amount",
-        "dataType": "bigint",
-        "dataLength": null,
-        "dataPrecision": 20,
-        "dataScale": 0,
-        "default": 0,
-        "nullable": "N"
-      }
-    },
-    "ownerId": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 11,
-      "scale": 0,
-      "mysql": {
-        "columnName": "owner_id",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 11,
-        "dataScale": 0,
-        "nullable": "N"
-      }
+      "default": 0
     },
     "shortId": {
       "type": "String",
       "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "index": {"unique": true},
-      "mysql": {
-        "columnName": "short_id",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "index": {"unique": true}
     }
   },
   "validations": [],
@@ -64,26 +32,6 @@
       "model": "user",
       "type": "belongsTo",
       "foreignKey": "ownerId"
-    }
-  },
-  "foreignKeys": {
-    "ownerId": {
-      "name": "fkWalletOwner",
-      "foreignKey": "ownerId",
-      "entityKey": "id",
-      "entity": "user"
-    },
-    "createdBy": {
-      "name": "fkWalletCreatedBy",
-      "foreignKey": "createdBy",
-      "entityKey": "id",
-      "entity": "user"
-    },
-    "updatedBy": {
-      "name": "fkWalletUpdatedBy",
-      "foreignKey": "updatedBy",
-      "entityKey": "id",
-      "entity": "user"
     }
   },
   "acls": [
@@ -101,7 +49,7 @@
     },
     {
       "principalType": "ROLE",
-      "principalId": "user",
+      "principalId": "$authenticated",
       "accessType": "WRITE",
       "permission": "ALLOW",
       "property": ["create"]

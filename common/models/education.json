@@ -1,149 +1,52 @@
 {
   "name": "Education",
-  "base": "Base",
+  "base": "PersistedModel",
+  "strict": true,
+  "idInjection": true,
   "options": {
-    "idInjection": true,
-    "mysql": {
-      "schema": "vcc",
-      "table": "education"
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "createdAt": "created",
+      "updatedAt": "modified",
+      "required": false
     }
   },
   "hidden": [],
   "properties": {
     "degree": {
       "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "degree",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "required": true
     },
     "fieldOfStudy": {
       "type": "String",
-      "required": true,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "field_of_study",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "N"
-      }
+      "required": true
     },
     "fromYear": {
       "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "mysql": {
-        "columnName": "from_year",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "nullable": "N"
-      }
+      "required": true
     },
     "toYear": {
       "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "mysql": {
-        "columnName": "to_year",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "nullable": "N"
-      }
+      "required": true
     },
     "grade": {
       "type": "String",
-      "required": false,
-      "length": 255,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "grade",
-        "dataType": "varchar",
-        "dataLength": 255,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      }
+      "required": false
     },
     "activitiesAndSocieties": {
       "type": "String",
-      "required": false,
-      "length": 512,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "activities_and_societies",
-        "dataType": "varchar",
-        "dataLength": 512,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      }
+      "required": false
     },
     "description": {
       "type": "String",
-      "required": false,
-      "length": 1024,
-      "precision": null,
-      "scale": null,
-      "mysql": {
-        "columnName": "description",
-        "dataType": "varchar",
-        "dataLength": 1024,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "Y"
-      }
+      "required": false
     },
     "isPublic": {
       "type": "Boolean",
       "required": true,
-      "length": null,
-      "precision": 1,
-      "scale": null,
-      "mysql": {
-        "columnName": "is_public",
-        "dataType": "tinyint",
-        "dataLength": null,
-        "dataPrecision": 1,
-        "dataScale": null,
-        "nullable": "N"
-      }
-    },
-    "ownerId": {
-      "type": "Number",
-      "required": true,
-      "length": null,
-      "precision": 11,
-      "scale": 0,
-      "mysql": {
-        "columnName": "owner_id",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 11,
-        "dataScale": 0,
-        "nullable": "N"
-      }
+      "default": true
     }
   },
   "validations": [],
@@ -154,26 +57,25 @@
       "foreignKey": "ownerId"
     }
   },
-  "foreignKeys": {
-    "ownerId": {
-      "name": "fkEducationOwner",
-      "foreignKey": "ownerId",
-      "entityKey": "id",
-      "entity": "user"
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
     },
-    "createdBy": {
-      "name": "fkEducationCreatedBy",
-      "foreignKey": "createdBy",
-      "entityKey": "id",
-      "entity": "user"
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "accessType": "READ",
+      "permission": "ALLOW"
     },
-    "updatedBy": {
-      "name": "fkEducationUpdatedBy",
-      "foreignKey": "updatedBy",
-      "entityKey": "id",
-      "entity": "user"
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "accessType": "*",
+      "permission": "ALLOW"
     }
-  },
-  "acls": [],
+  ],
   "methods": {}
 }

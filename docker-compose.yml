@@ -1,14 +1,17 @@
 version: "3"
 services:
     vccdb:
-        image: mysql:8.0.16
-        container_name: vcc_mysqldb
-        volumes:
-            # The MySQL image will execute all .sql, .sh and .sql.gz files in /docker-entrypoint-initdb.d on startup.
-            - ./storage/database/dumps:/tmp/vcc_database
-            - ./storage/database/init:/docker-entrypoint-initdb.d # MacOS should export docker-entrypoint-initdb.d for using by docker.
+        image: mongo:4.2
+        container_name: vcc_mongodb
         ports:
-            - "3306:3306"
-        restart: always
+            - 27017:27017
+#       restart: always
+
+    rabbitmq:
+        image: rabbitmq:3.7.17-management
+        container_name: vcc_rabbitmq
+        ports:
+            - 5672:5672
+            - 15672:15672
         env_file:
             - ./.env
