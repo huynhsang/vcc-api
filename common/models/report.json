@@ -1,38 +1,29 @@
 {
-  "name": "Vote",
+  "name": "Report",
   "base": "PersistedModel",
   "strict": true,
   "idInjection": true,
   "options": {
-    "validateUpsert": true,
-    "indexes": {
-      "uqVote": {
-        "keys": {
-          "modelId": 1,
-          "modelType": 1,
-          "ownerId": 1
-        },
-        "options": {
-          "unique": true
-        }
-      }
-    }
+    "validateUpsert": true
   },
   "hidden": [],
   "mixins": {
     "TimeStamp": {
-      "createdAt": "created",
-      "updatedAt": "updated",
+      "createdAt": "createdOn",
+      "skipUpdatedAt": true,
       "required": false
     }
   },
-  "validations": [],
   "properties": {
-    "action": {
+    "reason": {
       "type": "String",
       "required": true
+    },
+    "approvedOn": {
+      "type": "Date"
     }
   },
+  "validations": [],
   "relations": {
     "owner": {
       "type": "belongsTo",
@@ -45,6 +36,11 @@
         "foreignKey": "modelId",
         "discriminator": "modelType"
       }
+    },
+    "approvedBy": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "approvedUserId"
     }
   },
   "acls": [
@@ -68,8 +64,7 @@
         "exists",
         "deleteById",
         "destroyById",
-        "__get__user",
-        "__get__model"
+        "__get__owner"
       ]
     }
   ],

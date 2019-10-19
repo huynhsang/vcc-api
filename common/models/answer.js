@@ -1,8 +1,14 @@
-import postAnswerRoute from './answer/postAnswerRoute';
-import findAllByQuestionIdRoute from './answer/findAllByQuestionIdRoute';
 import validation from './answer/validation';
+import createOrUpdateRoute from './answer/createOrUpdateRoute';
+import updateStats from './answer/methods/updateStats';
+import createAnswer from './answer/methods/createAnswer';
+import editAnswer from './answer/methods/editAnswer';
+import getAnswersByQuestion from './answer/methods/getAnswersByQuestion';
 
 module.exports = function (Answer) {
+    Answer.disableRemoteMethodByName('create');
+    Answer.disableRemoteMethodByName('replaceOrCreate');
+
     // Validation
     validation(Answer);
 
@@ -23,8 +29,11 @@ module.exports = function (Answer) {
     });
 
     // Utils
+    updateStats(Answer);
+    createAnswer(Answer);
+    editAnswer(Answer);
+    getAnswersByQuestion(Answer);
 
     // Routes
-    findAllByQuestionIdRoute(Answer);
-    postAnswerRoute(Answer);
+    createOrUpdateRoute(Answer);
 };

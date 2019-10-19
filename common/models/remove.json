@@ -1,0 +1,40 @@
+{
+  "name": "Remove",
+  "base": "Model",
+  "strict": true,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "createdAt": "removedDate",
+      "skipUpdatedAt": true,
+      "required": false
+    }
+  },
+  "validations": [],
+  "properties": {
+    "id": false,
+    "reason": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
+      "foreignKey": "removedUserId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

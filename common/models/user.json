@@ -97,7 +97,7 @@
     "badge": {
       "type": "embedsOne",
       "model": "Badge",
-      "foreignKey": "badgeItem"
+      "property": "badgeItem"
     },
     "questions": {
       "type": "hasMany",

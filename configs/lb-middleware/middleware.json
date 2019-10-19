@@ -41,6 +41,9 @@
     "../../server/middleware/set-locale": {}
   },
   "auth": {},
+  "auth:after": {
+    "../../server/middleware/auth": {}
+  },
   "parse": {},
   "routes": {
     "loopback#rest": {

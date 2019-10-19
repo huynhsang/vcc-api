@@ -6,6 +6,7 @@ import {errorHandler} from '../utils/modelHelpers';
 import getQuestionDetailBySlugRoute from './question/getQuestionDetailBySlugRoute';
 import getQuestionsRoute from './question/getQuestionsRoute';
 import validation from './question/validation';
+import getAnswersRoute from './question/getAnswersRoute';
 
 module.exports = function (Question) {
     // Validation
@@ -69,4 +70,5 @@ module.exports = function (Question) {
     approveAnswerRoute(Question);
     getQuestionDetailBySlugRoute(Question);
     getQuestionsRoute(Question);
+    getAnswersRoute(Question);
 };

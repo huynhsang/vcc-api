@@ -32,7 +32,7 @@
       "type": "String",
       "required": true
     },
-    "isHidden": {
+    "disabled": {
       "type": "Boolean",
       "required": true,
       "default": false
@@ -62,6 +62,11 @@
       "default": 0
     },
     "votesCount": {
+      "type": "Number",
+      "required": true,
+      "default": 0
+    },
+    "reportsCount": {
       "type": "Number",
       "required": true,
       "default": 0
@@ -112,15 +117,25 @@
     "votes": {
       "type": "hasMany",
       "model": "Vote",
-      "polymorphic": {
-        "foreignKey": "modelId",
-        "discriminator": "modelType"
+      "polymorphic": "model"
+    },
+    "reports": {
+      "type": "hasMany",
+      "model": "Report",
+      "polymorphic": "model"
+    },
+    "remove": {
+      "type": "embedsOne",
+      "model": "Remove",
+      "property": "removedItem",
+      "options": {
+        "validate": true
       }
     },
     "expecters": {
       "type": "embedsMany",
       "model": "user",
-      "property": "expecters",
+      "property": "expecterList",
       "options": {
         "persistent": true,
         "validate": true

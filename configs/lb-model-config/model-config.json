@@ -84,8 +84,16 @@
         "dataSource": "vccDS",
         "public": true
     },
+    "Report": {
+        "dataSource": "vccDS",
+        "public": true
+    },
     "Wallet": {
         "dataSource": "vccDS",
+        "public": true
+    },
+    "Remove": {
+        "dataSource": "transient",
         "public": true
     },
     "Badge": {

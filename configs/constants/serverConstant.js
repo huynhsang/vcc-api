@@ -1,3 +1,31 @@
+import constants from 'node-constants';
+const define = constants.definer(exports);
+
+define('ADMIN_ROLE', 'admin');
+define('ADMIN_ROLE', 'user');
+define('ADMIN_REALM', 'admin_realm');
+define('USER_REALM', 'user_realm');
+
+const VOTE_UP = 'up';
+const VOTE_DOWN = 'down';
+define('VOTE_UP', VOTE_UP);
+define('VOTE_DOWN', VOTE_DOWN);
+define('VOTE_ACTIONS', [VOTE_UP, VOTE_DOWN]);
+define('VOTE_TYPES', ['Answer', 'Question']);
+
+define('MIN_BODY_LENGTH', 50);
+define('MAX_BODY_LENGTH', 1000);
+define('DESCRIPTION_RATE', 4); // 1/4 body
+
+// Filter constants
+define('MAX_PAGE_SIZE', 50);
+define('DEFAULT_PAGE_SIZE', 25);
+const MOST_VOTE = 'highVote';
+const MOST_RECENT = 'recent';
+define('MOST_VOTE', MOST_VOTE);
+define('MOST_RECENT', MOST_RECENT);
+define('SORT_CRITERIA', [MOST_VOTE, MOST_RECENT]);
+
 class ServerConstant {
     constructor () {
         this.ADMIN_ROLE = 'admin';

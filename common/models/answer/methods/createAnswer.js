@@ -1,0 +1,74 @@
+import async from 'async';
+import Joi from 'joi';
+import * as shortid from 'shortid';
+import {DESCRIPTION_RATE, MAX_BODY_LENGTH, MIN_BODY_LENGTH} from '../../../../configs/constants/serverConstant';
+import {isActiveQuestion} from '../../question/utils/helper';
+import {errorHandler} from '../../../utils/modelHelpers';
+
+export default (Answer) => {
+    Answer.createAnswer = (loggedInUser, formData, callback) => {
+        const validationFormData = (next) => {
+            const schema = Joi.object().keys({
+                questionId: Joi.string().hex().length(24).required(),
+                body: Joi.string().trim().min(MIN_BODY_LENGTH).max(MAX_BODY_LENGTH).required()
+            }).required();
+
+            schema.validate(formData, {allowUnknown: false}, (err, validated) => {
+                if (err) {
+                    return next(err);
+                }
+                formData = validated;
+            });
+        };
+
+        const checkQuestion = (next) => {
+            Answer.app.models.Question.findById(formData.questionId, (err, question) => {
+                if (err) {
+                    return next(err);
+                }
+                if (!question) {
+                    return next(new Error(__('err.question.notExists')));
+                }
+                if (!isActiveQuestion(question)) {
+                    return next(new Error(__('err.question.notActive')));
+                }
+                next();
+            });
+        };
+
+        const saveAnswer = (next) => {
+            const descrLength = formData.body.length / DESCRIPTION_RATE;
+            const data = {
+                body: formData.body,
+                questionId: formData.questionId,
+                shortId: shortid.generate(),
+                description: formData.body.substring(0, descrLength)
+            };
+
+            Answer.create(data, (err, answer) => {
+                if (err) {
+                    return next(err);
+                }
+                next(null, answer);
+            });
+        };
+
+        const updateStats = (answer, next) => {
+            // TODO: Adding Job here to handle update stats. question stats & user stats
+            next(null, answer);
+        };
+
+        async.waterfall([
+            validationFormData,
+            checkQuestion,
+            saveAnswer,
+            updateStats
+        ], (err, answer) => {
+            if (err) {
+                return callback(errorHandler(err));
+            }
+            callback(null, answer);
+        });
+    };
+};
+
