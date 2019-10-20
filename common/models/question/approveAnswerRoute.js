@@ -1,102 +1,45 @@
-/* global __ */
 import async from 'async';
 import Joi from 'joi';
-import {errorHandler, notFoundErrorHandler} from '../../utils/modelHelpers';
+import {errorHandler, validationErrorHandler} from '../../utils/modelHelpers';
 
-export default function (Question) {
+export default (Question) => {
     /**
      * The method call service to handle approve answer
-     * @param data: {Object} The data uses for approving function
-     * @param options: {Object} The options
+     * @param id: {Object} The question Id
+     * @param req: {Object} The request
      * @param callback: {Function} The callback function
      */
-    Question.approveAnswer = function (data, options, callback) {
-        const userId = options.accessToken.userId;
+    Question.approveAnswerRoute = (id, req, callback) => {
+        const loggedInUser = req.user;
+        const requestData = req.body || req;
 
-        const schema = Joi.object().keys({
-            id: Joi.number().integer().min(1).required(),
-            answerId: Joi.number().integer().min(1).required()
-        }).required();
+        const validateRequestData = (next) => {
+            const data = {id, ...requestData};
+            const schema = Joi.object().keys({
+                id: Joi.string().hex().length(24).required(),
+                answerId: Joi.string().hex().length(24).required()
+            }).required();
 
-        const validateRequestData = function (next) {
             Joi.validate(data, schema, {allowUnknown: false}, (err) => {
                 if (err) {
-                    return next(err);
+                    return next(validationErrorHandler(err));
                 }
                 next();
             });
         };
 
-        const verifyAnswer = function (next) {
-            const Answer = Question.app.models.Answer;
-            Answer.findOne({
-                where: {
-                    id: data.answerId,
-                    questionId: data.questionId,
-                    isTheBest: false
-                }
-            }, (err, _answer) => {
+        const handleApprove = (next) => {
+            Question.approveAnswer(id, requestData.answerId, loggedInUser, (err, result) => {
                 if (err) {
                     return next(err);
                 }
-                if (!_answer) {
-                    return next(notFoundErrorHandler(__('error.answer.notExists')));
-                }
-                if (_answer.createdBy === userId) {
-                    return next(new Error(__('error.answer.voteIsDenied')));
-                }
-                next(null, _answer);
-            });
-        };
-
-        // Todo: Adding transaction to handle logic here
-        // let transaction = null;
-        // const initTransaction = function (next) {
-        //     Question.beginTransaction({
-        //         isolationLevel: Question.Transaction.READ_COMMITTED
-        //     }, (err, tx) => {
-        //         if (err) {
-        //             return next(err);
-        //         }
-        //         transaction = tx;
-        //         next();
-        //     });
-        // };
-
-        const findAndUpdate = function (answer, next) {
-            Question.updateAll({
-                id: data.id,
-                hasAcceptedAnswer: false
-            }, {hasAcceptedAnswer: true}, (err, info) => {
-                if (err) {
-                    return next(err);
-                }
-                if (info.count === 0) {
-                    return next(notFoundErrorHandler(__('error.question.notExists')));
-                }
-                answer.updateAttribute('isTheBest', true, (_err, _updated) => {
-                    if (_err) {
-                        return next(_err);
-                    }
-                    next(null, _updated);
-                });
-            });
-        };
-
-        const updateRelatedApproval = function (answer, next) {
-            Question.app.models.Reputation.createReputationWithAcceptAction(answer, userId, (err) => {
-                if (err) {
-                    return next(err);
-                }
-                next(null, answer);
+                next(null, result.answer);
             });
         };
 
         async.waterfall([
             validateRequestData,
-            verifyAnswer,
-            findAndUpdate,
-            updateRelatedApproval
+            handleApprove
         ], (err, answer) => {
             if (err) {
                 return callback(errorHandler(err));
@@ -108,14 +51,17 @@ export default function (Question) {
     /**
      * To Describe API end point to approve answer
      */
-    Question.remoteMethod('approveAnswer', {
-        accepts: [
-            {arg: 'data', type: 'object', http: {source: 'body'}},
-            {arg: 'options', type: 'object', http: 'optionsFromRequest'}
-        ],
-        description: 'Approve answer for question',
-        accessType: 'EXECUTE',
-        returns: {type: 'Answer', root: true},
-        http: {path: '/approve-answer', verb: 'post'}
-    });
-}
+    Question.remoteMethod(
+        'approveAnswerRoute',
+        {
+            accepts: [
+                {arg: 'id', type: 'number', description: 'Question Id', http: {source: 'path'}},
+                {arg: 'data', type: 'object', http: {source: 'req'}},
+            ],
+            description: 'Approve answer for question',
+            accessType: 'EXECUTE',
+            returns: {type: 'Answer', root: true},
+            http: {path: '/:id/approveAnswer', verb: 'post'}
+        }
+    );
+};

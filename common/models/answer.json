@@ -13,7 +13,10 @@
       "required": false
     }
   },
-  "hidden": [],
+  "hidden": [
+    "disabled",
+    "pendingUserIds"
+  ],
   "properties": {
     "shortId": {
       "type": "string",

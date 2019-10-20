@@ -15,7 +15,7 @@
   },
   "hidden": [
     "isVerified",
-    "isHidden"
+    "disabled"
   ],
   "properties": {
     "shortId": {
@@ -61,7 +61,12 @@
       "required": true,
       "default": 0
     },
-    "votesCount": {
+    "upVotesCount": {
+      "type": "Number",
+      "required": true,
+      "default": 0
+    },
+    "downVotesCount": {
       "type": "Number",
       "required": true,
       "default": 0

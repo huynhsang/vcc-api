@@ -1,7 +1,7 @@
 import async from 'async';
 import Joi from 'joi';
 import {DESCRIPTION_RATE, MAX_BODY_LENGTH, MIN_BODY_LENGTH} from '../../../../configs/constants/serverConstant';
-import {errorHandler, permissionErrorHandler} from '../../../utils/modelHelpers';
+import {errorHandler, permissionErrorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
 import {canEditAnswer, isActiveAnswer} from '../utils/helper';
 
 export default (Answer) => {
@@ -14,7 +14,7 @@ export default (Answer) => {
 
             schema.validate(formData, {allowUnknown: false}, (err, validated) => {
                 if (err) {
-                    return next(err);
+                    return next(validationErrorHandler(err));
                 }
                 formData = validated;
             });
@@ -69,7 +69,7 @@ export default (Answer) => {
                     '$set': {
                         body: formData.body,
                         description: formData.body.substring(0, descrLength),
-                        updatedOn: new Date()
+                        modified: new Date()
                     }
                 },
                 {new: true}, (err, doc) => {

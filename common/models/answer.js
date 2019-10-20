@@ -4,6 +4,7 @@ import updateStats from './answer/methods/updateStats';
 import createAnswer from './answer/methods/createAnswer';
 import editAnswer from './answer/methods/editAnswer';
 import getAnswersByQuestion from './answer/methods/getAnswersByQuestion';
+import voteRoute from './answer/voteRoute';
 
 module.exports = function (Answer) {
     Answer.disableRemoteMethodByName('create');
@@ -36,4 +37,5 @@ module.exports = function (Answer) {
 
     // Routes
     createOrUpdateRoute(Answer);
+    voteRoute(Answer);
 };

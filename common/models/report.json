@@ -9,7 +9,7 @@
   "hidden": [],
   "mixins": {
     "TimeStamp": {
-      "createdAt": "createdOn",
+      "createdAt": "created",
       "skipUpdatedAt": true,
       "required": false
     }

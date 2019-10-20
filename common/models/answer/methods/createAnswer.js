@@ -3,7 +3,7 @@ import Joi from 'joi';
 import * as shortid from 'shortid';
 import {DESCRIPTION_RATE, MAX_BODY_LENGTH, MIN_BODY_LENGTH} from '../../../../configs/constants/serverConstant';
 import {isActiveQuestion} from '../../question/utils/helper';
-import {errorHandler} from '../../../utils/modelHelpers';
+import {errorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
 
 export default (Answer) => {
     Answer.createAnswer = (loggedInUser, formData, callback) => {
@@ -15,7 +15,7 @@ export default (Answer) => {
 
             schema.validate(formData, {allowUnknown: false}, (err, validated) => {
                 if (err) {
-                    return next(err);
+                    return next(validationErrorHandler(err));
                 }
                 formData = validated;
             });
@@ -32,15 +32,15 @@ export default (Answer) => {
                 if (!isActiveQuestion(question)) {
                     return next(new Error(__('err.question.notActive')));
                 }
-                next();
+                next(null, question);
             });
         };
 
-        const saveAnswer = (next) => {
+        const saveAnswer = (question, next) => {
             const descrLength = formData.body.length / DESCRIPTION_RATE;
             const data = {
                 body: formData.body,
-                questionId: formData.questionId,
+                questionId: question.id,
                 shortId: shortid.generate(),
                 description: formData.body.substring(0, descrLength)
             };
@@ -55,7 +55,29 @@ export default (Answer) => {
 
         const updateStats = (answer, next) => {
             // TODO: Adding Job here to handle update stats. question stats & user stats
-            next(null, answer);
+            async.parallel({
+                question: (cb) => {
+                    Answer.app.models.Question.updateStats(answer.questionId, {model: Answer.modelName}, (err) => {
+                        if (err) {
+                            return cb(err);
+                        }
+                        cb();
+                    });
+                },
+                user: (cb) => {
+                    Answer.app.models.user.updateStats(answer.ownerId, {type: Answer.modelName}, (err) => {
+                        if (err) {
+                            return cb(err);
+                        }
+                        cb();
+                    });
+                }
+            }, (err) => {
+                if (err) {
+                    return next(err);
+                }
+                next(null, answer);
+            });
         };
 
         async.waterfall([

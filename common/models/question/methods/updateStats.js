@@ -1,4 +1,5 @@
 import async from 'async';
+import {VOTE_DOWN, VOTE_UP} from '../../../../configs/constants/serverConstant';
 
 export default (Question) => {
     Question.updateStats = (questionId, options, callback) => {
@@ -18,11 +19,38 @@ export default (Question) => {
         };
 
         const votesCount = (next) => {
-            Question.votes.count(questionId, (err, count) => {
+            async.parallel({
+                'upVotesCount': (cb) => {
+                    Question.votes.count({
+                        modelId: questionId,
+                        modelType: Question.modelName,
+                        action: VOTE_UP
+                    }, (err, count) => {
+                        if (err) {
+                            return cb(err);
+                        }
+                        cb(null, count);
+                    });
+                },
+                'downVotesCount': (cb) => {
+                    Question.votes.count({
+                        modelId: questionId,
+                        modelType: Question.modelName,
+                        action: VOTE_DOWN
+                    }, (err, count) => {
+                        if (err) {
+                            return cb(err);
+                        }
+                        cb(null, count);
+                    });
+                }
+            }, (err, result) => {
                 if (err) {
                     return next(err);
                 }
-                stats.votesCount = count;
+                stats.upVotesCount = result.upVotesCount;
+                stats.downVotesCount = result.downVotesCount;
+                next();
             });
         };
 

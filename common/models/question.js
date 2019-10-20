@@ -1,14 +1,29 @@
 import async from 'async';
 import * as shortid from 'shortid';
-import questionUtils from './question/utils/questionUtils';
 import approveAnswerRoute from './question/approveAnswerRoute';
 import {errorHandler} from '../utils/modelHelpers';
-import getQuestionDetailBySlugRoute from './question/getQuestionDetailBySlugRoute';
+import getDetailBySlugRoute from './question/getDetailBySlugRoute';
 import getQuestionsRoute from './question/getQuestionsRoute';
 import validation from './question/validation';
 import getAnswersRoute from './question/getAnswersRoute';
+import approveAnswer from './question/methods/approveAnswer';
+import getQuestions from './question/methods/getQuestions';
+import getQuestionBySlug from './question/methods/getQuestionBySlug';
+import updateStats from './question/methods/updateStats';
+import voteRoute from './question/voteRoute';
 
 module.exports = function (Question) {
+    // Disable loopback remote methods
+    // Question.disableRemoteMethodByName('create');
+    Question.disableRemoteMethodByName('find');
+    Question.disableRemoteMethodByName('findOrCreate');
+    Question.disableRemoteMethodByName('replaceOrCreate');
+    Question.disableRemoteMethodByName('replaceById');
+    Question.disableRemoteMethodByName('upsertWithWhere');
+    Question.disableRemoteMethodByName('upsert');
+    Question.disableRemoteMethodByName('deleteById');
+    Question.disableRemoteMethodByName('createChangeStream');
+
     // Validation
     validation(Question);
 
@@ -64,11 +79,15 @@ module.exports = function (Question) {
     });
 
     // Utils
-    questionUtils(Question);
+    updateStats(Question);
+    approveAnswer(Question);
+    getQuestions(Question);
+    getQuestionBySlug(Question);
 
     // Routes
     approveAnswerRoute(Question);
-    getQuestionDetailBySlugRoute(Question);
+    getDetailBySlugRoute(Question);
     getQuestionsRoute(Question);
     getAnswersRoute(Question);
+    voteRoute(Question);
 };

@@ -3,7 +3,7 @@ import Joi from 'joi';
 import {ObjectID} from 'mongodb';
 import {VOTE_ACTIONS, VOTE_TYPES} from '../../../configs/constants/serverConstant';
 
-module.exports = function (Vote) {
+export default function (Vote) {
     Vote.validate('ownerId', function (err) {
         if (!ObjectID.isValid(this.ownerId)) {
             return err();

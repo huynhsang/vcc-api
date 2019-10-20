@@ -1,5 +1,7 @@
-import reputationUtils from './reputation/utils/reputationUtils';
 import validation from './reputation/validation';
+import createApprove from './reputation/methods/createApprove';
+import upsertVoteQuestion from './reputation/methods/upsertVoteQuestion';
+import upsertVoteAnswer from './reputation/methods/upsertVoteAnswer';
 
 module.exports = function (Reputation) {
     // Validation
@@ -20,6 +22,7 @@ module.exports = function (Reputation) {
         }
     });
 
-    // Utils
-    reputationUtils(Reputation);
+    createApprove(Reputation);
+    upsertVoteQuestion(Reputation);
+    upsertVoteAnswer(Reputation);
 };

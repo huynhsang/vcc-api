@@ -1,8 +1,37 @@
 /* global __ */
 import async from 'async';
+import {ObjectID} from 'mongodb';
 import {notFoundErrorHandler} from '../../../utils/modelHelpers';
 
-export default function (Category) {
+export default (Category) => {
+    /**
+     * The method handles logic to increase or reduce property of category by number
+     * @param id: {String} The category id
+     * @param num: {Number} The number of increment (positive) or reduction (negative)
+     * @param callback: {Function} The callback function
+     */
+    Category.updateQuestionsCount = (id, num, callback) => {
+        const mongoConnector = Category.getDataSource().connector;
+        mongoConnector.collection(Category.modelName).findAndModify(
+            {
+                '_id': ObjectID(String(id)),
+            },
+            [],
+            {
+                '$inc': {
+                    'questionsCount': num
+                }
+            }, {new: true}, (err, doc) => {
+                if (err) {
+                    return callback(err);
+                }
+                doc.id = doc._id;
+                delete doc._id;
+                callback(null, doc);
+            }
+        );
+    };
+
     /**
      * The method handles logic to increase or reduce property of category by number
      * @param slug: {String} The category slug

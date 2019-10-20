@@ -12,7 +12,7 @@ export default function (Question) {
      * @param filter {Object} Optional Filter JSON object.
      * @param callback {Function} Callback function.
      */
-    Question.getAnswers = function (id, req, filter = {}, callback) {
+    Question.getAnswers = (id, req, filter = {}, callback) => {
         const loggedInUser = req.user;
 
         const validateQuery = (next) => {
@@ -73,7 +73,7 @@ export default function (Question) {
                         'for more details.', http: {source: 'query'}}
             ],
             description: 'Find all Answers By question Id',
-            returns: {type: 'array', root: true},
+            returns: {type: 'array', model: 'Answer', root: true},
             http: {path: '/:id/answers', verb: 'get'}
         }
     );
