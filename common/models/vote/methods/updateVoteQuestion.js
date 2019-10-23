@@ -1,7 +1,6 @@
 /* global __ */
 import async from 'async';
 import {permissionErrorHandler} from '../../../utils/modelHelpers';
-import {VOTE_UP} from '../../../../configs/constants/serverConstant';
 
 export default (Vote) => {
     Vote.updateVoteQuestion = (loggedInUser, id, action, callback) => {

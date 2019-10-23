@@ -63,6 +63,7 @@ export default function (Question) {
     Question.remoteMethod(
         'getAnswers',
         {
+            accessType: 'READ',
             accepts: [
                 {arg: 'id', type: 'number', description: 'Question Id', http: {source: 'path'}},
                 {arg: 'data', type: 'object', http: {source: 'req'}},

@@ -1,3 +1,4 @@
+/* global __ */
 import async from 'async';
 import {ObjectID} from 'mongodb';
 

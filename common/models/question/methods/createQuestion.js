@@ -1,3 +1,4 @@
+/* global __ */
 import async from 'async';
 import Joi from 'joi';
 import {MAX_BODY_LENGTH, MIN_BODY_LENGTH, TITLE_MAX_LENGTH, TITLE_MIN_LENGTH} from '../../../../configs/constants/serverConstant';

@@ -1,3 +1,4 @@
+/* global __ */
 import async from 'async';
 import Joi from 'joi';
 import * as shortid from 'shortid';

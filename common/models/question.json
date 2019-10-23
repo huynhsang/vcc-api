@@ -167,12 +167,14 @@
       "permission": "ALLOW"
     },
     {
-      "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$authenticated",
+      "principalId": "user",
+      "accessType": "*",
       "permission": "ALLOW",
       "property": [
-        "create"
+        "createOrUpdate",
+        "voteRoute",
+        "approveAnswerRoute"
       ]
     },
     {

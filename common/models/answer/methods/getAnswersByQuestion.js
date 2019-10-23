@@ -1,3 +1,4 @@
+/* global __ */
 import async from 'async';
 import {notFoundErrorHandler} from '../../../utils/modelHelpers';
 import {isActiveQuestion} from '../../question/utils/helper';

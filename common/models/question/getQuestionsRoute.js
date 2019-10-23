@@ -50,6 +50,7 @@ export default function (Question) {
     Question.remoteMethod(
         'getQuestionsRoute',
         {
+            accessType: 'READ',
             accepts: [
                 {arg: 'data', type: 'object', http: {source: 'req'}},
                 {arg: 'filter', type: 'object', description:

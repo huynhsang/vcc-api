@@ -17,6 +17,7 @@ module.exports = function (Question) {
     // Disable loopback remote methods
     Question.disableRemoteMethodByName('create');
     Question.disableRemoteMethodByName('find');
+    Question.disableRemoteMethodByName('findById');
     Question.disableRemoteMethodByName('findOrCreate');
     Question.disableRemoteMethodByName('replaceOrCreate');
     Question.disableRemoteMethodByName('replaceById');

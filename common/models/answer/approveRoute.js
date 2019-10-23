@@ -1,5 +1,4 @@
 /* global __ */
-import async from 'async';
 import Joi from 'joi';
 import {errorHandler, validationErrorHandler} from '../../utils/modelHelpers';
 

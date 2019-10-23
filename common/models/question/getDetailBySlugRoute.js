@@ -58,8 +58,9 @@ export default function (Question) {
     Question.remoteMethod(
         'getDetailBySlugRoute',
         {
+            accessType: 'READ',
             accepts: [
-                {arg: 'id', type: 'string', description: 'Question slug', http: {source: 'path'}},
+                {arg: 'slug', type: 'string', description: 'Question slug', http: {source: 'path'}},
                 {arg: 'data', type: 'object', http: {source: 'req'}},
                 {arg: 'filter', type: 'object', description:
                         'Filter defining fields, where - must be a JSON-encoded string (`{"where":{"something":"value"}}`).  ' +

@@ -1,3 +1,4 @@
+/* global __ */
 import async from 'async';
 import Joi from 'joi';
 import {DESCRIPTION_RATE, MAX_BODY_LENGTH, MIN_BODY_LENGTH} from '../../../../configs/constants/serverConstant';
