@@ -48,7 +48,7 @@ export default (Question) => {
                         if (question.ownerId.toString() !== loggedInUser.id.toString()) {
                             return cb(permissionErrorHandler());
                         }
-                        if (question.bestAnswer) {
+                        if (question.bestAnswerItem) {
                             return cb(new Error(__('err.question.hadTheBest')));
                         }
                         cb(null, question);
@@ -74,7 +74,7 @@ export default (Question) => {
                 },
                 'question': (cb) => {
                     payload.answer.isTheBest = true;
-                    payload.question.updateAttribute('bestAnswer', payload.answer.toObject(false, true, true), (err, updated) => {
+                    payload.question.updateAttribute('bestAnswerItem', payload.answer.toObject(false, true, true), (err, updated) => {
                         if (err) {
                             return cb(err);
                         }
@@ -111,7 +111,7 @@ export default (Question) => {
         };
 
         const updateStats = (data, next) => {
-            Question.app.models.user.updateStats(data.answer.ownerId, {type: 'bestAnswers'}, () => {
+            Question.app.models.user.updateStats(data.answer.ownerId, {attribute: 'bestAnswers'}, () => {
                 next(null, data);
             });
         };

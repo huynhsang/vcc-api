@@ -1,6 +1,7 @@
 /* global __ */
 import async from 'async';
 import {permissionErrorHandler} from '../../../utils/modelHelpers';
+import {VOTE_UP} from '../../../../configs/constants/serverConstant';
 
 export default (Vote) => {
     Vote.updateVoteQuestion = (loggedInUser, id, action, callback) => {
@@ -54,7 +55,7 @@ export default (Vote) => {
         const updateStats = (question, vote, next) => {
             async.parallel({
                 'user': (cb) => {
-                    Vote.app.models.user.updateStats(question.ownerId, {type: 'points'}, (err) => {
+                    Vote.app.models.user.updateStats(question.ownerId, {attribute: 'points'}, (err) => {
                         if (err) {
                             return cb(err);
                         }

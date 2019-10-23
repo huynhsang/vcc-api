@@ -1,4 +1,6 @@
+/* global __ */
 import async from 'async';
+import {ObjectID} from 'mongodb';
 
 export default (Category) => {
     Category.updateStats = (categoryId, options, callback) => {
@@ -42,5 +44,31 @@ export default (Category) => {
                 callback();
             });
         });
+    };
+
+    Category.increaseQuestionsCount = (id, num, callback) => {
+        const mongoConnector = Category.getDataSource().connector;
+        mongoConnector.collection(Category.modelName).findAndModify(
+            {
+                _id: ObjectID(String(id))
+            },
+            [],
+            {
+                $inc: {
+                    'questionsCount': num
+                }
+            },
+            {new: true}, (err, doc) => {
+                if (err) {
+                    return callback(err);
+                }
+                if (!doc || !doc.value) {
+                    return callback(new Error(__('err.category.notExists')));
+                }
+                doc.value.id = doc.value._id;
+                delete doc.value._id;
+                callback(null, new Category(doc));
+            }
+        );
     };
 };

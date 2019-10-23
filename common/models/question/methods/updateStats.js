@@ -1,5 +1,6 @@
+/* global __ */
 import async from 'async';
-import {VOTE_DOWN, VOTE_UP} from '../../../../configs/constants/serverConstant';
+import {ObjectID} from 'mongodb';
 
 export default (Question) => {
     Question.updateStats = (questionId, options, callback) => {
@@ -10,7 +11,7 @@ export default (Question) => {
 
         const stats = {};
         const answersCount = (next) => {
-            Question.answers.count(questionId, (err, count) => {
+            Question.countAnswers(questionId, (err, count) => {
                 if (err) {
                     return next(err);
                 }
@@ -21,28 +22,10 @@ export default (Question) => {
         const votesCount = (next) => {
             async.parallel({
                 'upVotesCount': (cb) => {
-                    Question.votes.count({
-                        modelId: questionId,
-                        modelType: Question.modelName,
-                        action: VOTE_UP
-                    }, (err, count) => {
-                        if (err) {
-                            return cb(err);
-                        }
-                        cb(null, count);
-                    });
+                    Question.countUpVotes(questionId, cb);
                 },
                 'downVotesCount': (cb) => {
-                    Question.votes.count({
-                        modelId: questionId,
-                        modelType: Question.modelName,
-                        action: VOTE_DOWN
-                    }, (err, count) => {
-                        if (err) {
-                            return cb(err);
-                        }
-                        cb(null, count);
-                    });
+                    Question.countDownVotes(questionId, cb);
                 }
             }, (err, result) => {
                 if (err) {
@@ -55,7 +38,7 @@ export default (Question) => {
         };
 
         const reportsCount = (next) => {
-            Question.reports.count(questionId, (err, count) => {
+            Question.countReports(questionId, (err, count) => {
                 if (err) {
                     return next(err);
                 }
@@ -94,5 +77,57 @@ export default (Question) => {
                 callback();
             });
         });
+    };
+
+    Question.increaseAnswersCount = (id, num, callback) => {
+        const mongoConnector = Question.getDataSource().connector;
+        mongoConnector.collection(Question.modelName).findAndModify(
+            {
+                _id: ObjectID(String(id))
+            },
+            [],
+            {
+                $inc: {
+                    'answersCount': num
+                }
+            },
+            {new: true}, (err, doc) => {
+                if (err) {
+                    return callback(err);
+                }
+                if (!doc || !doc.value) {
+                    return callback(new Error(__('err.question.notExists')));
+                }
+                doc.value.id = doc.value._id;
+                delete doc.value._id;
+                callback(null, new Question(doc));
+            }
+        );
+    };
+
+    Question.increaseCount = (id, attribute, num, callback) => {
+        const inc = {};
+        inc[attribute] = num;
+        const mongoConnector = Question.getDataSource().connector;
+        mongoConnector.collection(Question.modelName).findAndModify(
+            {
+                _id: ObjectID(String(id))
+            },
+            [],
+            {
+                $inc: inc
+            },
+            {new: true}, (err, doc) => {
+                if (err) {
+                    return callback(err);
+                }
+                if (!doc || !doc.value) {
+                    return callback(new Error(__('err.question.notExists')));
+                }
+                doc.value.id = doc.value._id;
+                delete doc.value._id;
+                callback(null, new Question(doc));
+            }
+        );
     };
 };

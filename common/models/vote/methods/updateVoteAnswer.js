@@ -54,7 +54,7 @@ export default (Vote) => {
         const updateStats = (answer, vote, next) => {
             async.parallel({
                 'user': (cb) => {
-                    Vote.app.models.user.updateStats(answer.ownerId, {type: 'points'}, (err) => {
+                    Vote.app.models.user.updateStats(answer.ownerId, {attribute: 'points'}, (err) => {
                         if (err) {
                             return cb(err);
                         }

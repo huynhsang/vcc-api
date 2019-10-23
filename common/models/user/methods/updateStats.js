@@ -1,3 +1,4 @@
+/* global __ */
 import async from 'async';
 import {ObjectID} from 'mongodb';
 
@@ -80,7 +81,7 @@ export default (User) => {
         };
 
         const methods = {};
-        switch (options.type) {
+        switch (options.attribute) {
             case User.app.model.Question.modelName:
                 methods['questionsCount'] = questionsCount;
                 break;
@@ -111,5 +112,57 @@ export default (User) => {
                 callback();
             });
         });
+    };
+
+    User.increaseQuestionsCount = (id, num, callback) => {
+        const mongoConnector = User.getDataSource().connector;
+        mongoConnector.collection(User.modelName).findAndModify(
+            {
+                _id: ObjectID(String(id))
+            },
+            [],
+            {
+                $inc: {
+                    'questionsCount': num
+                }
+            },
+            {new: true}, (err, doc) => {
+                if (err) {
+                    return callback(err);
+                }
+                if (!doc || !doc.value) {
+                    return callback(new Error(__('err.user.notExists')));
+                }
+                doc.value.id = doc.value._id;
+                delete doc.value._id;
+                callback(null, new User(doc));
+            }
+        );
+    };
+
+    User.increaseAnswersCount = (id, num, callback) => {
+        const mongoConnector = User.getDataSource().connector;
+        mongoConnector.collection(User.modelName).findAndModify(
+            {
+                _id: ObjectID(String(id))
+            },
+            [],
+            {
+                $inc: {
+                    'AnswersCount': num
+                }
+            },
+            {new: true}, (err, doc) => {
+                if (err) {
+                    return callback(err);
+                }
+                if (!doc || !doc.value) {
+                    return callback(new Error(__('err.user.notExists')));
+                }
+                doc.value.id = doc.value._id;
+                delete doc.value._id;
+                callback(null, new User(doc));
+            }
+        );
     };
 };

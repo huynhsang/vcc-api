@@ -1,6 +1,7 @@
 /* global __ */
 import async from 'async';
 import {isActiveAnswer} from '../../answer/utils/helper';
+import {VOTE_UP} from '../../../../configs/constants/serverConstant';
 
 export default (Vote) => {
     Vote.createVoteAnswer = (loggedInUser, answerId, action, callback) => {
@@ -62,7 +63,7 @@ export default (Vote) => {
         const updateStats = (answer, vote, next) => {
             async.parallel({
                 'user': (cb) => {
-                    Vote.app.models.user.updateStats(answer.ownerId, {type: 'points'}, (err) => {
+                    Vote.app.models.user.updateStats(answer.ownerId, {attribute: 'points'}, (err) => {
                         if (err) {
                             return cb(err);
                         }
@@ -70,12 +71,8 @@ export default (Vote) => {
                     });
                 },
                 'answer': (cb) => {
-                    Vote.app.models.Answer.updateStats(answer.id, {model: Vote.modelName}, (err) => {
-                        if (err) {
-                            return cb(err);
-                        }
-                        cb();
-                    });
+                    const attribute = action === VOTE_UP ? 'upVotesCount' : 'downVotesCount';
+                    Vote.app.models.Answer.increaseCount(answer.id, attribute, 1, cb);
                 }
             }, (err) => {
                 if (err) {

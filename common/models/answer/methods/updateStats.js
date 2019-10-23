@@ -1,5 +1,5 @@
 import async from 'async';
-import {VOTE_UP, VOTE_DOWN} from '../../../../configs/constants/serverConstant';
+import {ObjectID} from 'mongodb';
 
 export default (Answer) => {
     Answer.updateStats = (answerId, options, callback) => {
@@ -12,28 +12,10 @@ export default (Answer) => {
         const votesCount = (next) => {
             async.parallel({
                 'upVotesCount': (cb) => {
-                    Answer.votes.count({
-                        modelId: answerId,
-                        modelType: Answer.modelName,
-                        action: VOTE_UP
-                    }, (err, count) => {
-                        if (err) {
-                            return cb(err);
-                        }
-                        cb(null, count);
-                    });
+                    Answer.countUpVotes(answerId, cb);
                 },
                 'downVotesCount': (cb) => {
-                    Answer.votes.count({
-                        modelId: answerId,
-                        modelType: Answer.modelName,
-                        action: VOTE_DOWN
-                    }, (err, count) => {
-                        if (err) {
-                            return cb(err);
-                        }
-                        cb(null, count);
-                    });
+                    Answer.countDownVotes(answerId, cb);
                 }
             }, (err, result) => {
                 if (err) {
@@ -46,7 +28,7 @@ export default (Answer) => {
         };
 
         const reportsCount = (next) => {
-            Answer.reports.count(answerId, (err, count) => {
+            Answer.countReports(answerId, (err, count) => {
                 if (err) {
                     return next(err);
                 }
@@ -82,5 +64,31 @@ export default (Answer) => {
                 callback();
             });
         });
+    };
+
+    Answer.increaseCount = (id, attribute, num, callback) => {
+        const inc = {};
+        inc[attribute] = num;
+        const mongoConnector = Answer.getDataSource().connector;
+        mongoConnector.collection(Answer.modelName).findAndModify(
+            {
+                _id: ObjectID(String(id))
+            },
+            [],
+            {
+                $inc: inc
+            },
+            {new: true}, (err, doc) => {
+                if (err) {
+                    return callback(err);
+                }
+                if (!doc || !doc.value) {
+                    return callback(new Error(__('err.answer.notExists')));
+                }
+                doc.value.id = doc.value._id;
+                delete doc.value._id;
+                callback(null, new Answer(doc));
+            }
+        );
     };
 };

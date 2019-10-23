@@ -22,9 +22,11 @@ define('APPROVE_POINTS', 20); // Approve answer
 define('UP_VOTE_POINTS', 10);
 define('DOWN_VOTE_POINTS', -5);
 
-define('MIN_BODY_LENGTH', 50);
+define('MIN_BODY_LENGTH', 20);
 define('MAX_BODY_LENGTH', 1000);
 define('DESCRIPTION_RATE', 4); // 1/4 body
+define('TITLE_MIN_LENGTH', 10);
+define('TITLE_MAX_LENGTH', 250);
 
 // Filter constants
 define('MAX_PAGE_SIZE', 50);

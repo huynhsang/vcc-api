@@ -56,11 +56,11 @@ export default (Question) => {
         {
             accepts: [
                 {arg: 'id', type: 'number', description: 'Question Id', http: {source: 'path'}},
-                {arg: 'data', type: 'object', http: {source: 'req'}},
+                {arg: 'data', type: 'object', http: {source: 'req'}}
             ],
             description: 'Approve answer for question',
             accessType: 'EXECUTE',
-            returns: {type: 'Answer', root: true},
+            returns: {type: 'object', model: 'Answer', root: true},
             http: {path: '/:id/approveAnswer', verb: 'post'}
         }
     );

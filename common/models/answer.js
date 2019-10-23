@@ -1,9 +1,12 @@
 import validation from './answer/validation';
-import createOrUpdateRoute from './answer/createOrUpdateRoute';
+import countMethods from './answer/methods/countMethods';
+
 import updateStats from './answer/methods/updateStats';
 import createAnswer from './answer/methods/createAnswer';
 import editAnswer from './answer/methods/editAnswer';
 import getAnswersByQuestion from './answer/methods/getAnswersByQuestion';
+
+import createOrUpdateRoute from './answer/createOrUpdateRoute';
 import voteRoute from './answer/voteRoute';
 
 module.exports = function (Answer) {
@@ -34,6 +37,7 @@ module.exports = function (Answer) {
     createAnswer(Answer);
     editAnswer(Answer);
     getAnswersByQuestion(Answer);
+    countMethods(Answer);
 
     // Routes
     createOrUpdateRoute(Answer);

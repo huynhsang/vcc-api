@@ -56,21 +56,11 @@ export default (Answer) => {
         const updateStats = (answer, next) => {
             // TODO: Adding Job here to handle update stats. question stats & user stats
             async.parallel({
-                question: (cb) => {
-                    Answer.app.models.Question.updateStats(answer.questionId, {model: Answer.modelName}, (err) => {
-                        if (err) {
-                            return cb(err);
-                        }
-                        cb();
-                    });
+                'question': (cb) => {
+                    Answer.app.models.Question.increaseAnswersCount(answer.questionId, 1, cb);
                 },
-                user: (cb) => {
-                    Answer.app.models.user.updateStats(answer.ownerId, {type: Answer.modelName}, (err) => {
-                        if (err) {
-                            return cb(err);
-                        }
-                        cb();
-                    });
+                'user': (cb) => {
+                    Answer.app.models.user.increaseAnswersCount(answer.ownerId, 1, cb);
                 }
             }, (err) => {
                 if (err) {

@@ -92,7 +92,7 @@
     "bestAnswer": {
       "type": "embedsOne",
       "model": "Answer",
-      "property": "bestAnswer",
+      "property": "bestAnswerItem",
       "options": {
         "persistent": true,
         "validate": true
@@ -137,10 +137,10 @@
         "validate": true
       }
     },
-    "expecters": {
+    "supporters": {
       "type": "embedsMany",
       "model": "user",
-      "property": "expecterList",
+      "property": "supporterList",
       "options": {
         "persistent": true,
         "validate": true
