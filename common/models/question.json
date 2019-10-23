@@ -101,7 +101,7 @@
     "tags": {
       "type": "embedsMany",
       "model": "SubCategory",
-      "property": "tags",
+      "property": "tagList",
       "options": {
         "persistent": true,
         "validate": true

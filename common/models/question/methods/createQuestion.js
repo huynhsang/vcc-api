@@ -93,7 +93,7 @@ export default (Question) => {
             const slug = slugify(formData.title);
             const data = {
                 categoryItem: category,
-                tags: subCategories,
+                tagList: subCategories,
                 supporterList: supporters,
                 title: formData.title,
                 body: formData.body,
@@ -116,7 +116,7 @@ export default (Question) => {
                     Question.app.models.Category.increaseQuestionsCount(question.categoryItem.id, 1, cb);
                 },
                 'subCategories': (cb) => {
-                    Question.app.models.SubCategory.increaseQuestionsCounts(question.tags, 1, cb);
+                    Question.app.models.SubCategory.increaseQuestionsCounts(question.tagList, 1, cb);
                 },
                 'user': (cb) => {
                     Question.app.models.user.increaseQuestionsCount(loggedInUser.id, 1, cb);

@@ -32,7 +32,7 @@ export default (Question) => {
         const prepareData = (next) => {
             async.parallel({
                 'question': (cb) => {
-                    Question.findById(id, (err, question) => {
+                    Question.findById(formData.id, (err, question) => {
                         if (err) {
                             return cb(err);
                         }
@@ -48,7 +48,7 @@ export default (Question) => {
                         cb(null, question);
                     });
                 },
-                'tags': (cb) => {
+                'tagList': (cb) => {
                     if (!formData.tagIds) {
                         return cb(null, null);
                     }
@@ -61,14 +61,14 @@ export default (Question) => {
                                 inq: formData.tagIds
                             }
                         }
-                    }, (err, tags) => {
+                    }, (err, tagList) => {
                         if (err) {
                             return cb(err);
                         }
-                        if (tags.length !== formData.tagIds.length) {
+                        if (tagList.length !== formData.tagIds.length) {
                             return cb(new Error(__('err.subCategory.notExists')));
                         }
-                        cb(null, tags);
+                        cb(null, tagList);
                     });
                 }
             }, (err, payload) => {
@@ -80,17 +80,17 @@ export default (Question) => {
         };
 
         const updateQuestion = (payload, next) => {
-            const {question, tags} = payload;
+            const {question, tagList} = payload;
             const data = {};
             let removeTags = [];
             let newTags = [];
 
-            if (tags !== null) {
-                data.tags = tags;
-                removeTags = _.differenceWith(question.tags, tags, (oldTag, newTag) => {
+            if (tagList !== null) {
+                data.tagList = tagList;
+                removeTags = _.differenceWith(question.tags, tagList, (oldTag, newTag) => {
                     return oldTag.id.toString() === newTag.id.toString();
                 });
-                newTags = _.differenceWith(tags, question.tags, (newTag, oldTag) => {
+                newTags = _.differenceWith(tagList, question.tags, (newTag, oldTag) => {
                     return newTag.id.toString() === oldTag.id.toString();
                 });
             }
