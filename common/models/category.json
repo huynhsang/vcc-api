@@ -35,14 +35,7 @@
     }
   },
   "validations": [],
-  "relations": {
-    "subCategories": {
-      "type": "hasMany",
-      "model": "SubCategory",
-      "foreignKey": "categorySlug",
-      "primaryKey": "slug"
-    }
-  },
+  "relations": {},
   "acls": [
     {
       "accessType": "*",
