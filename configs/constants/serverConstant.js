@@ -42,6 +42,7 @@ define('MOST_ANSWERED', MOST_RECENT);
 define('MOST_VISITED', MOST_RECENT);
 define('NO_ANSWERS', NO_ANSWERS);
 define('SORT_QUESTION_CRITERIA', [MOST_VOTED, MOST_RECENT, MOST_ANSWERED, MOST_VISITED, NO_ANSWERS]);
+define('SORT_TAGS_CRITERIA', ['popular', MOST_RECENT]);
 
 class ServerConstant {
     constructor () {

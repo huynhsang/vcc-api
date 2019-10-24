@@ -1,27 +1,48 @@
-export default function (SubCategory) {
-    SubCategory.getTrendingTags = function (cb) {
-        const query = `
-            SELECT DISTINCT slug,
-                          name_en as nameEn,
-                          name_vi as nameVi,
-                          SUM(number_of_questions) AS amount 
-            FROM vcc.subcategory
-            GROUP BY slug, name_en, name_vi
-            ORDER BY amount DESC
-            LIMIT 10;`;
+import async from 'async';
+import Joi from 'joi';
+import {MAX_PAGE_SIZE} from '../../../configs/constants/serverConstant';
+import {errorHandler, validationErrorHandler} from '../../utils/modelHelpers';
 
-        const connector = SubCategory.app.dataSources.vccDS.connector;
-        connector.execute(query, null, (err, result) => {
+export default (SubCategory) => {
+    SubCategory.getTrendingTagsRoute = (filter = {}, callback) => {
+        const validateFilter = (next) => {
+            const schema = Joi.object().keys({
+                limit: Joi.number().integer().min(1).max(MAX_PAGE_SIZE).default(10),
+                skip: Joi.number().integer().min(0).default(0)
+            });
+            schema.validate(filter, {allowUnknown: false}, (err, params) => {
+                if (err) {
+                    return next(validationErrorHandler(err));
+                }
+                next(null, params);
+            });
+        };
+
+        const queryTags = (params, next) => {
+            SubCategory.getTrendingTags(params, (err, tags) => {
+                if (err) {
+                    return next(err);
+                }
+                next(null, tags);
+            });
+        };
+
+        async.waterfall([
+            validateFilter,
+            queryTags
+        ], (err, tags) => {
             if (err) {
-                return cb(err);
+                return callback(errorHandler(err));
             }
-            cb(null, result);
+            callback(null, tags);
         });
     };
 
-    SubCategory.remoteMethod('getTrendingTags', {
-        description: 'Get trending tags',
-        returns: {type: 'array', model: 'SubCategory', root: true},
-        http: {path: '/trending-tags', verb: 'get'}
-    });
+    SubCategory.remoteMethod(
+        'getTrendingTagsRoute',
+        {
+            description: 'Get trending tags',
+            returns: {type: 'array', model: 'SubCategory', root: true},
+            http: {path: '/trending', verb: 'get'}
+        });
 };
