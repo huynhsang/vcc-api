@@ -14,9 +14,10 @@ export default (SubCategory) => {
         const pipeline = [
             {
                 $group: {
-                    slug: '$slug',
-                    nameEn: '$nameEn',
-                    nameVi: '$nameVi',
+                    _id: null,
+                    slug: {$first: '$slug'},
+                    nameEn: {$first: '$nameEn'},
+                    nameVi: {$first: '$nameVi'},
                     amount: {$sum: '$questionsCount'}
                 }
             },

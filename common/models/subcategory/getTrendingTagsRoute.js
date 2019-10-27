@@ -41,6 +41,10 @@ export default (SubCategory) => {
     SubCategory.remoteMethod(
         'getTrendingTagsRoute',
         {
+            accessType: 'READ',
+            accepts: [
+                {arg: 'filter', type: 'object', http: {source: 'query'}}
+            ],
             description: 'Get trending tags',
             returns: {type: 'array', model: 'SubCategory', root: true},
             http: {path: '/trending', verb: 'get'}
