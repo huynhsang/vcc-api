@@ -1,7 +1,7 @@
 /* global __ */
-import serverConstant from '../../configs/constants/serverConstant';
 import {logInfo} from './loggerService';
 import {notFoundErrorHandler} from '../utils/modelHelpers';
+import {ADMIN_REALM, ADMIN_ROLE, USER_ROLE} from '../../configs/constants/serverConstant';
 
 const roleService = {};
 
@@ -13,10 +13,10 @@ const roleService = {};
 roleService.mappingRoleToUser = function (app, user) {
     const Role = app.models.Role;
     const RoleMapping = app.models.RoleMapping;
-    let roleName = serverConstant.USER_ROLE;
+    let roleName = USER_ROLE;
 
-    if (user.realm === serverConstant.ADMIN_REALM) {
-        roleName = serverConstant.ADMIN_ROLE;
+    if (user.realm === ADMIN_REALM) {
+        roleName = ADMIN_ROLE;
     }
 
     return new Promise(function (resolve, reject) {

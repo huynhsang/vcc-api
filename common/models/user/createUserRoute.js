@@ -2,7 +2,7 @@
 import async from 'async';
 import path from 'path';
 import {permissionErrorHandler} from '../../utils/modelHelpers';
-import serverConstant from '../../../configs/constants/serverConstant';
+import {ADMIN_REALM} from '../../../configs/constants/serverConstant';
 import config from '../../../configs/global/config.global';
 import * as roleService from '../../services/roleService';
 
@@ -12,7 +12,7 @@ export default function (User) {
      * an account with admin role)
      */
     User.beforeRemote('create', function (ctx, user, next) {
-        if (user.realm === serverConstant.ADMIN_REALM) {
+        if (user.realm === ADMIN_REALM) {
             User.isAdmin(ctx.req, (err, isAdmin) => {
                 if (err) {
                     return next(err);
@@ -69,11 +69,11 @@ export default function (User) {
             });
         };
 
-        async.waterfall([
+        async.parallel({
             roleMapping,
             createWallet,
             sendEmailVerification
-        ], (err) => {
+        }, (err) => {
             if (err) {
                 User.deleteById(user.id);
                 return next(err);

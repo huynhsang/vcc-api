@@ -1,5 +1,5 @@
 /* global __ */
-import serverConstant from '../../../configs/constants/serverConstant';
+import {USER_REALM} from '../../../configs/constants/serverConstant';
 import {errorHandler, notFoundErrorHandler} from '../../utils/modelHelpers';
 
 export default function (User) {
@@ -9,7 +9,7 @@ export default function (User) {
                 id,
                 emailVerified: true,
                 isEnable: true,
-                realm: serverConstant.USER_REALM
+                realm: USER_REALM
             }
         }, (err, _user) => {
             if (err) {

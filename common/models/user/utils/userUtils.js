@@ -1,7 +1,7 @@
 /* global __ */
 import async from 'async';
 import {accessDeniedErrorHandler, errorHandler, notFoundErrorHandler} from '../../../utils/modelHelpers';
-import serverConstant from '../../../../configs/constants/serverConstant';
+import {ADMIN_ROLE} from '../../../../configs/constants/serverConstant';
 
 export default function (User) {
     /**
@@ -48,7 +48,7 @@ export default function (User) {
         const getRole = function (next) {
             User.app.Role.findOne({
                 where: {
-                    name: serverConstant.ADMIN_ROLE
+                    name: ADMIN_ROLE
                 }
             }, (err, role) => {
                 if (err) {
