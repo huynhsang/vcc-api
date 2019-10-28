@@ -18,7 +18,7 @@ export default (Question) => {
                 [], // sort
                 {
                     '$inc': {
-                        'viewsCount': 1
+                        'viewCount': 1
                     },
                     '$set': {
                         'modified': new Date()
@@ -54,8 +54,8 @@ export default (Question) => {
                     const include = [{
                         relation: 'answerBy',
                         scope: {
-                            fields: ['id', 'avatar', 'firstName', 'lastName', 'questionsCount',
-                                'answersCount', 'bestAnswers', 'points', 'badgeItem']
+                            fields: ['id', 'avatar', 'firstName', 'lastName', 'questionCount',
+                                'answerCount', 'bestAnswers', 'points', 'badgeItem']
                         }
                     }];
                     if (loggedInUser && loggedInUser.id) {

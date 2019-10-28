@@ -40,24 +40,24 @@ export default (Question) => {
                         cb(null, category.toObject(false, true, true));
                     });
                 },
-                'subCategories': (cb) => {
+                'tags': (cb) => {
                     if (formData.tagIds.length === 0) {
                         return cb(null, []);
                     }
-                    Question.app.models.SubCategory.find({
+                    Question.app.models.Tag.find({
                         where: {
                             id: {
                                 inq: formData.tagIds
                             }
                         }
-                    }, (err, subCategories) => {
+                    }, (err, tags) => {
                         if (err) {
                             return cb(err);
                         }
-                        if (subCategories.length !== formData.tagIds.length) {
-                            return cb(new Error(__('err.subCategory.notExists')));
+                        if (tags.length !== formData.tagIds.length) {
+                            return cb(new Error(__('err.tag.notExists')));
                         }
-                        cb(null, subCategories.map(item => item.toObject(false, true, true)));
+                        cb(null, tags.map(item => item.toObject(false, true, true)));
                     });
                 },
                 'supporters': (cb) => {
@@ -90,11 +90,11 @@ export default (Question) => {
         };
 
         const saveQuestion = (payload, next) => {
-            const {category, subCategories, supporters} = payload;
+            const {category, tags, supporters} = payload;
             const slug = slugify(formData.title);
             const data = {
                 categoryItem: category,
-                tagList: subCategories,
+                tagList: tags,
                 supporterList: supporters,
                 title: formData.title,
                 body: formData.body,
@@ -114,13 +114,13 @@ export default (Question) => {
         const updateStats = (question, next) => {
             async.parallel({
                 'category': (cb) => {
-                    Question.app.models.Category.increaseQuestionsCount(question.categoryItem.id, 1, cb);
+                    Question.app.models.Category.increaseQuestionCount(question.categoryItem.id, 1, cb);
                 },
-                'subCategories': (cb) => {
-                    Question.app.models.SubCategory.increaseQuestionsCounts(question.tagList, 1, cb);
+                'tags': (cb) => {
+                    Question.app.models.Tag.increaseQuestionCounts(question.tagList, 1, cb);
                 },
                 'user': (cb) => {
-                    Question.app.models.user.increaseQuestionsCount(loggedInUser.id, 1, cb);
+                    Question.app.models.user.increaseQuestionCount(loggedInUser.id, 1, cb);
                 }
             }, (err) => {
                 if (err) {

@@ -8,7 +8,7 @@ export default function (Reputation) {
         if (Joi.number().integer().required().validate(this.point).error) {
             return err();
         }
-    }, {message: __('err.validation.reputation.point')});
+    }, {message: __('err.reputation.point')});
 
     Reputation.validate('giverId', function (err) {
         if (!ObjectID.isValid(this.giverId)) {

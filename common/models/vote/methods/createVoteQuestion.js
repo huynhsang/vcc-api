@@ -71,7 +71,7 @@ export default (Vote) => {
                     });
                 },
                 'question': (cb) => {
-                    const attribute = action === VOTE_UP ? 'upVotesCount' : 'downVotesCount';
+                    const attribute = action === VOTE_UP ? 'upVoteCount' : 'downVoteCount';
                     Vote.app.models.Question.increaseCount(question.id, attribute, 1, cb);
                 }
             }, (err) => {

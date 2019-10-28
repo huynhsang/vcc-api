@@ -18,8 +18,8 @@ export default (Question) => {
             {
                 relation: 'askedBy',
                 scope: {
-                    fields: ['id', 'avatar', 'firstName', 'lastName', 'questionsCount',
-                        'answersCount', 'bestAnswers', 'points', 'badgeItem']
+                    fields: ['id', 'avatar', 'firstName', 'lastName', 'questionCount',
+                        'answerCount', 'bestAnswers', 'points', 'badgeItem']
                 }
             }
         ];
@@ -37,16 +37,16 @@ export default (Question) => {
 
         switch (filter.sort) {
             case MOST_VOTED:
-                filter.order = ['upVotesCount DESC', 'created DESC'];
+                filter.order = ['upVoteCount DESC', 'created DESC'];
                 break;
             case MOST_ANSWERED:
-                filter.order = ['answersCount DESC', 'created DESC'];
+                filter.order = ['answerCount DESC', 'created DESC'];
                 break;
             case MOST_VISITED:
-                filter.order = ['viewsCount DESC', 'created DESC'];
+                filter.order = ['viewCount DESC', 'created DESC'];
                 break;
             case NO_ANSWERS:
-                filter.where.answersCount = 0;
+                filter.where.answerCount = 0;
                 filter.order = ['created DESC'];
                 break;
             case MOST_RECENT:

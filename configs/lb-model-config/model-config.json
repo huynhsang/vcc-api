@@ -52,6 +52,10 @@
         "dataSource": "vccDS",
         "public": true
     },
+    "CategoryTag": {
+        "dataSource": "vccDS",
+        "public": true
+    },
     "Education": {
         "dataSource": "vccDS",
         "public": true
@@ -76,7 +80,7 @@
         "dataSource": "vccDS",
         "public": true
     },
-    "SubCategory": {
+    "Tag": {
         "dataSource": "vccDS",
         "public": true
     },

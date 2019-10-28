@@ -1,15 +1,14 @@
 import async from 'async';
 import Joi from 'joi';
-import {DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, SORT_TAGS_CRITERIA} from '../../../configs/constants/serverConstant';
+import {MAX_PAGE_SIZE} from '../../../configs/constants/serverConstant';
 import {errorHandler, validationErrorHandler} from '../../utils/modelHelpers';
 
-export default (SubCategory) => {
-    SubCategory.getTagsRoute = (req, filter = {}, callback) => {
+export default (Tag) => {
+    Tag.getTrendingTagsRoute = (filter = {}, callback) => {
         const validateFilter = (next) => {
             const schema = Joi.object().keys({
-                limit: Joi.number().integer().min(1).max(MAX_PAGE_SIZE).default(DEFAULT_PAGE_SIZE),
-                skip: Joi.number().integer().min(0).default(0),
-                sort: Joi.string().valid(SORT_TAGS_CRITERIA).optional()
+                limit: Joi.number().integer().min(1).max(MAX_PAGE_SIZE).default(10),
+                skip: Joi.number().integer().min(0).default(0)
             });
             schema.validate(filter, {allowUnknown: false}, (err, params) => {
                 if (err) {
@@ -20,7 +19,7 @@ export default (SubCategory) => {
         };
 
         const queryTags = (params, next) => {
-            SubCategory.getDistinctTags(params, (err, tags) => {
+            Tag.getTrendingTags(params, (err, tags) => {
                 if (err) {
                     return next(err);
                 }
@@ -39,17 +38,15 @@ export default (SubCategory) => {
         });
     };
 
-    SubCategory.remoteMethod(
-        'getTagsRoute',
+    Tag.remoteMethod(
+        'getTrendingTagsRoute',
         {
             accessType: 'READ',
             accepts: [
-                {arg: 'data', type: 'object', http: {source: 'req'}},
                 {arg: 'filter', type: 'object', http: {source: 'query'}}
             ],
-            description: 'Get tags',
-            returns: {type: 'array', model: 'SubCategory', root: true},
-            http: {path: '/list', verb: 'get'}
-        }
-    );
+            description: 'Get trending tags',
+            returns: {type: 'array', model: 'Tag', root: true},
+            http: {path: '/trending', verb: 'get'}
+        });
 };

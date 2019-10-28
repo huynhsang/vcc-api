@@ -1,5 +1,5 @@
 {
-  "name": "SubCategory",
+  "name": "Tag",
   "base": "PersistedModel",
   "strict": true,
   "idInjection": true,
@@ -27,7 +27,7 @@
       "type": "String",
       "required": true
     },
-    "questionsCount": {
+    "questionCount": {
       "type": "Number",
       "required": true,
       "default": 0
@@ -39,15 +39,11 @@
   },
   "validations": [],
   "relations": {
-    "category": {
-      "type": "embedsOne",
+    "categories": {
+      "type": "hasMany",
       "model": "Category",
-      "property": "categoryItem",
-      "required": true,
-      "options": {
-        "persistent": true,
-        "validate": true
-      }
+      "foreignKey": "tagId",
+      "through": "CategoryTag"
     }
   },
   "acls": [
@@ -64,15 +60,9 @@
       "permission": "ALLOW"
     },
     {
+      "accessType": "*",
       "principalType": "ROLE",
       "principalId": "admin",
-      "accessType": "WRITE",
-      "permission": "ALLOW"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "admin",
-      "accessType": "EXECUTE",
       "permission": "ALLOW"
     }
   ],

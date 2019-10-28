@@ -1,7 +1,7 @@
-export default (SubCategory) => {
-    SubCategory.getTrendingTags = (filter, callback) => {
+export default (Tag) => {
+    Tag.getTrendingTags = (filter, callback) => {
         filter.sort = 'popular';
-        SubCategory.getDistinctTags(filter, (err, tags) => {
+        Tag.getTags(filter, (err, tags) => {
             if (err) {
                 return callback(err);
             }

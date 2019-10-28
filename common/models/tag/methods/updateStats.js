@@ -1,14 +1,14 @@
-export default (SubCategory) => {
-    SubCategory.increaseQuestionsCounts = (subCategories, num, callback) => {
+export default (Tag) => {
+    Tag.increaseQuestionCounts = (subCategories, num, callback) => {
         const ids = subCategories.map(item => item.id);
-        const mongoConnector = SubCategory.getDataSource().connector;
-        mongoConnector.collection(SubCategory.modelName).updateMany(
+        const mongoConnector = Tag.getDataSource().connector;
+        mongoConnector.collection(Tag.modelName).updateMany(
             {
                 _id: {'$in': ids}
             },
             {
                 $inc: {
-                    'questionsCount': num
+                    'questionCount': num
                 }
             }, (err) => {
                 if (err) {

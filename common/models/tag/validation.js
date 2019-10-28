@@ -2,11 +2,11 @@
 import Joi from 'joi';
 import validationUtils from '../../utils/validationUtils';
 
-export default function (SubCategory) {
-    SubCategory.validate('slug', function (err) {
+export default function (Tag) {
+    Tag.validate('slug', function (err) {
         if (Joi.string().trim().regex(validationUtils.SLUG_REGEX).required().validate(this.slug).error) {
             return err();
         }
-    }, {message: __('err.validation.subCategory.slug')});
+    }, {message: __('err.tag.slug')});
 };
 

@@ -10,30 +10,30 @@ export default (Answer) => {
         }
 
         const stats = {};
-        const votesCount = (next) => {
+        const voteCount = (next) => {
             async.parallel({
-                'upVotesCount': (cb) => {
+                'upVoteCount': (cb) => {
                     Answer.countUpVotes(answerId, cb);
                 },
-                'downVotesCount': (cb) => {
+                'downVoteCount': (cb) => {
                     Answer.countDownVotes(answerId, cb);
                 }
             }, (err, result) => {
                 if (err) {
                     return next(err);
                 }
-                stats.upVotesCount = result.upVotesCount;
-                stats.downVotesCount = result.downVotesCount;
+                stats.upVoteCount = result.upVoteCount;
+                stats.downVoteCount = result.downVoteCount;
                 next();
             });
         };
 
-        const reportsCount = (next) => {
+        const reportCount = (next) => {
             Answer.countReports(answerId, (err, count) => {
                 if (err) {
                     return next(err);
                 }
-                stats.reportsCount = count;
+                stats.reportCount = count;
                 next();
             });
         };
@@ -41,10 +41,10 @@ export default (Answer) => {
         const methods = {};
         switch (options.model) {
             case Answer.app.model.Vote.modelName:
-                methods['votesCount'] = votesCount;
+                methods['voteCount'] = voteCount;
                 break;
             case Answer.app.model.Report.modelName:
-                methods['reportsCount'] = reportsCount;
+                methods['reportCount'] = reportCount;
                 break;
             default:
                 break;

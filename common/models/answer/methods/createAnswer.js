@@ -43,7 +43,8 @@ export default (Answer) => {
                 body: formData.body,
                 questionId: question.id,
                 shortId: shortid.generate(),
-                description: formData.body.substring(0, descrLength)
+                description: formData.body.substring(0, descrLength),
+                ownerId: loggedInUser.id
             };
 
             Answer.create(data, (err, answer) => {
@@ -58,10 +59,10 @@ export default (Answer) => {
             // TODO: Adding Job here to handle update stats. question stats & user stats
             async.parallel({
                 'question': (cb) => {
-                    Answer.app.models.Question.increaseAnswersCount(answer.questionId, 1, cb);
+                    Answer.app.models.Question.increaseAnswerCount(answer.questionId, 1, cb);
                 },
                 'user': (cb) => {
-                    Answer.app.models.user.increaseAnswersCount(answer.ownerId, 1, cb);
+                    Answer.app.models.user.increaseAnswerCount(answer.ownerId, 1, cb);
                 }
             }, (err) => {
                 if (err) {

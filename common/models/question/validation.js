@@ -5,29 +5,29 @@ import validationUtils from '../../utils/validationUtils';
 import {MAX_BODY_LENGTH, MIN_BODY_LENGTH} from '../../../configs/constants/serverConstant';
 
 export default function (Question) {
-    Question.validate('viewsCount', function (err) {
-        if (Joi.number().integer().min(0).default(0).validate(this.viewsCount).error) {
+    Question.validate('viewCount', function (err) {
+        if (Joi.number().integer().min(0).default(0).validate(this.viewCount).error) {
             return err();
         }
-    }, {message: __('err.question.viewsCount')});
+    }, {message: __('err.question.viewCount')});
 
-    Question.validate('answersCount', function (err) {
-        if (Joi.number().integer().min(0).default(0).validate(this.answersCount).error) {
+    Question.validate('answerCount', function (err) {
+        if (Joi.number().integer().min(0).default(0).validate(this.answerCount).error) {
             return err();
         }
-    }, {message: __('err.question.answersCount')});
+    }, {message: __('err.question.answerCount')});
 
-    Question.validate('votesCount', function (err) {
-        if (Joi.number().integer().default(0).validate(this.votesCount).error) {
+    Question.validate('voteCount', function (err) {
+        if (Joi.number().integer().default(0).validate(this.voteCount).error) {
             return err();
         }
-    }, {message: __('err.question.votesCount')});
+    }, {message: __('err.question.voteCount')});
 
-    Question.validate('reportsCount', function (err) {
-        if (Joi.number().integer().default(0).validate(this.reportsCount).error) {
+    Question.validate('reportCount', function (err) {
+        if (Joi.number().integer().default(0).validate(this.reportCount).error) {
             return err();
         }
-    }, {message: __('err.question.reportsCount')});
+    }, {message: __('err.question.reportCount')});
 
     Question.validate('slug', function (err) {
         if (Joi.string().trim().regex(validationUtils.SLUG_REGEX).required().validate(this.slug).error) {

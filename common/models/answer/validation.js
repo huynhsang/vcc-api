@@ -4,11 +4,11 @@ import {ObjectID} from 'mongodb';
 import {MAX_BODY_LENGTH, MIN_BODY_LENGTH} from '../../../configs/constants/serverConstant';
 
 export default function (Answer) {
-    Answer.validate('votesCount', function (err) {
-        if (Joi.number().integer().default(0).validate(this.votesCount).error) {
+    Answer.validate('voteCount', function (err) {
+        if (Joi.number().integer().default(0).validate(this.voteCount).error) {
             return err();
         }
-    }, {message: __('err.answer.votesCount')});
+    }, {message: __('err.answer.voteCount')});
 
     Answer.validate('shortId', function (err) {
         if (!this.id && Joi.string().trim().required().validate(String(this.shortId)).error) {

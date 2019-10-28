@@ -10,39 +10,39 @@ export default (Question) => {
         }
 
         const stats = {};
-        const answersCount = (next) => {
+        const answerCount = (next) => {
             Question.countAnswers(questionId, (err, count) => {
                 if (err) {
                     return next(err);
                 }
-                stats.answersCount = count;
+                stats.answerCount = count;
             });
         };
 
-        const votesCount = (next) => {
+        const voteCount = (next) => {
             async.parallel({
-                'upVotesCount': (cb) => {
+                'upVoteCount': (cb) => {
                     Question.countUpVotes(questionId, cb);
                 },
-                'downVotesCount': (cb) => {
+                'downVoteCount': (cb) => {
                     Question.countDownVotes(questionId, cb);
                 }
             }, (err, result) => {
                 if (err) {
                     return next(err);
                 }
-                stats.upVotesCount = result.upVotesCount;
-                stats.downVotesCount = result.downVotesCount;
+                stats.upVoteCount = result.upVoteCount;
+                stats.downVoteCount = result.downVoteCount;
                 next();
             });
         };
 
-        const reportsCount = (next) => {
+        const reportCount = (next) => {
             Question.countReports(questionId, (err, count) => {
                 if (err) {
                     return next(err);
                 }
-                stats.reportsCount = count;
+                stats.reportCount = count;
                 next();
             });
         };
@@ -50,13 +50,13 @@ export default (Question) => {
         const methods = {};
         switch (options.model) {
             case Question.app.models.Answer.modelName:
-                methods['answersCount'] = answersCount;
+                methods['answerCount'] = answerCount;
                 break;
             case Question.app.models.Vote.modelName:
-                methods['votesCount'] = votesCount;
+                methods['voteCount'] = voteCount;
                 break;
             case Question.app.model.Report.modelName:
-                methods['reportsCount'] = reportsCount;
+                methods['reportCount'] = reportCount;
                 break;
             default:
                 break;
@@ -79,7 +79,7 @@ export default (Question) => {
         });
     };
 
-    Question.increaseAnswersCount = (id, num, callback) => {
+    Question.increaseAnswerCount = (id, num, callback) => {
         const mongoConnector = Question.getDataSource().connector;
         mongoConnector.collection(Question.modelName).findAndModify(
             {
@@ -88,7 +88,7 @@ export default (Question) => {
             [],
             {
                 $inc: {
-                    'answersCount': num
+                    'answerCount': num
                 }
             },
             {new: true}, (err, doc) => {

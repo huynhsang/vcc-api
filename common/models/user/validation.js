@@ -11,7 +11,7 @@ export default function (User) {
             return err();
         }
     }, {
-        message: __('err.validation.user.username', {
+        message: __('err.user.username', {
             minLength: validationUtils.MIN_USERNAME_LENGTH,
             maxLength: validationUtils.MAX_USERNAME_LENGTH
         })
@@ -22,7 +22,7 @@ export default function (User) {
             return err();
         }
     }, {
-        message: __('err.validation.user.firstName')
+        message: __('err.user.firstName')
     });
 
     User.validate('lastName', function (err) {
@@ -30,7 +30,7 @@ export default function (User) {
             return err();
         }
     }, {
-        message: __('err.validation.user.lastName')
+        message: __('err.user.lastName')
     });
 
     /** password is validated before it is hashed **/
@@ -44,7 +44,7 @@ export default function (User) {
                     return true;
                 }
             }
-            throw validationErrorHandler(__('err.validation.user.password'));
+            throw validationErrorHandler(__('err.user.password'));
         };
     });
 
@@ -52,6 +52,6 @@ export default function (User) {
         if (Joi.number().integer().default(0).validate(this.points).error) {
             return err();
         }
-    }, {message: __('err.validation.user.points')});
+    }, {message: __('err.user.points')});
 };
 

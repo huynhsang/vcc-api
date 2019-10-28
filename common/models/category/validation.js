@@ -7,6 +7,6 @@ export default function (Category) {
         if (Joi.string().trim().regex(validationUtils.SLUG_REGEX).required().validate(this.slug).error) {
             return err();
         }
-    }, {message: __('err.validation.category.slug')});
+    }, {message: __('err.category.slug')});
 };
 

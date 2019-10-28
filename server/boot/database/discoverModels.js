@@ -76,10 +76,10 @@ const tables = [
     //   },
     // },
     // {
-    //   name: 'subcategory',
-    //   model: 'sub-category.json',
+    //   name: 'tag',
+    //   model: 'tag.json',
     //   config: {
-    //     name: 'SubCategory',
+    //     name: 'tag',
     //     public: true,
     //   },
     // },

@@ -10,7 +10,7 @@ export default (Category) => {
         }
 
         const stats = {};
-        const questionsCount = (next) => {
+        const questionCount = (next) => {
             Category.app.models.Question.count({
                 'categoryItem.id': categoryId,
                 'disabled': false,
@@ -19,14 +19,14 @@ export default (Category) => {
                 if (err) {
                     return next(err);
                 }
-                stats.questionsCount = count;
+                stats.questionCount = count;
                 next();
             });
         };
 
         const methods = {};
         if (options.model === Category.app.models.Question.modelName) {
-            methods['questionsCount'] = questionsCount;
+            methods['questionCount'] = questionCount;
         }
 
         if (Object.keys(methods).length === 0) {
@@ -46,7 +46,7 @@ export default (Category) => {
         });
     };
 
-    Category.increaseQuestionsCount = (id, num, callback) => {
+    Category.increaseQuestionCount = (id, num, callback) => {
         const mongoConnector = Category.getDataSource().connector;
         mongoConnector.collection(Category.modelName).findAndModify(
             {
@@ -55,7 +55,7 @@ export default (Category) => {
             [],
             {
                 $inc: {
-                    'questionsCount': num
+                    'questionCount': num
                 }
             },
             {new: true}, (err, doc) => {

@@ -10,7 +10,7 @@ export default (User) => {
         }
 
         const stats = {};
-        const questionsCount = (next) => {
+        const questionCount = (next) => {
             User.questions.count({
                 ownerId: userId,
                 disabled: false,
@@ -21,12 +21,12 @@ export default (User) => {
                 if (err) {
                     return next(err);
                 }
-                stats.questionsCount = count;
+                stats.questionCount = count;
                 next();
             });
         };
 
-        const answersCount = (next) => {
+        const answerCount = (next) => {
             User.answers.count({
                 ownerId: userId,
                 disabled: false
@@ -34,7 +34,7 @@ export default (User) => {
                 if (err) {
                     return next(err);
                 }
-                stats.answersCount = count;
+                stats.answerCount = count;
                 next();
             });
         };
@@ -83,10 +83,10 @@ export default (User) => {
         const methods = {};
         switch (options.attribute) {
             case User.app.model.Question.modelName:
-                methods['questionsCount'] = questionsCount;
+                methods['questionCount'] = questionCount;
                 break;
             case User.app.model.Answer.modelName:
-                methods['answersCount'] = answersCount;
+                methods['answerCount'] = answerCount;
                 break;
             case 'bestAnswers':
                 methods['bestAnswers'] = bestAnswers;
@@ -114,7 +114,7 @@ export default (User) => {
         });
     };
 
-    User.increaseQuestionsCount = (id, num, callback) => {
+    User.increaseQuestionCount = (id, num, callback) => {
         const mongoConnector = User.getDataSource().connector;
         mongoConnector.collection(User.modelName).findAndModify(
             {
@@ -123,7 +123,7 @@ export default (User) => {
             [],
             {
                 $inc: {
-                    'questionsCount': num
+                    'questionCount': num
                 }
             },
             {new: true}, (err, doc) => {
@@ -140,7 +140,7 @@ export default (User) => {
         );
     };
 
-    User.increaseAnswersCount = (id, num, callback) => {
+    User.increaseAnswerCount = (id, num, callback) => {
         const mongoConnector = User.getDataSource().connector;
         mongoConnector.collection(User.modelName).findAndModify(
             {
@@ -149,7 +149,7 @@ export default (User) => {
             [],
             {
                 $inc: {
-                    'AnswersCount': num
+                    'AnswerCount': num
                 }
             },
             {new: true}, (err, doc) => {

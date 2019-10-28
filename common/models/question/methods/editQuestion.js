@@ -55,7 +55,7 @@ export default (Question) => {
                     if (formData.tagIds.length === 0) {
                         return cb(null, []);
                     }
-                    Question.app.models.SubCategory.find({
+                    Question.app.models.Tag.find({
                         where: {
                             id: {
                                 inq: formData.tagIds
@@ -66,7 +66,7 @@ export default (Question) => {
                             return cb(err);
                         }
                         if (tagList.length !== formData.tagIds.length) {
-                            return cb(new Error(__('err.subCategory.notExists')));
+                            return cb(new Error(__('err.tag.notExists')));
                         }
                         cb(null, tagList);
                     });
@@ -118,13 +118,13 @@ export default (Question) => {
                     if (removeTags.length === 0) {
                         return cb();
                     }
-                    Question.app.models.SubCategory.increaseQuestionsCounts(removeTags, -1, cb);
+                    Question.app.models.Tag.increaseQuestionCounts(removeTags, -1, cb);
                 },
                 'newTags': (cb) => {
                     if (newTags.length === 0) {
                         return cb();
                     }
-                    Question.app.models.SubCategory.increaseQuestionsCounts(newTags, 1, cb);
+                    Question.app.models.Tag.increaseQuestionCounts(newTags, 1, cb);
                 }
             }, (err) => {
                 if (err) {

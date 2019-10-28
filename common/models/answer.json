@@ -36,17 +36,17 @@
       "required": true,
       "default": false
     },
-    "upVotesCount": {
+    "upVoteCount": {
       "type": "Number",
       "required": true,
       "default": 0
     },
-    "downVotesCount": {
+    "downVoteCount": {
       "type": "Number",
       "required": true,
       "default": 0
     },
-    "reportsCount": {
+    "reportCount": {
       "type": "Number",
       "required": true,
       "default": 0

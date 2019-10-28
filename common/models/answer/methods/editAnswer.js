@@ -32,7 +32,7 @@ export default (Answer) => {
                 if (!isActiveAnswer(answer)) {
                     return next(new Error(__('err.answer.notActive')));
                 }
-                if (answer.upVotesCount > 0 || answer.downVotesCount > 0) {
+                if (answer.upVoteCount > 0 || answer.downVoteCount > 0) {
                     return next(new Error(__('err.answer.voted')));
                 }
                 next(null, answer);
@@ -58,8 +58,8 @@ export default (Answer) => {
                 {
                     _id: answer.id,
                     disabled: false,
-                    upVotesCount: 0,
-                    downVotesCount: 0,
+                    upVoteCount: 0,
+                    downVoteCount: 0,
                     '$or': [
                         {pendingUserIds: {'$exists': false}},
                         {pendingUserIds: {'$size': 0}}

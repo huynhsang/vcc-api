@@ -61,12 +61,12 @@
       "required": false,
       "length": 512
     },
-    "questionsCount": {
+    "questionCount": {
       "type": "Number",
       "required": true,
       "default": 0
     },
-    "answersCount": {
+    "answerCount": {
       "type": "Number",
       "required": true,
       "default": 0

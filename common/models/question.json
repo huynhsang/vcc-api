@@ -47,7 +47,7 @@
       "required": true,
       "default": true
     },
-    "viewsCount": {
+    "viewCount": {
       "type": "Number",
       "required": true,
       "default": 0
@@ -56,22 +56,22 @@
       "type": "String",
       "required": true
     },
-    "answersCount": {
+    "answerCount": {
       "type": "Number",
       "required": true,
       "default": 0
     },
-    "upVotesCount": {
+    "upVoteCount": {
       "type": "Number",
       "required": true,
       "default": 0
     },
-    "downVotesCount": {
+    "downVoteCount": {
       "type": "Number",
       "required": true,
       "default": 0
     },
-    "reportsCount": {
+    "reportCount": {
       "type": "Number",
       "required": true,
       "default": 0
@@ -100,7 +100,7 @@
     },
     "tags": {
       "type": "embedsMany",
-      "model": "SubCategory",
+      "model": "Tag",
       "property": "tagList",
       "options": {
         "persistent": true,
