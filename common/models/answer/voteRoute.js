@@ -53,7 +53,7 @@ export default (Answer) => {
         {
             accepts: [
                 {arg: 'id', type: 'number', description: 'Answer Id', http: {source: 'path'}},
-                {arg: 'data', type: 'object', http: {source: 'req'}}
+                {arg: 'req', type: 'object', http: {source: 'req'}}
             ],
             description: 'Create answer vote',
             accessType: 'EXECUTE',
@@ -67,7 +67,7 @@ export default (Answer) => {
         {
             accepts: [
                 {arg: 'id', type: 'number', description: 'Answer Id', http: {source: 'path'}},
-                {arg: 'data', type: 'object', http: {source: 'req'}}
+                {arg: 'req', type: 'object', http: {source: 'req'}}
             ],
             description: 'Update answer vote',
             accessType: 'EXECUTE',

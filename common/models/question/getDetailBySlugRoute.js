@@ -61,7 +61,7 @@ export default function (Question) {
             accessType: 'READ',
             accepts: [
                 {arg: 'slug', type: 'string', description: 'Question slug', http: {source: 'path'}},
-                {arg: 'data', type: 'object', http: {source: 'req'}},
+                {arg: 'req', type: 'object', http: {source: 'req'}},
                 {arg: 'filter', type: 'object', description:
                         'Filter defining fields, where - must be a JSON-encoded string (`{"where":{"something":"value"}}`).  ' +
                         'See https://loopback.io/doc/en/lb3/Querying-data.html#using-stringified-json-in-rest-queries for more details.',

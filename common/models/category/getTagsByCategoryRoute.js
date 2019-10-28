@@ -44,7 +44,7 @@ export default (Category) => {
             accessType: 'READ',
             accepts: [
                 {arg: 'slug', type: 'string', description: 'Category slug', http: {source: 'path'}},
-                {arg: 'data', type: 'object', http: {source: 'req'}},
+                {arg: 'req', type: 'object', http: {source: 'req'}},
                 {arg: 'filter', type: 'object', http: {source: 'query'}}
             ],
             description: 'Find all instances of the tags matched by category slug',

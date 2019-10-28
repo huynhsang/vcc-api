@@ -44,7 +44,7 @@ export default (Tag) => {
         {
             accessType: 'READ',
             accepts: [
-                {arg: 'data', type: 'object', http: {source: 'req'}},
+                {arg: 'req', type: 'object', http: {source: 'req'}},
                 {arg: 'filter', type: 'object', http: {source: 'query'}}
             ],
             description: 'Find all instances of the model matched by filter from the data source',

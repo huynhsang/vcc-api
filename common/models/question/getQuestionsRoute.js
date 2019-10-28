@@ -52,7 +52,7 @@ export default function (Question) {
         {
             accessType: 'READ',
             accepts: [
-                {arg: 'data', type: 'object', http: {source: 'req'}},
+                {arg: 'req', type: 'object', http: {source: 'req'}},
                 {arg: 'filter', type: 'object', description:
                         'Filter defining fields, where, include, sort, offset, and limit - must be a ' +
                         'JSON-encoded string (`{"where":{"something":"value"}}`).  ' +

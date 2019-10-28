@@ -25,7 +25,7 @@ export default (Question) => {
         description: 'Create a new instance of the model and persist it into the data source.',
         accessType: 'WRITE',
         accepts: [
-            {arg: 'data', type: 'object', http: {source: 'req'}},
+            {arg: 'req', type: 'object', http: {source: 'req'}},
             {
                 arg: 'data',
                 type: 'object',
@@ -44,7 +44,7 @@ export default (Question) => {
         description: 'Replace an existing model instance or insert a new one into the data source.',
         accessType: 'WRITE',
         accepts: [
-            {arg: 'data', type: 'object', http: {source: 'req'}},
+            {arg: 'req', type: 'object', http: {source: 'req'}},
             {
                 arg: 'data',
                 type: 'object',
