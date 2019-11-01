@@ -86,7 +86,8 @@
       "required": true,
       "options": {
         "persistent": true,
-        "validate": true
+        "validate": false,
+        "forceId": false
       }
     },
     "bestAnswer": {
@@ -95,7 +96,7 @@
       "property": "bestAnswerItem",
       "options": {
         "persistent": true,
-        "validate": true
+        "validate": false
       }
     },
     "tags": {
@@ -104,7 +105,7 @@
       "property": "tagList",
       "options": {
         "persistent": true,
-        "validate": true
+        "validate": false
       }
     },
     "askedBy": {
@@ -139,11 +140,12 @@
     },
     "supporters": {
       "type": "embedsMany",
-      "model": "user",
+      "model": "Supporter",
       "property": "supporterList",
       "options": {
-        "persistent": true,
-        "validate": true
+        "persistent": false,
+        "validate": true,
+        "forceId": true
       }
     }
   },
@@ -167,9 +169,9 @@
       "permission": "ALLOW"
     },
     {
-      "principalType": "ROLE",
-      "principalId": "user",
       "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": [
         "createOrUpdate",

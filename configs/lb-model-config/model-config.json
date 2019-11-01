@@ -98,10 +98,14 @@
     },
     "Remove": {
         "dataSource": "transient",
-        "public": true
+        "public": false
     },
     "Badge": {
         "dataSource": "transient",
-        "public": true
+        "public": false
+    },
+    "Supporter": {
+        "dataSource": "transient",
+        "public": false
     }
 }

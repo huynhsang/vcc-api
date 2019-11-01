@@ -1,7 +1,14 @@
 /* global __ */
+import _ from 'lodash';
 import async from 'async';
 import Joi from 'joi';
-import {MAX_BODY_LENGTH, MIN_BODY_LENGTH, TITLE_MAX_LENGTH, TITLE_MIN_LENGTH} from '../../../../configs/constants/serverConstant';
+import {
+    MAX_BODY_LENGTH,
+    MIN_BODY_LENGTH,
+    SUPPORTER_FIELDS,
+    TITLE_MAX_LENGTH,
+    TITLE_MIN_LENGTH
+} from '../../../../configs/constants/serverConstant';
 import {validationErrorHandler} from '../../../utils/modelHelpers';
 import {slugify} from '../../../utils/validationUtils';
 import * as shortid from 'shortid';
@@ -15,7 +22,7 @@ export default (Question) => {
                 supporterIds: Joi.array().items(Joi.string().hex().length(24)).optional(),
                 title: Joi.string().trim().min(TITLE_MIN_LENGTH).max(TITLE_MAX_LENGTH).required(),
                 body: Joi.string().trim().min(MIN_BODY_LENGTH).max(MAX_BODY_LENGTH).required(),
-                isPublic: Joi.boolean().default(false)
+                isPublic: Joi.boolean().default(true)
             }).required();
 
             schema.validate(formData, {allowUnknown: false, stripUnknown: true}, (err, validated) => {
@@ -41,7 +48,7 @@ export default (Question) => {
                     });
                 },
                 'tags': (cb) => {
-                    if (formData.tagIds.length === 0) {
+                    if (!formData.tagIds || formData.tagIds.length === 0) {
                         return cb(null, []);
                     }
                     Question.app.models.Tag.find({
@@ -61,7 +68,7 @@ export default (Question) => {
                     });
                 },
                 'supporters': (cb) => {
-                    if (formData.supporterIds.length === 0) {
+                    if (!formData.supporterIds || formData.supporterIds.length === 0) {
                         return cb(null, []);
                     }
                     Question.app.models.user.find({
@@ -78,7 +85,7 @@ export default (Question) => {
                         if (supporters.length !== formData.supporterIds.length) {
                             return cb(new Error(__('err.user.notExists')));
                         }
-                        cb(null, supporters.map(user => user.toObject(false, true, true)));
+                        cb(null, supporters.map(user => _.pick(user, SUPPORTER_FIELDS)));
                     });
                 }
             }, (err, payload) => {

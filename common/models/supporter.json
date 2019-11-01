@@ -1,0 +1,54 @@
+{
+  "name": "Supporter",
+  "base": "Model",
+  "idInjection": false,
+  "strict": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "id": {
+      "type": "any",
+      "required": true,
+      "id": true
+    },
+    "email": {
+      "type": "String",
+      "required": true
+    },
+    "firstName": {
+      "type": "String",
+      "required": true
+    },
+    "lastName": {
+      "type": "String",
+      "required": true
+    },
+    "nationality": {
+      "type": "String",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "avatar": {
+      "type": "embedsOne",
+      "model": "Image",
+      "property": "avatarImage",
+      "options": {
+        "persistent": true,
+        "validate": true,
+        "forceId": false
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

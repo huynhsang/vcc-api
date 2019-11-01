@@ -40,7 +40,13 @@
   "auth:before": {
     "../../server/middleware/set-locale": {}
   },
-  "auth": {},
+  "auth": {
+    "loopback#token": {
+      "params": {
+        "model": "AccessToken"
+      }
+    }
+  },
   "auth:after": {
     "../../server/middleware/auth": {}
   },

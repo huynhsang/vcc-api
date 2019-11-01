@@ -1,18 +1,17 @@
 import async from 'async';
+import loopback from 'loopback';
 
 module.exports = function () {
-    return function (req, res, next) {
+    return (req, res, next) => {
         if (!req.accessToken) {
             return next();
         }
         async.parallel({
             'currentUser': (cb) => {
-                req.accessToken.user(function (err, user) {
-                    if (err) {
-                        return cb(err);
-                    }
-                    cb(null, user);
-                });
+                if (!req.accessToken.userId) {
+                    return cb();
+                }
+                loopback.getModel('user').findById(req.accessToken.userId, {},  cb);
             }
         }, (err, result) => {
             if (err) {
