@@ -18,6 +18,7 @@ export default (Answer) => {
                     return next(validationErrorHandler(err));
                 }
                 formData = validated;
+                next();
             });
         };
 

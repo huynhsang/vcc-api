@@ -14,8 +14,7 @@
     }
   },
   "hidden": [
-    "disabled",
-    "pendingUserIds"
+    "disabled"
   ],
   "properties": {
     "shortId": {
@@ -83,16 +82,6 @@
       "polymorphic": {
         "foreignKey": "modelId",
         "discriminator": "modelType"
-      }
-    },
-    "pendingUsers": {
-      "type": "referencesMany",
-      "model": "user",
-      "foreignKey": "pendingUserIds",
-      "options": {
-        "persistent": true,
-        "validate": true,
-        "forceId": false
       }
     }
   },
