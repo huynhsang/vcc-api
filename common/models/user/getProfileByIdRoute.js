@@ -24,7 +24,7 @@ export default function (User) {
 
     User.remoteMethod('getProfileById', {
         accepts: [
-            {arg: 'id', type: 'number', required: true}
+            {arg: 'id', type: 'string', required: true}
         ],
         description: 'Find user by id',
         returns: {type: 'object', model: 'user', root: true},

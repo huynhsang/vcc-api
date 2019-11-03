@@ -31,7 +31,7 @@ export default (Answer) => {
         'approveRoute',
         {
             accepts: [
-                {arg: 'id', type: 'number', description: 'Answer Id', http: {source: 'path'}},
+                {arg: 'id', type: 'string', description: 'Answer Id', http: {source: 'path'}},
                 {arg: 'req', type: 'object', http: {source: 'req'}}
             ],
             description: 'Approve answer for Answer',

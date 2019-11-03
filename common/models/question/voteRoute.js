@@ -52,7 +52,7 @@ export default (Question) => {
         'voteRoute',
         {
             accepts: [
-                {arg: 'id', type: 'number', description: 'Question Id', http: {source: 'path'}},
+                {arg: 'id', type: 'string', description: 'Question Id', http: {source: 'path'}},
                 {arg: 'req', type: 'object', http: {source: 'req'}}
             ],
             description: 'Create question vote',
@@ -66,7 +66,7 @@ export default (Question) => {
         'voteRoute',
         {
             accepts: [
-                {arg: 'id', type: 'number', description: 'Question Id', http: {source: 'path'}},
+                {arg: 'id', type: 'string', description: 'Question Id', http: {source: 'path'}},
                 {arg: 'req', type: 'object', http: {source: 'req'}}
             ],
             description: 'Update question vote',

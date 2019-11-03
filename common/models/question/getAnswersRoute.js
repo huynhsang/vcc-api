@@ -65,7 +65,7 @@ export default function (Question) {
         {
             accessType: 'READ',
             accepts: [
-                {arg: 'id', type: 'number', description: 'Question Id', http: {source: 'path'}},
+                {arg: 'id', type: 'string', description: 'Question Id', http: {source: 'path'}},
                 {arg: 'req', type: 'object', http: {source: 'req'}},
                 {arg: 'filter', type: 'object', description:
                         'Filter defining fields, where, include, order, offset, and limit - must be a ' +
