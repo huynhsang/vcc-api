@@ -3,7 +3,7 @@ import async from 'async';
 import {permissionErrorHandler} from '../../../utils/modelHelpers';
 
 export default (Vote) => {
-    Vote.updateVoteAnswer = (loggedInUser, id, action, callback) => {
+    Vote.updateVoteAnswer = (userId, id, action, callback) => {
         const preCondition = (next) => {
             Vote.findById(id, {
                 include: 'model'
@@ -14,7 +14,7 @@ export default (Vote) => {
                 if (!vote) {
                     return next(new Error(__('err.vote.notExists')));
                 }
-                if (vote.ownerId.toString() !== loggedInUser.id.toString()) {
+                if (vote.ownerId.toString() !== userId.toString()) {
                     return next(permissionErrorHandler());
                 }
                 if (vote.action === action) {
@@ -36,7 +36,7 @@ export default (Vote) => {
                     });
                 },
                 reputation: (cb) => {
-                    Vote.app.models.Reputation.upsertVoteAnswer(answer, loggedInUser, action, (err) => {
+                    Vote.app.models.Reputation.upsertVoteAnswer(answer, userId, action, (err) => {
                         if (err) {
                             return cb(err);
                         }

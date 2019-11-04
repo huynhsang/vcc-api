@@ -5,7 +5,7 @@ import {permissionErrorHandler} from '../../../utils/modelHelpers';
 import {isActiveQuestion} from '../utils/helper';
 
 export default (Question) => {
-    Question.approveAnswer = (questionId, answerId, loggedInUser, callback) => {
+    Question.approveAnswer = (questionId, answerId, user, callback) => {
         // TODO: ADD JOB HANDLE ROLLBACK ROLL FORWARD
         const checkConditions = (next) => {
             async.parallel({
@@ -28,7 +28,7 @@ export default (Question) => {
                         if (answer.isTheBest) {
                             return cb(new Error(__('err.answer.approved')));
                         }
-                        if (answer.ownerId.toString() === loggedInUser.id.toString()) {
+                        if (answer.ownerId.toString() === user.id.toString()) {
                             return cb(permissionErrorHandler());
                         }
                         cb(null, answer);
@@ -45,7 +45,7 @@ export default (Question) => {
                         if (!isActiveQuestion(question)) {
                             return cb(new Error(__('err.question.notActive')));
                         }
-                        if (question.ownerId.toString() !== loggedInUser.id.toString()) {
+                        if (question.ownerId.toString() !== user.id.toString()) {
                             return cb(permissionErrorHandler());
                         }
                         if (question.bestAnswerItem) {

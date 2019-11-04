@@ -40,10 +40,10 @@ export default (Answer) => {
 
         const methods = {};
         switch (options.model) {
-            case Answer.app.model.Vote.modelName:
+            case Answer.app.models.Vote.modelName:
                 methods['voteCount'] = voteCount;
                 break;
-            case Answer.app.model.Report.modelName:
+            case Answer.app.models.Report.modelName:
                 methods['reportCount'] = reportCount;
                 break;
             default:

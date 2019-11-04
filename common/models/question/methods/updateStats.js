@@ -55,7 +55,7 @@ export default (Question) => {
             case Question.app.models.Vote.modelName:
                 methods['voteCount'] = voteCount;
                 break;
-            case Question.app.model.Report.modelName:
+            case Question.app.models.Report.modelName:
                 methods['reportCount'] = reportCount;
                 break;
             default:

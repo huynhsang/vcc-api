@@ -4,7 +4,7 @@ import {isActiveAnswer} from '../../answer/utils/helper';
 import {VOTE_UP} from '../../../../configs/constants/serverConstant';
 
 export default (Vote) => {
-    Vote.createVoteAnswer = (loggedInUser, answerId, action, callback) => {
+    Vote.createVoteAnswer = (userId, answerId, action, callback) => {
         const getAnswer = (next) => {
             Vote.app.models.Answer.findById(answerId, (err, answer) => {
                 if (err) {
@@ -24,7 +24,7 @@ export default (Vote) => {
             const data = {
                 modelId: answer.id,
                 modelType: Vote.app.models.Answer.modelName,
-                ownerId: loggedInUser.id,
+                ownerId: userId,
                 action
             };
 
@@ -42,7 +42,7 @@ export default (Vote) => {
         const updateRelatedModels = (answer, vote, next) => {
             async.parallel({
                 'reputation': (cb) => {
-                    Vote.app.models.Reputation.upsertVoteAnswer(answer, loggedInUser, action, (err) => {
+                    Vote.app.models.Reputation.upsertVoteAnswer(answer, userId, action, (err) => {
                         if (err) {
                             return cb(err);
                         }

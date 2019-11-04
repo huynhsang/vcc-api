@@ -31,9 +31,9 @@ export default (Answer) => {
 
         const handleVote = (next) => {
             if (method === 'put') {
-                Answer.app.models.Vote.updateVoteAnswer(loggedInUser, requestData.voteId, requestData.action, next);
+                Answer.app.models.Vote.updateVoteAnswer(loggedInUser.id, requestData.voteId, requestData.action, next);
             } else {
-                Answer.app.modes.Vote.createVoteAnswer(loggedInUser, id, requestData.action, next);
+                Answer.app.models.Vote.createVoteAnswer(loggedInUser.id, id, requestData.action, next);
             }
         };
 

@@ -11,7 +11,7 @@ export default (User) => {
 
         const stats = {};
         const questionCount = (next) => {
-            User.questions.count({
+            User.app.models.Question.count({
                 ownerId: userId,
                 disabled: false,
                 removedItem: {
@@ -27,7 +27,7 @@ export default (User) => {
         };
 
         const answerCount = (next) => {
-            User.answers.count({
+            User.app.models.Answer.count({
                 ownerId: userId,
                 disabled: false
             }, (err, count) => {
@@ -40,7 +40,7 @@ export default (User) => {
         };
 
         const bestAnswers = (next) => {
-            User.answers.count({
+            User.app.models.Answer.count({
                 ownerId: userId,
                 disabled: false,
                 isTheBest: true
@@ -82,10 +82,10 @@ export default (User) => {
 
         const methods = {};
         switch (options.attribute) {
-            case User.app.model.Question.modelName:
+            case User.app.models.Question.modelName:
                 methods['questionCount'] = questionCount;
                 break;
-            case User.app.model.Answer.modelName:
+            case User.app.models.Answer.modelName:
                 methods['answerCount'] = answerCount;
                 break;
             case 'bestAnswers':

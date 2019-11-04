@@ -1,6 +1,6 @@
 /* global __ */
 import Joi from 'joi';
-import ObjectID from 'mongodb';
+import {ObjectID} from 'mongodb';
 import {REPUTATION_MODEL_TYPES, REPUTATION_TYPES} from '../../../configs/constants/serverConstant';
 
 export default function (Reputation) {

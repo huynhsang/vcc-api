@@ -31,9 +31,9 @@ export default (Question) => {
 
         const handleVote = (next) => {
             if (method === 'put') {
-                Question.app.models.Vote.updateVoteQuestion(loggedInUser, requestData.voteId, requestData.action, next);
+                Question.app.models.Vote.updateVoteQuestion(loggedInUser.id, requestData.voteId, requestData.action, next);
             } else {
-                Question.app.modes.Vote.createVoteQuestion(loggedInUser, id, requestData.action, next);
+                Question.app.models.Vote.createVoteQuestion(loggedInUser.id, id, requestData.action, next);
             }
         };
 

@@ -28,7 +28,7 @@ app.start = function () {
         logInfo(`Web server listening at: ${baseUrl}`);
         if (app.get('loopback-component-explorer')) {
             const explorerPath = app.get('loopback-component-explorer').mountPath;
-            logInfo(`Browse your REST API at ${baseUrl} ${explorerPath}`);
+            logInfo(`Browse your REST API at ${baseUrl}${explorerPath}`);
         }
     });
 };

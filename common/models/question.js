@@ -25,6 +25,11 @@ module.exports = function (Question) {
     Question.disableRemoteMethodByName('upsert');
     Question.disableRemoteMethodByName('deleteById');
     Question.disableRemoteMethodByName('createChangeStream');
+    Question.disableRemoteMethodByName('prototype.__get__votes');
+    Question.disableRemoteMethodByName('prototype.__findById__votes');
+    Question.disableRemoteMethodByName('prototype.__create__votes');
+    Question.disableRemoteMethodByName('prototype.__destroyById__votes'); // DELETE
+    Question.disableRemoteMethodByName('prototype.__updateById__votes');
 
     // Validation
     validation(Question);

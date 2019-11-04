@@ -13,6 +13,11 @@ import approveRoute from './answer/approveRoute';
 module.exports = function (Answer) {
     Answer.disableRemoteMethodByName('create');
     Answer.disableRemoteMethodByName('replaceOrCreate');
+    Answer.disableRemoteMethodByName('prototype.__get__votes');
+    Answer.disableRemoteMethodByName('prototype.__findById__votes');
+    Answer.disableRemoteMethodByName('prototype.__create__votes');
+    Answer.disableRemoteMethodByName('prototype.__destroyById__votes'); // DELETE
+    Answer.disableRemoteMethodByName('prototype.__updateById__votes');
 
     // Validation
     validation(Answer);

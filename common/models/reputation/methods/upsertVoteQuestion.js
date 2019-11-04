@@ -2,11 +2,11 @@ import async from 'async';
 import {APPROVE, DOWN_VOTE_POINTS, UP_VOTE_POINTS, VOTE_UP} from '../../../../configs/constants/serverConstant';
 
 export default (Reputation) => {
-    Reputation.upsertVoteQuestion = (question, loggedInUser, type, callback) => {
+    Reputation.upsertVoteQuestion = (question, userId, type, callback) => {
         const point = type === VOTE_UP ? UP_VOTE_POINTS : DOWN_VOTE_POINTS;
         const getOrCreate = (next) => {
             const query = {
-                giverId: loggedInUser.id,
+                giverId: userId,
                 modelId: question.id,
                 modelType: Reputation.app.models.Question.modelName,
                 type: {
