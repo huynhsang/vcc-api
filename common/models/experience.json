@@ -73,6 +73,19 @@
     },
     {
       "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "accessType": "WRITE",
+      "permission": "ALLOW",
+      "property": ["create"]
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "accessType": "WRITE",
+      "permission": "ALLOW"
+    },
+    {
+      "principalType": "ROLE",
       "principalId": "admin",
       "accessType": "*",
       "permission": "ALLOW"
