@@ -45,6 +45,9 @@ define('SORT_QUESTION_CRITERIA', [MOST_VOTED, MOST_RECENT, MOST_ANSWERED, MOST_V
 define('SORT_TAGS_CRITERIA', ['popular', MOST_RECENT]);
 define('SUPPORTER_FIELDS', ['id', 'email', 'firstName', 'lastName', 'nationality']);
 
+// Personalise Constant
+define('VOTED_FIELD', 'voted');
+
 class ServerConstant {
     constructor () {
         this.ADMIN_ROLE = 'admin';

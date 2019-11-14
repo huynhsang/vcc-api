@@ -4,8 +4,17 @@ import {notFoundErrorHandler} from '../../../utils/modelHelpers';
 import {isActiveQuestion} from '../../question/utils/helper';
 
 export default (Answer) => {
-    Answer.getAnswersByQuestion = (questionId, loggedInUser, filter, callback) => {
+    Answer.getAnswersByQuestion = (questionId, filter = {}, options, callback) => {
+        if (typeof options === 'function') {
+            callback = options;
+            options = {};
+        }
+        options = options || {};
+
         const getQuestion = (next) => {
+            if (!options.verify) {
+                return next();
+            }
             Answer.app.models.Question.findById(questionId, {
                 fields: ['id', 'disabled', 'removedItem']
             }, (err, question) => {
@@ -18,14 +27,14 @@ export default (Answer) => {
                 if (!isActiveQuestion(question)) {
                     return next(new Error(__('err.question.notActive')));
                 }
-                next(null, question);
+                next();
             });
         };
 
-        const getAnswers = (question, next) => {
+        const queryAnswers = (next) => {
             filter.order = filter.order || 'id DESC';
             filter.where = filter.where || {};
-            filter.where.questionId = question.id;
+            filter.where.questionId = questionId;
             filter.where.disabled = false;
             filter.include = [{
                 relation: 'answerBy',
@@ -35,33 +44,30 @@ export default (Answer) => {
                 }
             }];
 
-            if (loggedInUser) {
-                filter.include.push({
-                    relation: 'votes',
-                    scope: {
-                        where: {
-                            ownerId: loggedInUser.id
-                        },
-                        limit: 1
+            async.parallel({
+                'totalCount': (cb) => {
+                    if (!options.totalCount) {
+                        return cb(null, -1);
                     }
-                });
-            }
-            Answer.find(filter, (err, answers) => {
+                    Answer.count(filter.where, cb);
+                },
+                'answers': (cb) => {
+                    Answer.find(filter, cb);
+                }
+            }, (err, result) => {
                 if (err) {
                     return next(err);
                 }
-                next(null, answers);
+                if (result.totalCount === -1) {
+                    delete result.totalCount;
+                }
+                next(null, result);
             });
         };
 
         async.waterfall([
             getQuestion,
-            getAnswers
-        ], (err, answers) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, answers);
-        });
+            queryAnswers
+        ], callback);
     };
 };

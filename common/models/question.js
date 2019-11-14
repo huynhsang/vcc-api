@@ -1,17 +1,21 @@
-import approveAnswerRoute from './question/approveAnswerRoute';
-import getDetailBySlugRoute from './question/getDetailBySlugRoute';
-import getQuestionsRoute from './question/getQuestionsRoute';
+
 import validation from './question/validation';
-import getAnswersRoute from './question/getAnswersRoute';
+import personalise from './question/methods/personalise';
+
 import approveAnswer from './question/methods/approveAnswer';
 import getQuestions from './question/methods/getQuestions';
 import getQuestionBySlug from './question/methods/getQuestionBySlug';
 import updateStats from './question/methods/updateStats';
-import voteRoute from './question/voteRoute';
 import countMethods from './question/methods/countMethods';
 import createQuestion from './question/methods/createQuestion';
 import editQuestion from './question/methods/editQuestion';
+
+import getAnswersRoute from './question/getAnswersRoute';
+import voteRoute from './question/voteRoute';
 import createOrUpdateRoute from './question/createOrUpdateRoute';
+import approveAnswerRoute from './question/approveAnswerRoute';
+import getDetailBySlugRoute from './question/getDetailBySlugRoute';
+import getQuestionsRoute from './question/getQuestionsRoute';
 
 module.exports = function (Question) {
     // Disable loopback remote methods
@@ -33,8 +37,9 @@ module.exports = function (Question) {
 
     // Validation
     validation(Question);
+    personalise(Question);
 
-    // Utils
+    // Methods
     updateStats(Question);
     approveAnswer(Question);
     getQuestions(Question);

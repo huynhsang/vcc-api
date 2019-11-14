@@ -1,4 +1,6 @@
 import validation from './answer/validation';
+import personalise from './answer/methods/personalise';
+
 import countMethods from './answer/methods/countMethods';
 import approve from './answer/methods/approve';
 import updateStats from './answer/methods/updateStats';
@@ -21,6 +23,7 @@ module.exports = function (Answer) {
 
     // Validation
     validation(Answer);
+    personalise(Answer);
 
     // Utils
     approve(Answer);

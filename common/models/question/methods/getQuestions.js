@@ -1,12 +1,14 @@
+import async from 'async';
 import {MOST_VOTED, MOST_RECENT, MOST_ANSWERED, MOST_VISITED, NO_ANSWERS} from '../../../../configs/constants/serverConstant';
-import {normalizeIncludeFields} from '../../../utils/filterUtils';
 
 export default (Question) => {
-    Question.getQuestions = (loggedInUser, filter, callback) => {
-        filter.fields = normalizeIncludeFields(filter.fields);
-        if (filter.fields) {
-            filter.fields.id = true;
+    Question.getQuestions = (filter, options, callback) => {
+        if (typeof options === 'function') {
+            callback = options;
+            options = {};
         }
+        options = options || {};
+
         const conds = {
             disabled: false,
             removedItem: {
@@ -23,17 +25,6 @@ export default (Question) => {
                 }
             }
         ];
-        if (loggedInUser && loggedInUser.id) {
-            filter.include.push({
-                relation: 'votes',
-                scope: {
-                    where: {
-                        ownerId: loggedInUser.id
-                    },
-                    limit: 1
-                }
-            });
-        }
 
         switch (filter.sort) {
             case MOST_VOTED:
@@ -55,11 +46,25 @@ export default (Question) => {
                 break;
         }
         delete filter.sort;
-        Question.find(filter, (err, questions) => {
+
+        async.parallel({
+            'totalCount': (next) => {
+                if (!options.totalCount) {
+                    return next(null, -1);
+                }
+                Question.count(filter.where, next);
+            },
+            'questions': (next) => {
+                Question.find(filter, next);
+            }
+        }, (err, result) => {
             if (err) {
                 return callback(err);
             }
-            callback(null, questions);
+            if (result.totalCount === -1) {
+                delete result.totalCount;
+            }
+            callback(null, result);
         });
     };
 };
