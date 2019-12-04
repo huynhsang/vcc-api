@@ -11,7 +11,8 @@ export default function (Question) {
             const query = {filter, totalCount};
             const schema = Joi.object().keys({
                 filter: Joi.object().keys({
-                    where: Joi.object().optional(),
+                    keyword: Joi.string().trim().optional(),
+                    tagIds: Joi.array().items(Joi.string()).optional(),
                     limit: Joi.number().integer().min(1).max(MAX_PAGE_SIZE).default(DEFAULT_PAGE_SIZE),
                     skip: Joi.number().integer().min(0).default(0),
                     sort: Joi.string().valid(SORT_QUESTION_CRITERIA).optional()

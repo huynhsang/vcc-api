@@ -2,6 +2,22 @@ import async from 'async';
 import {MOST_VOTED, MOST_RECENT, MOST_ANSWERED, MOST_VISITED, NO_ANSWERS} from '../../../../configs/constants/serverConstant';
 
 export default (Question) => {
+    const buildWhere = (filter) => {
+        const where = {
+            disabled: false,
+            removedItem: {
+                exists: false
+            }
+        };
+        if (filter.keyword) {
+            const pattern = new RegExp('.*' + filter.keyword + '.*', 'i');
+            where.title = {like: pattern};
+        }
+        if (filter.tagIds && filter.tagIds.length > 0) {
+            where['tagList.id'] = {inq: filter.tagIds};
+        }
+        return where;
+    };
     Question.getQuestions = (filter, options, callback) => {
         if (typeof options === 'function') {
             callback = options;
@@ -9,13 +25,7 @@ export default (Question) => {
         }
         options = options || {};
 
-        const conds = {
-            disabled: false,
-            removedItem: {
-                exists: false
-            }
-        };
-        filter.where = {...filter.where, ...conds};
+        filter.where = buildWhere(filter);
         filter.include = [
             {
                 relation: 'askedBy',
