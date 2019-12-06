@@ -57,7 +57,7 @@ export default (Question) => {
             ],
             description: 'Create question vote',
             accessType: 'EXECUTE',
-            returns: {type: 'Answer', root: true},
+            returns: {type: 'Vote', root: true},
             http: {path: '/:id/vote', verb: 'post'}
         }
     );
@@ -71,7 +71,7 @@ export default (Question) => {
             ],
             description: 'Update question vote',
             accessType: 'EXECUTE',
-            returns: {type: 'Answer', root: true},
+            returns: {type: 'Vote', root: true},
             http: {path: '/:id/vote', verb: 'put'}
         }
     );

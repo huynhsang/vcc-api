@@ -52,9 +52,8 @@ export default (Question) => {
             for (let i = 0, len = data.length; i < len; i++) {
                 data[i] = (typeof data[i].toObject === 'function') ? data[i].toObject(true, true, true) : data[i];
                 data[i][VOTED_FIELD] = votes[String(data[i].id)];
-                const aObject = answerObjs[String(data[i].bestAnswerItem.id)];
-                if (data[i].bestAnswerItem && aObject) {
-                    data[i].bestAnswerItem = aObject;
+                if (data[i].bestAnswerItem && answerObjs[String(data[i].bestAnswerItem.id)]) {
+                    data[i].bestAnswerItem = answerObjs[String(data[i].bestAnswerItem.id)];
                 }
             }
 
