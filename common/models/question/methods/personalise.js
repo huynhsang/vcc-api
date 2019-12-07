@@ -31,7 +31,7 @@ export default (Question) => {
 
         async.parallel({
             'votes': (next) => {
-                Question.app.models.Vote.personaliseModels(userId, questions, Question.modelName, next);
+                Question.app.models.Vote.personaliseModels(userId, data, Question.modelName, next);
             },
             'answers': (next) => {
                 if (answersData.length === 0) {
@@ -50,7 +50,7 @@ export default (Question) => {
             }
 
             for (let i = 0, len = data.length; i < len; i++) {
-                data[i] = (typeof data[i].toObject === 'function') ? data[i].toObject(true, true, true) : data[i];
+                data[i] = (typeof data[i].toObject === 'function') ? data[i].toObject(false, true, true) : data[i];
                 data[i][VOTED_FIELD] = votes[String(data[i].id)];
                 if (data[i].bestAnswerItem && answerObjs[String(data[i].bestAnswerItem.id)]) {
                     data[i].bestAnswerItem = answerObjs[String(data[i].bestAnswerItem.id)];

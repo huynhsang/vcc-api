@@ -31,7 +31,7 @@ export default (User) => {
         };
 
         const handleUpdate = (next) => {
-            const payload = _.pick(['firstName', 'lastName', 'headline', 'nationality', 'summary', 'dateOfBirth']);
+            const payload = _.pick(data, ['firstName', 'lastName', 'headline', 'nationality', 'summary', 'dateOfBirth']);
             if (Object.keys(payload).length === 0) {
                 return next(null, user);
             }

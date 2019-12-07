@@ -149,7 +149,7 @@ export default (User) => {
             [],
             {
                 $inc: {
-                    'AnswerCount': num
+                    'answerCount': num
                 }
             },
             {new: true}, (err, doc) => {

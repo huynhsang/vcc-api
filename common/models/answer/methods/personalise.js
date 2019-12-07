@@ -20,7 +20,7 @@ export default (Answer) => {
                 return callback(err);
             }
             for (let i = 0, length = data.length; i < length; i++) {
-                data[i] = (typeof data[i].toObject === 'function') ? data[i].toObject(true, true, true) : data[i];
+                data[i] = (typeof data[i].toObject === 'function') ? data[i].toObject(false, true, true) : data[i];
                 data[i][VOTED_FIELD] = votedAnswers[String(data[i].id)];
             }
             callback(null, (isObject) ? data[0] : data);
