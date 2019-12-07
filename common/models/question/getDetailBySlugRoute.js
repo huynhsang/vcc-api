@@ -1,6 +1,7 @@
+/* global __ */
 import async from 'async';
 import Joi from 'joi';
-import {errorHandler, validationErrorHandler} from '../../utils/modelHelpers';
+import {errorHandler, notFoundErrorHandler, validationErrorHandler} from '../../utils/modelHelpers';
 import {SLUG_PATTERN} from '../../../configs/constants/validationConstant';
 
 export default function (Question) {
@@ -33,9 +34,12 @@ export default function (Question) {
         };
 
         const getQuestion = (params, next) => {
-            Question.getQuestionBySlug(params.slug, loggedInUser, params.filter, (err, question) => {
+            Question.getQuestionBySlug(params.slug, params.filter, (err, question) => {
                 if (err) {
                     return next(err);
+                }
+                if (!question) {
+                    return next(notFoundErrorHandler(__('err.question.notExists')));
                 }
                 next(null, question);
             });
@@ -43,7 +47,24 @@ export default function (Question) {
 
         async.waterfall([
             validateParams,
-            getQuestion
+            getQuestion,
+            (question, next) => {
+                if (!loggedInUser || !loggedInUser.id) {
+                    return next(null, question);
+                }
+                Question.app.models.Answer.personalise(loggedInUser.id, question.answers, (err, answers) => {
+                    if (err) {
+                        return next(err);
+                    }
+                    Question.personalise(loggedInUser.id, question, (_err, _question) => {
+                        if (_err) {
+                            return next(_err);
+                        }
+                        _question.answers = answers;
+                        next(null, _question);
+                    });
+                });
+            }
         ], (err, question) => {
             if (err) {
                 return callback(errorHandler(err));

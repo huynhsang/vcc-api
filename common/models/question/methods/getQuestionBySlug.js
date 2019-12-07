@@ -4,7 +4,7 @@ import {normalizeIncludeFields} from '../../../utils/filterUtils';
 import {notFoundErrorHandler} from '../../../utils/modelHelpers';
 
 export default (Question) => {
-    Question.getQuestionBySlug = (slug, loggedInUser, filter, callback) => {
+    Question.getQuestionBySlug = (slug, filter, callback) => {
         const getQuestion = (next) => {
             const fields = normalizeIncludeFields(filter.fields);
             const query = filter.where || {};
@@ -47,7 +47,7 @@ export default (Question) => {
                         if (err) {
                             return cb(err);
                         }
-                        cb(null, user.toObject(false, true, true));
+                        cb(null, user.toObject(true, true, true));
                     });
                 },
                 answers: (cb) => {
@@ -58,17 +58,6 @@ export default (Question) => {
                                 'answerCount', 'bestAnswers', 'points', 'badgeItem']
                         }
                     }];
-                    if (loggedInUser && loggedInUser.id) {
-                        include.push({
-                            relation: 'votes',
-                            scope: {
-                                where: {
-                                    ownerId: loggedInUser.id
-                                },
-                                limit: 1
-                            }
-                        });
-                    }
                     Question.app.models.Answer.find({
                         where: {
                             questionId: question.id
@@ -82,23 +71,6 @@ export default (Question) => {
                         }
                         cb(null, answers);
                     });
-                },
-                vote: (cb) => {
-                    if (!loggedInUser || !loggedInUser.id) {
-                        return cb();
-                    }
-                    Question.app.models.Vote.findOne({
-                        where: {
-                            ownerId: loggedInUser.id,
-                            modelId: question.id,
-                            modelType: Question.modelName
-                        }
-                    }, (err, vote) => {
-                        if (err) {
-                            return cb(err);
-                        }
-                        cb(null, vote);
-                    });
                 }
             }, (err, result) => {
                 if (err) {
@@ -106,7 +78,6 @@ export default (Question) => {
                 }
                 question.askedBy = result.askedBy;
                 question.answers = result.answers;
-                question.vote = result.vote;
                 next(null, question);
             });
         };
