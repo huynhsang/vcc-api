@@ -3,7 +3,8 @@ import path from 'path';
 import {createLogger, format, transports} from 'winston';
 import 'winston-daily-rotate-file';
 
-const LOG_DIR = path.resolve(__dirname, '../../logs/');
+const LOG_DIR = process.env.LOG_DIR || path.resolve(__dirname, '../../logs/');
+
 // Create the directory if it does not exist
 if (!fs.existsSync(LOG_DIR)) {
     fs.mkdirSync(LOG_DIR);

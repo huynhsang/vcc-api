@@ -2,11 +2,25 @@
 // Node module: loopback-workspace
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
-const loopback = require('loopback');
-const boot = require('loopback-boot');
-const path = require('path');
-const i18n = require('i18n');
-const {logError, logInfo} = require('../common/services/loggerService');
+
+import loopback from 'loopback';
+import boot from 'loopback-boot';
+import path from 'path';
+import i18n from 'i18n';
+import {logError, logInfo} from '../common/services/loggerService';
+
+logInfo(`*** VCNC API :: ${process.env.TARGET_ENV} MODE ***, ${process.pid}`);
+switch (process.env.TARGET_ENV) {
+    case 'production':
+        require('dotenv').config({path: path.join(__dirname, '../.env.production')});
+        break;
+    case 'staging':
+        require('dotenv').config({path: path.join(__dirname, '../.env.staging')});
+        break;
+    default:
+        require('dotenv').config({path: path.join(__dirname, '../.env')});
+        break;
+}
 
 const app = module.exports = loopback();
 
@@ -63,7 +77,6 @@ boot(app, bootOptions, function (err) {
 // EXCEPTION HANDLER
 process.on('uncaughtException', function (err) {
     logError(err, function () {
-        console.error(err);
         process.exit(1);
     });
 });

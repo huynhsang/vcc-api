@@ -2,25 +2,28 @@ const config = {DEBUG: false};
 
 switch (process.env.NODE_ENV) {
     case 'production':
-        config.SERVER_ADDRESS = 'vcnc.app';
-        config.SERVER_PROTOCOL = 'https';
+        config.SERVER_ADDRESS = process.env.SERVER_ADDRESS || 'vcnc.app';
+        config.SERVER_PROTOCOL = process.env.SERVER_PROTOCOL || 'https';
         config.SERVER_PORT = 443;
-        config.APPLICATION_PORT = 3000;
+        config.APPLICATION_PORT = process.env.APPLICATION_PORT || 3000;
         break;
     case 'staging':
-        config.SERVER_ADDRESS = 'staging.vcnc.app';
-        config.SERVER_PROTOCOL = 'https';
+        config.SERVER_ADDRESS = process.env.SERVER_ADDRESS || 'staging.vcnc.app';
+        config.SERVER_PROTOCOL = process.env.SERVER_PROTOCOL || 'https';
         config.SERVER_PORT = 443;
-        config.APPLICATION_PORT = 3000;
+        config.APPLICATION_PORT = process.env.APPLICATION_PORT || 3000;
         break;
     default:
-        config.SERVER_ADDRESS = 'localhost';
-        config.SERVER_PROTOCOL = 'http';
+        config.SERVER_ADDRESS = process.env.SERVER_ADDRESS || 'localhost';
+        config.SERVER_PROTOCOL = process.env.SERVER_PROTOCOL || 'http';
         config.SERVER_PORT = 8080;
-        config.APPLICATION_PORT = 3000;
+        config.APPLICATION_PORT = process.env.APPLICATION_PORT || 3000;
         config.DEBUG = true;
         break;
 }
+
+// MYSQL configuration
+config.MYSQL_URL = process.env.MYSQL_URL;
 
 config.EMAIL_ACCOUNT = {
     email: process.env.email || 'no.reply.vcnc@gmail.com',

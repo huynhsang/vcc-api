@@ -55,14 +55,19 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                TARGET_ENV: JSON.stringify('development'),
+                LOG_DIR: JSON.stringify(__dirname + '/logs')
+            }
+        }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.NamedModulesPlugin(),
         {
             apply: (compiler) => {
                 compiler.hooks.done.tap('StartServerPlugin', () => {
-                    shell.exec('export NODE_ENV=development && "./node_modules/.bin/nodemon" --inspect build/server.js',
-                        function () {});
+                    shell.exec('"./node_modules/.bin/nodemon" --inspect build/server.js', function() {});
                     /* shell.exec('pid=$(lsof -i:3000 -t) && kill $pid && false || node build/server/server.js',
                     () => {});*/
                 });

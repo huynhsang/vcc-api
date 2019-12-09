@@ -8,10 +8,9 @@
   "scripts": {
     "lint": "eslint .",
     "dev": "rm -rf ./build && webpack --config webpack.dev.config.js",
-    "staging": "export NODE_ENV=staging && pm2 start build/server.js",
-    "prod": "export NODE_ENV=production && pm2 start build/server.js",
-    "build": "rm -rf ./build && webpack --mode production --config webpack.prod.config.js",
-    "posttest": "npm run lint && npm audit"
+    "start": "pm2 start build/server.js --name=VCC-API",
+    "build:production": "rm -rf ./build && webpack --config webpack.prod.config.js --env.TARGET_ENV=production",
+    "build:staging": "rm -rf ./build && webpack --config webpack.prod.config.js --env.TARGET_ENV=staging"
   },
   "dependencies": {
     "amqplib": "^0.5.5",
@@ -19,6 +18,7 @@
     "body-parser": "^1.19.0",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
+    "dotenv": "^8.2.0",
     "glob": "^7.1.4",
     "helmet": "^3.10.0",
     "i18n": "^0.8.3",
@@ -53,7 +53,8 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-node-externals": "^1.7.2",
+    "@babel/polyfill": "^7.7.0"
   },
   "repository": {
     "type": "",

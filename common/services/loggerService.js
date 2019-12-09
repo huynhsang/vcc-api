@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
-import logger from '../../configs/logger/logger';
+import logger from '../../configs/logger';
 import config from '../../configs/global/config.global';
 
-export function logError (err, callback) {
+export const logError = (err, callback) => {
     if (!_.isObject(err)) {
         err = new Error(err);
     }
@@ -12,15 +12,18 @@ export function logError (err, callback) {
         }
         return;
     }
-    const metaData = err.metaData || {};
+    const metadata = err.metadata || {};
     if (config.DEBUG) {
-        metaData['stack'] = err.stack;
+        metadata['stack'] = err.stack;
     }
-    metaData['code'] = err.code;
-    metaData['statusCode'] = err.statusCode;
-    logger.error(err.message, metaData, callback);
-}
+    metadata['code'] = err.code;
+    metadata['statusCode'] = err.statusCode;
+    logger.error(err.message, metadata);
+    process.nextTick(() => {
+        callback();
+    });
+};
 
-export function logInfo (message) {
+export const logInfo = (message) => {
     logger.info(message);
-}
+};

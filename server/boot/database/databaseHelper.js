@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import async from 'async';
-import logger from '../../../configs/logger/logger';
+import logger from '../../../configs/logger';
 import {logError} from '../../../common/services/loggerService';
 
 const TABLE_LIST = [
