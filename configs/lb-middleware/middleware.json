@@ -18,7 +18,7 @@
     "helmet#hsts": {
       "params": {
         "maxAge": 0,
-        "includeSubdomains": true
+        "includeSubDomains": true
       }
     },
     "helmet#hidePoweredBy": {},
@@ -63,7 +63,7 @@
     "loopback#urlNotFound": {}
   },
   "final:after": {
-    "../../server/middleware/error-logger": {},
+    "../../server/middleware/error-handler": {},
     "strong-error-handler": {
       "params": {
         "safeFields": ["errorCode"],

@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import accounts from './data/accounts';
 import {ADMIN_REALM, ADMIN_ROLE, USER_ROLE} from '../../../configs/constants/serverConstant';
 import {logInfo} from '../../../common/services/loggerService';
-import * as roleService from '../../../common/services/roleService';
+import roleService from '../../../common/services/roleService';
 
 export default function (app, callback) {
     const initRoles = function (next) {
@@ -22,7 +22,7 @@ export default function (app, callback) {
                     return cb(err);
                 }
                 if (created) {
-                    logInfo(`Successfully, Create a new role name ${created.name}`);
+                    logInfo(`Successfully, Create a new role name ${instance.name}`);
                 }
                 cb();
             });
@@ -64,7 +64,7 @@ export default function (app, callback) {
                 }
                 if (created) {
                     logInfo(`Created an admin: ${account.email}`);
-                    roleService.mappingRoleToUser(app, instance);
+                    roleService.mappingRoleToUser(instance);
                 }
                 cb();
             });

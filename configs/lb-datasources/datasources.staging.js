@@ -1,19 +1,14 @@
 import emailDS from '../email/email-ds-config';
 import storage from '../local-storage/local-storage';
-import {loadConfig} from '../mongodb';
+import config from '../global/config.global';
 
-const dburi = loadConfig();
 module.exports = {
     'vccDS': {
         'name': 'vccDS',
         'connector': 'mongodb',
-        'url': dburi,
+        'url': config.MONGO_URL,
         'debug': false,
-        'server': {
-            'auto_reconnect': true,
-            'reconnectTries': 100,
-            'reconnectInterval': 1000
-        }
+        'auto_reconnect': true
     },
     emailDS,
     storage

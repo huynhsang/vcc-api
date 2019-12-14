@@ -6,7 +6,7 @@ const readFile = promisify(fs.readFile);
 const mkdirp = promisify(require('mkdirp'));
 
 const DATASOURCE_NAME = 'vccDS';
-const dataSourceConfig = require('../../../configs/lb-datasources/datasources.local');
+const dataSourceConfig = require('../../../configs/lb-datasources/datasources.development');
 
 const db = new loopback.DataSource(dataSourceConfig[DATASOURCE_NAME]);
 

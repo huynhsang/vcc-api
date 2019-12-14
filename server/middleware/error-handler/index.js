@@ -2,8 +2,9 @@ import * as _ from 'lodash';
 import {logError} from '../../../common/services/loggerService';
 import config from '../../../configs/global/config.global';
 
-module.exports = function () {
-    return function handleError (err, req, res, next) {
+const handleError = () => {
+    return (err, req, res, next) => {
+        console.log('haha');
         if (!_.isObject(err)) {
             err = new Error(err);
         }
@@ -33,3 +34,5 @@ module.exports = function () {
         });
     };
 };
+
+export default handleError;

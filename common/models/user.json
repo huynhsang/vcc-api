@@ -28,7 +28,9 @@
     "email": {
       "type": "String",
       "required": true,
-      "index": {"unique": true}
+      "index": {
+        "unique": true
+      }
     },
     "firstName": {
       "type": "String",
@@ -167,7 +169,10 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "getProfileById"
+      "property": [
+        "getProfileById",
+        "registerRoute"
+      ]
     },
     {
       "accessType": "READ",

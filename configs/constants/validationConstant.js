@@ -10,4 +10,9 @@ define('MIN_LENGTH', 8);
 define('MAX_LENGTH', 48);
 define('MIN_USERNAME_LENGTH', 8);
 define('MAX_USERNAME_LENGTH', 24);
+define('MIN_BODY_LENGTH', 20);
+define('MAX_BODY_LENGTH', 1000);
+define('DESCRIPTION_RATE', 4); // 1/4 body
+define('TITLE_MIN_LENGTH', 10);
+define('TITLE_MAX_LENGTH', 250);
 

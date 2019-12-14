@@ -7,7 +7,7 @@ export const logError = (err, callback) => {
         err = new Error(err);
     }
     if (!err || !err.message) {
-        if (typeof callback === 'function') {
+        if (callback && typeof callback === 'function') {
             callback();
         }
         return;
@@ -20,7 +20,8 @@ export const logError = (err, callback) => {
     metadata['statusCode'] = err.statusCode;
     logger.error(err.message, metadata);
     process.nextTick(() => {
-        callback();
+        // eslint-disable-next-line no-unused-expressions
+        callback && callback();
     });
 };
 

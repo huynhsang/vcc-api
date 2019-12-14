@@ -1,47 +1,50 @@
 /* global __ */
+import loopback from 'loopback';
 import {logInfo} from './loggerService';
 import {notFoundErrorHandler} from '../utils/modelHelpers';
 import {ADMIN_REALM, ADMIN_ROLE, USER_ROLE} from '../../configs/constants/serverConstant';
 
-const roleService = {};
+class RoleService {
+    /**
+     * Mapping new user to role
+     * @param user: a new user
+     * @param callback: callback function
+     */
+    mappingRoleToUser (user, callback) {
+        if (!callback) {
+            callback = () => {};
+        }
+        const Role = loopback.getModel('Role');
+        const RoleMapping = loopback.getModel('RoleMapping');
 
-/**
- * Mapping new user to role
- * @param app: application context
- * @param user: a new user
- */
-roleService.mappingRoleToUser = function (app, user) {
-    const Role = app.models.Role;
-    const RoleMapping = app.models.RoleMapping;
-    let roleName = USER_ROLE;
+        let roleName = USER_ROLE;
 
-    if (user.realm === ADMIN_REALM) {
-        roleName = ADMIN_ROLE;
-    }
+        if (user.realm === ADMIN_REALM) {
+            roleName = ADMIN_ROLE;
+        }
 
-    return new Promise(function (resolve, reject) {
         Role.findOne({
             where: {
                 name: roleName
             }
         }, (err, role) => {
-            if (err) reject(err);
+            if (err) return callback(err);
 
             if (role) {
                 role.principals.create({
                     principalType: RoleMapping.USER,
                     principalId: user.id
-                }, function (_err, principal) {
-                    if (_err) reject(_err);
+                }, (_err, principal) => {
+                    if (_err) return callback(_err);
 
                     logInfo(`Created principal: ${principal}`);
-                    resolve(true);
+                    callback(null, true);
                 });
             } else {
-                reject(notFoundErrorHandler(__('err.role.notExists')));
+                callback(notFoundErrorHandler(__('err.role.notExists')));
             }
         });
-    });
-};
+    }
+}
 
-module.exports = roleService;
+export default new RoleService();

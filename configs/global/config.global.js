@@ -22,8 +22,11 @@ switch (process.env.NODE_ENV) {
         break;
 }
 
-// MYSQL configuration
-config.MYSQL_URL = process.env.MYSQL_URL;
+// MongoDB configuration
+config.MONGO_URL = process.env.MONGO_URL;
+
+// Queue configuration
+config.QUEUE_URL = process.env.QUEUE_URL;
 
 config.EMAIL_ACCOUNT = {
     email: process.env.email || 'no.reply.vcnc@gmail.com',

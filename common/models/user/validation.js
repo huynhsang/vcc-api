@@ -1,24 +1,32 @@
 /* global __ */
 import Joi from 'joi';
-import validationUtils from '../../utils/validationUtils';
+import {
+    USERNAME_REGEX,
+    MAX_USERNAME_LENGTH,
+    MIN_USERNAME_LENGTH,
+    FULLNAME_REGEX,
+    PASSWORD_REGEX,
+    MIN_LENGTH,
+    MAX_LENGTH
+} from '../../../configs/constants/validationConstant';
 import {validationErrorHandler} from '../../utils/modelHelpers';
 
 export default function (User) {
     User.validate('username', function (err) {
-        if (this.username && Joi.string().trim().regex(validationUtils.USERNAME_REGEX)
-            .min(validationUtils.MIN_USERNAME_LENGTH).max(validationUtils.MAX_USERNAME_LENGTH).required()
+        if (this.username && Joi.string().trim().regex(USERNAME_REGEX)
+            .min(MIN_USERNAME_LENGTH).max(MAX_USERNAME_LENGTH).required()
             .validate(this.username).error) {
             return err();
         }
     }, {
         message: __('err.user.username', {
-            minLength: validationUtils.MIN_USERNAME_LENGTH,
-            maxLength: validationUtils.MAX_USERNAME_LENGTH
+            minLength: MIN_USERNAME_LENGTH,
+            maxLength: MAX_USERNAME_LENGTH
         })
     });
 
     User.validate('firstName', function (err) {
-        if (Joi.string().trim().regex(validationUtils.FULLNAME_REGEX).required().validate(this.firstName).error) {
+        if (Joi.string().trim().regex(FULLNAME_REGEX).required().validate(this.firstName).error) {
             return err();
         }
     }, {
@@ -26,7 +34,7 @@ export default function (User) {
     });
 
     User.validate('lastName', function (err) {
-        if (Joi.string().trim().regex(validationUtils.FULLNAME_REGEX).required().validate(this.lastName).error) {
+        if (Joi.string().trim().regex(FULLNAME_REGEX).required().validate(this.lastName).error) {
             return err();
         }
     }, {
@@ -39,8 +47,8 @@ export default function (User) {
         User.validatePassword = function (plain) {
             if (typeof plain === 'string' && plain) {
                 // must contain number, must contain uppercase and lowercase and min length = 8
-                if (!Joi.string().regex(validationUtils.PASSWORD_REGEX).min(validationUtils.MIN_LENGTH)
-                    .max(validationUtils.MAX_LENGTH).required().validate(plain).error) {
+                if (!Joi.string().regex(PASSWORD_REGEX).min(MIN_LENGTH)
+                    .max(MAX_LENGTH).required().validate(plain).error) {
                     return true;
                 }
             }

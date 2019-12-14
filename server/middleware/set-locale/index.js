@@ -1,7 +1,7 @@
 import i18n from 'i18n';
 
-const setLocale = function () {
-    return function (req, res, next) {
+const setLocale = () => {
+    return (req, res, next) => {
         if (req.headers && req.headers['x-locale-object']) {
             try {
                 const localeObject = JSON.parse(req.headers['x-locale-object']);

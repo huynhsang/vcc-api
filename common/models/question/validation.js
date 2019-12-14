@@ -1,8 +1,7 @@
 /* global __ */
 import Joi from 'joi';
 import {ObjectID} from 'mongodb';
-import validationUtils from '../../utils/validationUtils';
-import {MAX_BODY_LENGTH, MIN_BODY_LENGTH} from '../../../configs/constants/serverConstant';
+import {MAX_BODY_LENGTH, MIN_BODY_LENGTH, SLUG_REGEX} from '../../../configs/constants/validationConstant';
 
 export default function (Question) {
     Question.validate('viewCount', function (err) {
@@ -30,7 +29,7 @@ export default function (Question) {
     }, {message: __('err.question.reportCount')});
 
     Question.validate('slug', function (err) {
-        if (Joi.string().trim().regex(validationUtils.SLUG_REGEX).required().validate(this.slug).error) {
+        if (Joi.string().trim().regex(SLUG_REGEX).required().validate(this.slug).error) {
             return err();
         }
     }, {message: __('err.question.slug')});

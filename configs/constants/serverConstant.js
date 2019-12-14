@@ -47,3 +47,6 @@ define('SUPPORTER_FIELDS', ['id', 'email', 'firstName', 'lastName', 'nationality
 
 // Personalise Constant
 define('VOTED_FIELD', 'voted');
+
+// Email types
+define('VERIFICATION_EMAIL', 'verification_email');

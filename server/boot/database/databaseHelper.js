@@ -37,7 +37,7 @@ databaseHelper.autoUpdateTables = function (app, callback) {
     };
 
     const syncDBTables = function (next) {
-        const queue = async.queue(function (tableName, cb) {
+        const queue = async.queue((tableName, cb) => {
             mysqlDS.autoupdate(tableName, (err) => {
                 if (err) {
                     return cb(err);

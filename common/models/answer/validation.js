@@ -1,7 +1,7 @@
 /* global __ */
 import Joi from 'joi';
 import {ObjectID} from 'mongodb';
-import {MAX_BODY_LENGTH, MIN_BODY_LENGTH} from '../../../configs/constants/serverConstant';
+import {MAX_BODY_LENGTH, MIN_BODY_LENGTH} from '../../../configs/constants/validationConstant';
 
 export default function (Answer) {
     Answer.validate('voteCount', function (err) {

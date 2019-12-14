@@ -4,6 +4,18 @@ require('@babel/register');
 
 // console.log(glob.sync('./common/**/*.+(js|json)'));
 // console.log(glob.sync('./common/*/*.+(js|json)'));
+const path = require('path');
+switch (process.env.NODE_ENV) {
+    case 'production':
+        require('dotenv').config({path: path.join(__dirname, './.env.production')});
+        break;
+    case 'staging':
+        require('dotenv').config({path: path.join(__dirname, './.env.staging')});
+        break;
+    default:
+        require('dotenv').config({path: path.join(__dirname, './.env')});
+        break;
+}
 
 const server = require('./server/server');
 

@@ -4,7 +4,7 @@ import path from 'path';
 import {permissionErrorHandler} from '../../utils/modelHelpers';
 import {ADMIN_REALM} from '../../../configs/constants/serverConstant';
 import config from '../../../configs/global/config.global';
-import * as roleService from '../../services/roleService';
+import roleService from '../../services/roleService';
 
 export default function (User) {
     /**
@@ -54,7 +54,7 @@ export default function (User) {
         };
 
         const roleMapping = function (cb) {
-            roleService.mappingRoleToUser(User.app, user)
+            roleService.mappingRoleToUser(user)
                 .then(() => {
                     cb();
                 })

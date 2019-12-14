@@ -7,22 +7,14 @@ import loopback from 'loopback';
 import boot from 'loopback-boot';
 import path from 'path';
 import i18n from 'i18n';
+import async from 'async';
 import {logError, logInfo} from '../common/services/loggerService';
+import {initQueue} from '../queues/rabbitMQ';
 
-logInfo(`*** VCNC API :: ${process.env.TARGET_ENV} MODE ***, ${process.pid}`);
-switch (process.env.TARGET_ENV) {
-    case 'production':
-        require('dotenv').config({path: path.join(__dirname, '../.env.production')});
-        break;
-    case 'staging':
-        require('dotenv').config({path: path.join(__dirname, '../.env.staging')});
-        break;
-    default:
-        require('dotenv').config({path: path.join(__dirname, '../.env')});
-        break;
-}
+logInfo(`*** VCNC API :: ${process.env.NODE_ENV} MODE ***, ${process.pid}`);
 
 const app = module.exports = loopback();
+let httpServer, queue;
 
 i18n.configure({
     updateFiles: false,
@@ -34,21 +26,54 @@ i18n.configure({
 });
 i18n.setLocale('en_VN');
 
-app.start = function () {
-    // start the web server
-    return app.listen(function () {
-        app.emit('started');
-        const baseUrl = app.get('url').replace(/\/$/, '');
-        logInfo(`Web server listening at: ${baseUrl}`);
-        if (app.get('loopback-component-explorer')) {
-            const explorerPath = app.get('loopback-component-explorer').mountPath;
-            logInfo(`Browse your REST API at ${baseUrl}${explorerPath}`);
+const API_ROLE = process.env.API_ROLE;
+app.start = () => {
+    const startQueue = (cb) => {
+        initQueue(app, cb);
+    };
+    const startHttp = (cb) => {
+        httpServer = app.listen(cb);
+    };
+    const methods = {
+        queue: startQueue,
+        http: startHttp
+    };
+
+    // default does both!
+    switch (API_ROLE) {
+        case 'queue':
+            delete methods.http;
+            break;
+        case 'http':
+            delete methods.queue;
+            break;
+    }
+
+    async.parallel(methods, (err, result) => {
+        if (err) {
+            throw err;
         }
+        queue = result.queue;
+
+        // running
+        if (methods.http) {
+            const baseUrl = app.get('url').replace(/\/$/, '');
+            logInfo(`**** Web server listening at: ${baseUrl} ****`);
+            if (app.get('loopback-component-explorer')) {
+                const explorerPath = app.get('loopback-component-explorer').mountPath;
+                logInfo(`*** Browse your REST API at ${baseUrl}${explorerPath} ***`);
+            }
+        }
+        if (methods.queue) {
+            logInfo('**** Web API QUEUE running ****');
+        }
+        app.started = true;
+        app.emit('started');
     });
 };
 
 const bootOptions = {
-    appRootDir: path.join(__dirname, '../server'),
+    appRootDir: __dirname,
     componentRootDir: path.join(__dirname, '../configs/lb-component-config'),
     middlewareRootDir: path.join(__dirname, '../configs/lb-middleware'),
     appConfigRootDir: path.join(__dirname, '../configs/lb-config'),
@@ -58,7 +83,7 @@ const bootOptions = {
 
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
-boot(app, bootOptions, function (err) {
+boot(app, bootOptions, (err) => {
     if (err) throw err;
 
     app.set('view engine', 'ejs');
@@ -75,8 +100,35 @@ boot(app, bootOptions, function (err) {
 });
 
 // EXCEPTION HANDLER
-process.on('uncaughtException', function (err) {
-    logError(err, function () {
+process.on('uncaughtException', (err) => {
+    logError(err, () => {
         process.exit(1);
+    });
+});
+
+/* eslint no-process-exit:0 */
+process.on('SIGINT', () => {
+    const methods = [];
+    if (httpServer && typeof httpServer.close === 'function') {
+        methods.push((cb) => {
+            logInfo('*** graceful shutdown HTTP ***');
+            app.removeAllListeners('started');
+            app.removeAllListeners('loaded');
+            httpServer.close((err) => {
+                cb(err);
+            });
+        });
+    }
+    if (queue && typeof queue.close === 'function') {
+        methods.push((cb) => {
+            logInfo('*** graceful shutdown Queue ***');
+            queue.close(() => {
+                cb();
+            });
+        });
+    }
+
+    async.parallel(methods, (err) => {
+        process.exit(err ? 1 : 0);
     });
 });
