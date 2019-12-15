@@ -4,7 +4,6 @@ import config from '../../../configs/global/config.global';
 
 const handleError = () => {
     return (err, req, res, next) => {
-        console.log('haha');
         if (!_.isObject(err)) {
             err = new Error(err);
         }
