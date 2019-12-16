@@ -2,9 +2,9 @@ import constants from 'node-constants';
 const define = constants.definer(exports);
 
 // Exchanges
-const DEFAULT_EXCHANGE_DIRECT = 'default_vcc_exchange_direct';
-const DEFAULT_EXCHANGE_TOPIC = 'default_vcc_exchange_topic';
-const DEFAULT_EXCHANGE_FANOUT = 'default_vcc_exchange_fanout';
+const DEFAULT_EXCHANGE_DIRECT = 'vcc_default_exchange_direct';
+const DEFAULT_EXCHANGE_TOPIC = 'vcc_default_exchange_topic';
+const DEFAULT_EXCHANGE_FANOUT = 'vcc_default_exchange_fanout';
 define('DEFAULT_EXCHANGE_DIRECT', DEFAULT_EXCHANGE_DIRECT);
 define('DEFAULT_EXCHANGE_TOPIC', DEFAULT_EXCHANGE_TOPIC);
 define('DEFAULT_EXCHANGE_FANOUT', DEFAULT_EXCHANGE_FANOUT);
@@ -22,7 +22,9 @@ const DEFAULT_EXCHANGES = [
 define('DEFAULT_EXCHANGES', DEFAULT_EXCHANGES);
 
 // Queues name
-define('SEND_MAIL_QUEUE', 'send_mail_queue');
+define('SEND_MAIL_QUEUE', 'vcc_send_mail_queue');
+define('DEFAULT_QUEUE', 'vcc_default_queue');
+define('ACTIVITY_QUEUE', 'vcc_activity_queue');
 
 define('DEFAULT_QUEUE_DELAY', 3000); // 3s
 define('DEFAULT_QUEUE_ATTEMPTS', 3);

@@ -96,6 +96,14 @@
         "dataSource": "vccDS",
         "public": true
     },
+    "Activity": {
+        "dataSource": "vccDS",
+        "public": true
+    },
+    "ActivityPoint": {
+        "dataSource": "vccDS",
+        "public": true
+    },
     "Remove": {
         "dataSource": "transient",
         "public": false
