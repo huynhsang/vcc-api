@@ -3,9 +3,10 @@ import async from 'async';
 import {isActiveAnswer} from '../../answer/utils/helper';
 import {permissionErrorHandler} from '../../../utils/modelHelpers';
 import {isActiveQuestion} from '../utils/helper';
+import {createTask} from '../../../../queues/producers/taskManager';
 
 export default (Question) => {
-    Question.approveAnswer = (questionId, answerId, user, callback) => {
+    Question.approveAnswer = (questionId, answerId, userId, callback) => {
         // TODO: ADD JOB HANDLE ROLLBACK ROLL FORWARD
         const checkConditions = (next) => {
             async.parallel({
@@ -28,7 +29,7 @@ export default (Question) => {
                         if (answer.isTheBest) {
                             return cb(new Error(__('err.answer.approved')));
                         }
-                        if (answer.ownerId.toString() === user.id.toString()) {
+                        if (String(answer.ownerId) === String(userId)) {
                             return cb(permissionErrorHandler());
                         }
                         cb(null, answer);
@@ -45,7 +46,7 @@ export default (Question) => {
                         if (!isActiveQuestion(question)) {
                             return cb(new Error(__('err.question.notActive')));
                         }
-                        if (question.ownerId.toString() !== user.id.toString()) {
+                        if (String(question.ownerId) !== String(userId)) {
                             return cb(permissionErrorHandler());
                         }
                         if (question.bestAnswerItem) {
@@ -81,45 +82,36 @@ export default (Question) => {
                         cb(null, updated);
                     });
                 }
-            }, (err, result) => {
-                if (err) {
-                    return next(err);
-                }
-                next(null, result);
-            });
-        };
-
-        const updateRelatedModels = (data, next) => {
-            async.parallel({
-                'reputation': (cb) => {
-                    Question.app.models.Reputation.createApprove(data.question, data.answer, (err) => {
-                        if (err) {
-                            return cb(err);
-                        }
-                        cb();
-                    });
-                },
-                'notification': (cb) => {
-                    cb();
-                }
-            }, (err) => {
-                if (err) {
-                    return next(err);
-                }
-                next(null, data);
-            });
+            }, next);
         };
 
         const updateStats = (data, next) => {
-            Question.app.models.user.updateStats(data.answer.ownerId, {attribute: 'bestAnswers'}, () => {
-                next(null, data);
+            async.parallel([
+                (cb) => {
+                    createTask('ACTIVITY_TASK', {
+                        activityName: 'APPROVE_ANSWER',
+                        activityModelType: Question.app.models.Answer.modelName,
+                        activityModelId: answerId,
+                        ownerId: userId,
+                        receiverId: data.answer.ownerId
+                    }, () => {
+                        cb();
+                    });
+                },
+                (cb) => {
+                    Question.app.models.user.updateStats(data.answer.ownerId, {attribute: 'bestAnswers'}, () => {
+                        cb();
+                    });
+                }
+                // Todo: add notification
+            ], (err) => {
+                next(err, data);
             });
         };
 
         async.waterfall([
             checkConditions,
             updateBestAnswer,
-            updateRelatedModels,
             updateStats
         ], (err, result) => {
             if (err) {

@@ -5,7 +5,7 @@ const accounts = [
         'firstName': 'admin',
         'lastName': 'admin',
         'nationality': 'Viet Nam',
-        'emailVerified': true,
+        'emailVerified': true
     }
 ];
 

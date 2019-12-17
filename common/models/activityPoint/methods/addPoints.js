@@ -33,7 +33,7 @@ export default function (ActivityPoint) {
             }
             const times = activity.limitPoints / points;
             ActivityPoint.count({
-                createdOn: {'gte': retrieveFromDate},
+                created: {'gte': retrieveFromDate},
                 activityName: activity.activityName,
                 ownerId
             }, (err, count) => {

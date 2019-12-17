@@ -16,7 +16,7 @@ export default function (ActivityPoint) {
                 return;
             }
             const lastUpdatePoints = userInstance.pointsUpdateOn || userInstance.created;
-            const query = {where: {ownerId: userInstance.id, createdOn: {gt: new Date(lastUpdatePoints), lte: today}}};
+            const query = {where: {ownerId: userInstance.id, created: {gt: new Date(lastUpdatePoints), lte: today}}};
 
             async.waterfall([
                 (cb) => {

@@ -81,11 +81,10 @@ export default (Question) => {
 
     Question.increaseAnswerCount = (id, num, callback) => {
         const mongoConnector = Question.getDataSource().connector;
-        mongoConnector.collection(Question.modelName).findAndModify(
+        mongoConnector.collection(Question.modelName).findOneAndUpdate(
             {
                 _id: ObjectID(String(id))
             },
-            [],
             {
                 $inc: {
                     'answerCount': num
@@ -109,11 +108,10 @@ export default (Question) => {
         const inc = {};
         inc[attribute] = num;
         const mongoConnector = Question.getDataSource().connector;
-        mongoConnector.collection(Question.modelName).findAndModify(
+        mongoConnector.collection(Question.modelName).findOneAndUpdate(
             {
                 _id: ObjectID(String(id))
             },
-            [],
             {
                 $inc: inc
             },

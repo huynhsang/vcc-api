@@ -1,39 +1,39 @@
 /* global __ */
 import async from 'async';
 import {permissionErrorHandler} from '../../../utils/modelHelpers';
-import {isActiveQuestion} from '../../question/utils/helper';
 import {createTask} from '../../../../queues/producers/taskManager';
 import {VOTE_UP} from '../../../../configs/constants/serverConstant';
+import {isActiveAnswer} from '../../answer/utils/helper';
 
 export default (Vote) => {
-    Vote.voteQuestion = (userId, questionId, action, callback) => {
-        const Question = Vote.app.models.Question;
+    Vote.voteAnswer = (userId, answerId, action, callback) => {
+        const Answer = Vote.app.models.Answer;
 
         const checkConds = (next) => {
             async.parallel({
-                'question': (cb) => {
-                    Question.findById(questionId, {fields: ['id', 'ownerId']}, (err, question) => {
+                'answer': (cb) => {
+                    Answer.findById(answerId, {fields: ['id', 'ownerId']}, (err, answer) => {
                         if (err) {
                             return cb(err);
                         }
-                        if (!question) {
-                            return cb(new Error(__('err.question.notExists')));
+                        if (!answer) {
+                            return cb(new Error(__('err.answer.notExists')));
                         }
-                        if (!isActiveQuestion(question)) {
-                            return cb(new Error(__('err.question.notActive')));
+                        if (!isActiveAnswer(answer)) {
+                            return cb(new Error(__('err.answer.notActive')));
                         }
-                        if (question.ownerId.toString() === userId.toString()) {
+                        if (answer.ownerId.toString() === userId.toString()) {
                             return cb(permissionErrorHandler(__('err.notAllow')));
                         }
-                        cb(null, question);
+                        cb(null, answer);
                     });
                 },
                 'vote': (cb) => {
                     Vote.findOne({
                         where: {
                             ownerId: userId,
-                            modelId: questionId,
-                            modelType: Question.modelName
+                            modelId: answerId,
+                            modelType: Answer.modelName
                         }
                     }, (err, vote) => {
                         if (err) {
@@ -49,50 +49,50 @@ export default (Vote) => {
         };
 
         const handleVote = (payload, next) => {
-            const {question, vote} = payload;
+            const {answer, vote} = payload;
             if (vote) {
                 return vote.updateAttribute('action', action, (err, _vote) => {
                     if (err) {
                         return next(err);
                     }
                     createTask('AFTER_REMOVE_VOTE_TASK', {
-                        modelId: question.id,
-                        modelType: Question.modelName,
+                        modelId: answer.id,
+                        modelType: Answer.modelName,
                         ownerId: userId,
                         action
                     });
-                    next(null, question, _vote);
+                    next(null, answer, _vote);
                 });
             }
 
             Vote.create({
-                modelId: question.id,
-                modelType: Question.modelName,
+                modelId: answer.id,
+                modelType: Answer.modelName,
                 ownerId: userId,
                 action
             }, (err, _vote) => {
                 if (err) {
                     return next(err);
                 }
-                next(null, question, _vote);
+                next(null, answer, _vote);
             });
         };
 
-        const updateStats = (question, vote, next) => {
+        const updateStats = (answer, vote, next) => {
             async.parallel([
                 (cb) => {
-                    const activityName = action === VOTE_UP ? 'UP_VOTE_QUESTION' : 'DOWN_VOTE_QUESTION';
+                    const activityName = action === VOTE_UP ? 'UP_VOTE_ANSWER' : 'DOWN_VOTE_ANSWER';
                     createTask('ACTIVITY_TASK', {
                         activityName,
-                        activityModelType: Question.modelName,
-                        activityModelId: question.id,
+                        activityModelType: Answer.modelName,
+                        activityModelId: answer.id,
                         ownerId: userId,
-                        receiverId: question.ownerId
+                        receiverId: answer.ownerId
                     }, cb);
                 },
                 (cb) => {
                     const attribute = action === VOTE_UP ? 'upVoteCount' : 'downVoteCount';
-                    Vote.app.models.Question.increaseCount(question.id, attribute, 1, cb);
+                    Vote.app.models.Answer.increaseCount(answer.id, attribute, 1, cb);
                 }
             ], (err) => {
                 if (err) {

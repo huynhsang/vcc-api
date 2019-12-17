@@ -49,9 +49,9 @@ module.exports = (connection, app) => {
                             if (_err) {
                                 logError(_err);
                             }
-                            if (!bool) {
-                                return channel.nack(msg, false, false);
-                            }
+                            // if (!bool) {
+                            //     return channel.nack(msg, false, false);
+                            // }
                             channel.ack(msg);
                         });
                     }

@@ -43,15 +43,15 @@ export default {
             targetRoutine: 'models.ActivityPoint.updateUserPoints'
         }
     ),
-    REMOVE_VOTE_TASK: (params) => (
+    AFTER_REMOVE_VOTE_TASK: (params) => (
         {
-            // required: voteId
-            title: `RemoveVoteTask: ${params.voteId}`,
+            // required: modelId, modelType, ownerId, action
+            title: `AfterRemoveVoteTask: ${params.voteId}`,
             exchange: DEFAULT_EXCHANGE_DIRECT,
             routingKey: DEFAULT_QUEUE,
             delay: 0,
             attempts: 0,
-            targetRoutine: 'models.Vote.removeVote'
+            targetRoutine: 'models.Vote.afterRemoveVote'
         }
     )
 };

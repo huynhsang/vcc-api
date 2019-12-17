@@ -49,9 +49,9 @@ module.exports = (connection, app) => {
                             if (_err) {
                                 logError(_err);
                             }
-                            if (!bool) {
-                                return channel.reject(msg, false);
-                            }
+                            // if (!bool) {
+                            //     return channel.reject(msg, false);
+                            // }
                             channel.ack(msg);
                         });
                     }

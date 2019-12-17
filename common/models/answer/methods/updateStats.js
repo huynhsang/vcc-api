@@ -71,11 +71,10 @@ export default (Answer) => {
         const inc = {};
         inc[attribute] = num;
         const mongoConnector = Answer.getDataSource().connector;
-        mongoConnector.collection(Answer.modelName).findAndModify(
+        mongoConnector.collection(Answer.modelName).findOneAndUpdate(
             {
                 _id: ObjectID(String(id))
             },
-            [],
             {
                 $inc: inc
             },

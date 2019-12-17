@@ -6,15 +6,15 @@ export default (Question) => {
     /**
      * The method call service to handle approve answer
      * @param id: {Object} The question Id
+     * @param body: {Object} The body
      * @param req: {Object} The request
      * @param callback: {Function} The callback function
      */
-    Question.approveAnswerRoute = (id, req, callback) => {
+    Question.approveAnswerRoute = (id, body, req, callback) => {
         const loggedInUser = req.user;
-        const requestData = req.body || req;
 
         const validateRequestData = (next) => {
-            const data = {id, ...requestData};
+            const data = {id, answerId: body.answerId};
             const schema = Joi.object().keys({
                 id: Joi.string().hex().length(24).required(),
                 answerId: Joi.string().hex().length(24).required()
@@ -29,7 +29,7 @@ export default (Question) => {
         };
 
         const handleApprove = (next) => {
-            Question.approveAnswer(id, requestData.answerId, loggedInUser, (err, result) => {
+            Question.approveAnswer(id, body.answerId, loggedInUser.id, (err, result) => {
                 if (err) {
                     return next(err);
                 }
@@ -56,6 +56,7 @@ export default (Question) => {
         {
             accepts: [
                 {arg: 'id', type: 'string', description: 'Question Id', http: {source: 'path'}},
+                {arg: 'body', type: 'object', description: 'Body', http: {source: 'body'}},
                 {arg: 'req', type: 'object', http: {source: 'req'}}
             ],
             description: 'Approve answer for question',

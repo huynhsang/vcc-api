@@ -2,29 +2,22 @@
 import async from 'async';
 import {getActivity} from '../../activity/methods/activityConstants';
 import {VOTE_UP} from '../../../../configs/constants/serverConstant';
+import {ObjectID} from 'mongodb';
 
 export default (Vote) => {
-    Vote.removeVote = ({voteId}, callback) => {
-        const getVote = (next) => {
-            Vote.findById(voteId, {
-                include: 'model'
-            }, (err, vote) => {
-                if (err) {
-                    return next(err);
-                }
-                if (!vote) {
-                    return next(new Error(__('err.vote.notExists')));
-                }
-                next(null, vote.toObject(false, false, false));
-            });
+    Vote.afterRemoveVote = ({modelId, modelType, ownerId, action}, callback) => {
+        const getModel = (next) => {
+            Vote.app.models[modelType].findById(modelId, next);
         };
 
-        const getActivityInstance = (vote, next) => {
+        const getActivityInstance = (model, next) => {
             Vote.app.models.Activity.findOne({
-                ownerId: vote.ownerId,
-                activityModelId: vote.modelId,
-                activityModelType: vote.modelType,
-                receiverId: vote.model.ownerId
+                where: {
+                    ownerId,
+                    activityModelId: modelId,
+                    activityModelType: modelType,
+                    receiverId: model.ownerId
+                }
             }, (err, activity) => {
                 if (err) {
                     return next(err);
@@ -32,42 +25,43 @@ export default (Vote) => {
                 if (!activity) {
                     return next(new Error(__('err.activity.notExists')));
                 }
-                next(null, vote, activity.toObject());
+                next(null, activity.toObject());
             });
         };
 
-        const updateStats = (vote, activity, next) => {
+        const updateStats = (activity, next) => {
             async.parallel([
                 (cb) => {
                     const voteActivity = getActivity(activity.activityName);
                     const incPoints = 0 - voteActivity.receiverPoints;
-                    return Vote.app.models.user.updateAll({
-                        id: activity.receiverId
-                    }, {
-                        $set: {
-                            updatedOn: new Date()
+                    const mongoConnector = Vote.getDataSource().connector;
+                    mongoConnector.collection(Vote.app.models.user.modelName).findOneAndUpdate(
+                        {
+                            _id: ObjectID(String(activity.receiverId))
                         },
-                        $inc: {
-                            points: incPoints
+                        {
+                            $set: {
+                                modified: new Date()
+                            },
+                            $inc: {
+                                points: incPoints
+                            }
+                        }, (err) => {
+                            cb(err);
                         }
-                    }, (err) => {
-                        cb(err);
-                    });
+                    );
                 },
                 (cb) => {
-                    const attribute = vote.action === VOTE_UP ? 'upVoteCount' : 'downVoteCount';
-                    Vote.app.models[vote.modelType].increaseCount(vote.modelId, attribute, -1, cb);
+                    const attribute = action === VOTE_UP ? 'upVoteCount' : 'downVoteCount';
+                    Vote.app.models[modelType].increaseCount(modelId, attribute, -1, cb);
                 }
             ], (err) => {
                 next(err);
             });
         };
 
-        const handleRemove = (vote, activity, next) => {
+        const handleRemove = (activity, next) => {
             async.parallel([
-                (cb) => {
-                    Vote.destroyById(vote.id, cb);
-                },
                 (cb) => {
                     Vote.app.models.ActivityPoint.destroyAll({
                         ownerId: activity.receiverId,
@@ -78,7 +72,7 @@ export default (Vote) => {
                             return cb(err);
                         }
                         if (info.count > 0) {
-                            return updateStats(vote, activity, cb);
+                            return updateStats(activity, cb);
                         }
                         cb();
                     });
@@ -91,6 +85,6 @@ export default (Vote) => {
             });
         };
 
-        async.waterfall([getVote, getActivityInstance, handleRemove], callback);
+        async.waterfall([getModel, getActivityInstance, handleRemove], callback);
     };
 };
