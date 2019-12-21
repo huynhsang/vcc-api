@@ -79,7 +79,7 @@ export default function (ActivityPoint) {
                                 return cb();
                             }
                             // updates the user stats
-                            createTask('ACTIVITY_POINTS_TASK', {
+                            createTask('USER_POINTS_TASK', {
                                 userId: pointsInstance.ownerId
                             }, cb);
                         });
@@ -117,7 +117,7 @@ export default function (ActivityPoint) {
                                 return cb();
                             }
                             // updates the user stats
-                            createTask('ACTIVITY_POINTS_TASK', {
+                            createTask('USER_POINTS_TASK', {
                                 userId: pointsInstance.ownerId
                             });
                             cb();

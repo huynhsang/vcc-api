@@ -3,7 +3,7 @@ import async from 'async';
 import {ObjectID} from 'mongodb';
 
 export default (User) => {
-    User.updateStats = (userId, options, callback) => {
+    User.updateStats = ({id}, options, callback) => {
         if (typeof options === 'function') {
             callback = options;
             options = {};
@@ -11,13 +11,7 @@ export default (User) => {
 
         const stats = {};
         const questionCount = (next) => {
-            User.app.models.Question.count({
-                ownerId: userId,
-                disabled: false,
-                removedItem: {
-                    exists: false
-                }
-            }, (err, count) => {
+            User.countQuestions(id, (err, count) => {
                 if (err) {
                     return next(err);
                 }
@@ -27,10 +21,7 @@ export default (User) => {
         };
 
         const answerCount = (next) => {
-            User.app.models.Answer.count({
-                ownerId: userId,
-                disabled: false
-            }, (err, count) => {
+            User.countAnswers(id, (err, count) => {
                 if (err) {
                     return next(err);
                 }
@@ -40,42 +31,11 @@ export default (User) => {
         };
 
         const bestAnswers = (next) => {
-            User.app.models.Answer.count({
-                ownerId: userId,
-                disabled: false,
-                isTheBest: true
-            }, (err, count) => {
+            User.countBestAnswers(id, (err, count) => {
                 if (err) {
                     return next(err);
                 }
                 stats.bestAnswers = count;
-                next();
-            });
-        };
-
-        const points = (next) => {
-            const mongoConnector = User.getDataSource().connector;
-            mongoConnector.collection(User.app.models.Reputation.modelName).aggregate([
-                {
-                    $match: {
-                        receiverId: ObjectID(String(userId))
-                    }
-                },
-                {
-                    $group: {
-                        _id: null,
-                        total: {
-                            $sum: '$point'
-                        }
-                    }
-                }
-            ]).toArray((err, results) => {
-                if (err) {
-                    return next(err);
-                }
-                if (results.length > 0) {
-                    stats.points = results[0].total;
-                }
                 next();
             });
         };
@@ -90,10 +50,6 @@ export default (User) => {
                 break;
             case 'bestAnswers':
                 methods['bestAnswers'] = bestAnswers;
-                methods['points'] = points;
-                break;
-            case 'points':
-                methods['points'] = points;
                 break;
         }
 
@@ -105,7 +61,7 @@ export default (User) => {
             if (err) {
                 return callback(err);
             }
-            User.update({id: userId}, stats, (_err) => {
+            User.update({id: id}, stats, (_err) => {
                 if (_err) {
                     return callback(_err);
                 }

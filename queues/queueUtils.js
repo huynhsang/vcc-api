@@ -1,4 +1,8 @@
-import {logInfo} from '../common/services/loggerService';
+import async from 'async';
+import loopback from 'loopback';
+import {logError, logInfo} from '../common/services/loggerService';
+import {TASK_ACTIVE, TASK_ERROR} from './queueConstant';
+import {getTask} from './producers/taskManager';
 
 export const requeue = (channel, exchange, routingKey, msg, callback) => {
     const data = msg.content.toString();
@@ -15,4 +19,55 @@ export const requeue = (channel, exchange, routingKey, msg, callback) => {
             });
     }
     callback(null, false);
+};
+
+export const processingTask = (taskId, handlerFn, callback) => {
+    if (typeof handlerFn !== 'function' || !taskId) {
+        return callback && callback();
+    }
+    const QueueTask = loopback.getModel('QueueTask');
+    let currentTask;
+    async.waterfall([
+        (next) => {
+            QueueTask.updateTaskStatus(taskId, TASK_ACTIVE, (err, task) => {
+                if (err) {
+                    return next(err);
+                }
+                currentTask = task;
+                next();
+            });
+        },
+        (next) => {
+            if (!currentTask) {
+                return next();
+            }
+            const data = currentTask.data || {};
+            const taskDefinition = getTask(currentTask.name, data);
+            if (taskDefinition.targetRoutine) {
+                data.targetRoutine = taskDefinition.targetRoutine;
+            }
+            handlerFn(data, (err) => {
+                if (err) {
+                    return next(err);
+                }
+                next();
+            });
+        },
+        (next) => {
+            QueueTask.deleteById(taskId, next);
+        }
+    ], (err) => {
+        if (!err) {
+            return callback();
+        }
+        if (currentTask) {
+            return currentTask.updateAttribute('status', TASK_ERROR, (_err) => {
+                if (_err) {
+                    logError(_err);
+                }
+                callback(err);
+            });
+        }
+        callback(err);
+    });
 };

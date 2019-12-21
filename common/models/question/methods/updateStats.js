@@ -3,7 +3,7 @@ import async from 'async';
 import {ObjectID} from 'mongodb';
 
 export default (Question) => {
-    Question.updateStats = (questionId, options, callback) => {
+    Question.updateStats = ({id}, options, callback) => {
         if (typeof options === 'function') {
             callback = options;
             options = {};
@@ -11,7 +11,7 @@ export default (Question) => {
 
         const stats = {};
         const answerCount = (next) => {
-            Question.countAnswers(questionId, (err, count) => {
+            Question.countAnswers(id, (err, count) => {
                 if (err) {
                     return next(err);
                 }
@@ -22,10 +22,10 @@ export default (Question) => {
         const voteCount = (next) => {
             async.parallel({
                 'upVoteCount': (cb) => {
-                    Question.countUpVotes(questionId, cb);
+                    Question.countUpVotes(id, cb);
                 },
                 'downVoteCount': (cb) => {
-                    Question.countDownVotes(questionId, cb);
+                    Question.countDownVotes(id, cb);
                 }
             }, (err, result) => {
                 if (err) {
@@ -38,7 +38,7 @@ export default (Question) => {
         };
 
         const reportCount = (next) => {
-            Question.countReports(questionId, (err, count) => {
+            Question.countReports(id, (err, count) => {
                 if (err) {
                     return next(err);
                 }
@@ -70,7 +70,7 @@ export default (Question) => {
             if (err) {
                 return callback(err);
             }
-            Question.update({id: questionId}, stats, (_err) => {
+            Question.update({id}, stats, (_err) => {
                 if (_err) {
                     return callback(_err);
                 }
@@ -90,7 +90,7 @@ export default (Question) => {
                     'answerCount': num
                 }
             },
-            {new: true}, (err, doc) => {
+            {returnOriginal: false}, (err, doc) => {
                 if (err) {
                     return callback(err);
                 }
@@ -99,7 +99,7 @@ export default (Question) => {
                 }
                 doc.value.id = doc.value._id;
                 delete doc.value._id;
-                callback(null, new Question(doc));
+                callback(null, new Question(doc.value));
             }
         );
     };
@@ -115,7 +115,7 @@ export default (Question) => {
             {
                 $inc: inc
             },
-            {new: true}, (err, doc) => {
+            {returnOriginal: false}, (err, doc) => {
                 if (err) {
                     return callback(err);
                 }
@@ -124,7 +124,7 @@ export default (Question) => {
                 }
                 doc.value.id = doc.value._id;
                 delete doc.value._id;
-                callback(null, new Question(doc));
+                callback(null, new Question(doc.value));
             }
         );
     };

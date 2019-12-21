@@ -6,6 +6,7 @@ import emailService from '../../common/services/emailService';
 import {logError, logInfo} from '../../common/services/loggerService';
 import {VERIFICATION_EMAIL} from '../../configs/constants/serverConstant';
 import {DEFAULT_EXCHANGE_DIRECT, SEND_MAIL_QUEUE} from '../queueConstant';
+import {processingTask} from '../queueUtils';
 
 module.exports = (connection, app) => {
     const handleDelivery = (data, callback) => {
@@ -42,7 +43,12 @@ module.exports = (connection, app) => {
                     protocol: config.SERVER_PROTOCOL,
                     port: config.SERVER_PORT
                 };
-                user.verify(options, next);
+                user.verify(options, (err) => {
+                    if (err) {
+                        return next(err);
+                    }
+                    next();
+                });
             };
 
             async.waterfall([getUser, handleSendMail], cb);
@@ -82,12 +88,11 @@ module.exports = (connection, app) => {
             logInfo(` [*] Waiting for messages in ${SEND_MAIL_QUEUE}`);
             channel.bindQueue(ok.queue, DEFAULT_EXCHANGE_DIRECT, SEND_MAIL_QUEUE);
             channel.consume(SEND_MAIL_QUEUE, (msg) => {
-                const content = msg.content.toString();
-                logInfo(` [x] worker: ${SEND_MAIL_QUEUE} Received ${content} `);
-                handleDelivery(JSON.parse(content), (_err) => {
+                let data = msg.content.toString();
+                logInfo(` [x] worker: ${SEND_MAIL_QUEUE} Received ${data} `);
+                data = JSON.parse(data);
+                processingTask(data.taskId, handleDelivery, (_err) => {
                     if (_err) {
-                        // const attempts = msg.properties.headers['x-retry-count'] || 0;
-                        // msg.properties.headers['x-retry-count'] = attempts - 1;
                         logError(_err);
                     }
                     channel.ack(msg);

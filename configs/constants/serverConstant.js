@@ -14,13 +14,7 @@ define('VOTE_ACTIONS', [VOTE_UP, VOTE_DOWN]);
 define('VOTE_TYPES', ['Answer', 'Question']);
 
 // Reputation
-const APPROVE = 'approve';
-define('APPROVE', APPROVE);
-define('REPUTATION_TYPES', [VOTE_UP, VOTE_DOWN, APPROVE]);
-define('REPUTATION_MODEL_TYPES', ['Answer', 'Question']);
-define('APPROVE_POINTS', 20); // Approve answer
-define('UP_VOTE_POINTS', 10);
-define('DOWN_VOTE_POINTS', -5);
+define('APPROVE', 'approve');
 
 define('MIN_BODY_LENGTH', 20);
 define('MAX_BODY_LENGTH', 1000);

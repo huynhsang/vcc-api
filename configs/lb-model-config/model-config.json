@@ -44,6 +44,10 @@
     "Email": {
         "dataSource": "emailDS"
     },
+    "QueueTask": {
+        "dataSource": "vccDS",
+        "public": false
+    },
     "Answer": {
         "dataSource": "vccDS",
         "public": true
@@ -69,10 +73,6 @@
         "public": true
     },
     "Notification": {
-        "dataSource": "vccDS",
-        "public": true
-    },
-    "Reputation": {
         "dataSource": "vccDS",
         "public": true
     },

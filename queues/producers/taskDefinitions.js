@@ -6,7 +6,6 @@ import {
     DEFAULT_QUEUE,
     SEND_MAIL_QUEUE
 } from '../queueConstant';
-import updateUserPointsTask from './updateUserPointsTask';
 
 export default {
     SEND_MAIL_TASK: (params) => (
@@ -23,7 +22,7 @@ export default {
         {
             // required: activityName, activityModelType, activityModelId,
             // optional: ownerId, receiverId
-            title: `TrackActivity: ${params.activityModelType} ${params.activityModelId}`,
+            title: `TrackActivityTask: ${params.activityModelType} ${params.activityModelId}`,
             exchange: DEFAULT_EXCHANGE_DIRECT,
             routingKey: ACTIVITY_QUEUE,
             delay: DEFAULT_QUEUE_DELAY,
@@ -31,27 +30,52 @@ export default {
             targetRoutine: 'models.Activity.trackActivity'
         }
     ),
-    ACTIVITY_POINTS_TASK: (params) => (
+    USER_POINTS_TASK: (params) => (
         {
             // required: userId
-            task: updateUserPointsTask,
-            title: `UpdateUserPoints: ${params.userId}`,
+            title: `UpdateUserPointsTask: ${params.userId}`,
             exchange: DEFAULT_EXCHANGE_DIRECT,
             routingKey: ACTIVITY_QUEUE,
             delay: 0,
             attempts: DEFAULT_QUEUE_ATTEMPTS,
-            targetRoutine: 'models.ActivityPoint.updateUserPoints'
+            targetRoutine: 'models.ActivityPoint.updateUserPoints',
+            unique: true
         }
     ),
-    AFTER_REMOVE_VOTE_TASK: (params) => (
+    UPDATE_ANSWER_STATS_TASK: (params) => (
         {
-            // required: modelId, modelType, ownerId, action
-            title: `AfterRemoveVoteTask: ${params.voteId}`,
+            // required: answerId, options
+            title: `UpdateAnswerStatsTask: ${params.id} model: ${params.options.model}`,
             exchange: DEFAULT_EXCHANGE_DIRECT,
             routingKey: DEFAULT_QUEUE,
-            delay: 0,
-            attempts: 0,
-            targetRoutine: 'models.Vote.afterRemoveVote'
+            delay: DEFAULT_QUEUE_DELAY,
+            attempts: DEFAULT_QUEUE_ATTEMPTS,
+            targetRoutine: 'models.Answer.updateStats',
+            unique: true
+        }
+    ),
+    UPDATE_QUESTION_STATS_TASK: (params) => (
+        {
+            // required: id, options
+            title: `UpdateQuestionStatsTask: ${params.id} model: ${params.options.model}`,
+            exchange: DEFAULT_EXCHANGE_DIRECT,
+            routingKey: DEFAULT_QUEUE,
+            delay: DEFAULT_QUEUE_DELAY,
+            attempts: DEFAULT_QUEUE_ATTEMPTS,
+            targetRoutine: 'models.Question.updateStats',
+            unique: true
+        }
+    ),
+    UPDATE_USER_STATS_TASK: (params) => (
+        {
+            // required: id, options
+            title: `UpdateUserStatsTask: ${params.id} attribute: ${params.options.attribute}`,
+            exchange: DEFAULT_EXCHANGE_DIRECT,
+            routingKey: DEFAULT_QUEUE,
+            delay: DEFAULT_QUEUE_DELAY,
+            attempts: DEFAULT_QUEUE_ATTEMPTS,
+            targetRoutine: 'models.user.updateStats',
+            unique: true
         }
     )
 };

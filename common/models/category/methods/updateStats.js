@@ -67,7 +67,7 @@ export default (Category) => {
                 }
                 doc.value.id = doc.value._id;
                 delete doc.value._id;
-                callback(null, new Category(doc));
+                callback(null, new Category(doc.value));
             }
         );
     };

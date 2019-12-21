@@ -1,8 +1,9 @@
+import loopback from 'loopback';
 import {getConnection} from '../rabbitMQ';
 import TASK_DEFINITIONS from './taskDefinitions';
 import {logInfo} from '../../common/services/loggerService';
 
-const _getTask = (taskName, parameters) => {
+export const getTask = (taskName, parameters) => {
     const taskOptions = TASK_DEFINITIONS[taskName](parameters);
     if (taskOptions) {
         return {taskName, ...taskOptions};
@@ -11,14 +12,11 @@ const _getTask = (taskName, parameters) => {
 };
 
 export const addTaskToQueue = (parameters, taskDefinition, done) => {
-    const {title, exchange, routingKey, delay, attempts, targetRoutine} = taskDefinition;
+    const {title, exchange, routingKey, delay, attempts} = taskDefinition;
     logInfo(`[AMQP] publishing ${title}`);
     getConnection().createConfirmChannel((err, channel) => {
         if (err) {
             return done(err);
-        }
-        if (targetRoutine) {
-            parameters.targetRoutine = targetRoutine;
         }
         const msg = JSON.stringify(parameters);
         channel.publish(exchange, routingKey, Buffer.from(msg), {headers: {'x-delay': delay, 'x-retry-count': attempts}}, (_err) => {
@@ -33,18 +31,32 @@ export const addTaskToQueue = (parameters, taskDefinition, done) => {
     });
 };
 
-export const createTask = (taskName, parameters, done) => {
+export const createTask = (taskName, parameters, options, done) => {
+    if (typeof options === 'function') {
+        done = options;
+        options = {};
+    }
     if (!done) {
         done = () => {};
     }
-    const taskDefinition = _getTask(taskName, parameters);
+    parameters.options = options;
+    const taskDefinition = getTask(taskName, parameters);
     if (!taskDefinition) {
         done(`Task is not defined ${taskName}`);
         return;
     }
-    if (!taskDefinition.task) {
-        addTaskToQueue(parameters, taskDefinition, done);
-    } else {
-        taskDefinition.task(parameters, taskDefinition, done);
+
+    const QueueTask = loopback.getModel('QueueTask');
+    if (taskDefinition.unique) {
+        return QueueTask.getTaskByTitle(taskDefinition.title, (err, task) => {
+            if (err) {
+                return done(err);
+            }
+            if (task) {
+                return done();
+            }
+            QueueTask.initTask(taskDefinition, parameters, done);
+        });
     }
+    QueueTask.initTask(taskDefinition, parameters, done);
 };

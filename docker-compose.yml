@@ -13,5 +13,6 @@ services:
         ports:
             - 5672:5672
             - 15672:15672
+        restart: always
         env_file:
             - ./.env

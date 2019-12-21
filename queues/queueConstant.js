@@ -28,3 +28,12 @@ define('ACTIVITY_QUEUE', 'vcc_activity_queue');
 
 define('DEFAULT_QUEUE_DELAY', 3000); // 3s
 define('DEFAULT_QUEUE_ATTEMPTS', 3);
+const TASK_PENDING = 'pending';
+const TASK_ACTIVE = 'active';
+const TASK_COMPLETE = 'complete';
+const TASK_ERROR = 'error';
+define('TASK_PENDING', TASK_PENDING);
+define('TASK_ACTIVE', TASK_ACTIVE);
+define('TASK_COMPLETE', TASK_COMPLETE);
+define('TASK_ERROR', TASK_ERROR);
+

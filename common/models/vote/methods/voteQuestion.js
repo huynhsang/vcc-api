@@ -51,30 +51,22 @@ export default (Vote) => {
         const handleVote = (payload, next) => {
             const {question, vote} = payload;
             if (vote) {
-                return vote.updateAttribute('action', action, (err, _vote) => {
-                    if (err) {
-                        return next(err);
-                    }
-                    createTask('AFTER_REMOVE_VOTE_TASK', {
-                        modelId: question.id,
-                        modelType: Question.modelName,
-                        ownerId: userId,
-                        action
-                    });
-                    next(null, question, _vote);
-                });
+                return Vote.updateVote(vote, action, next);
             }
+            createVote(question, next);
+        };
 
+        const createVote = (question, next) => {
             Vote.create({
                 modelId: question.id,
                 modelType: Question.modelName,
                 ownerId: userId,
                 action
-            }, (err, _vote) => {
+            }, (err, vote) => {
                 if (err) {
                     return next(err);
                 }
-                next(null, question, _vote);
+                updateStats(question, vote, next);
             });
         };
 
@@ -91,8 +83,7 @@ export default (Vote) => {
                     }, cb);
                 },
                 (cb) => {
-                    const attribute = action === VOTE_UP ? 'upVoteCount' : 'downVoteCount';
-                    Vote.app.models.Question.increaseCount(question.id, attribute, 1, cb);
+                    createTask('UPDATE_QUESTION_STATS_TASK', {id: question.id}, {model: Vote.modelName}, cb);
                 }
             ], (err) => {
                 if (err) {
@@ -102,6 +93,6 @@ export default (Vote) => {
             });
         };
 
-        async.waterfall([checkConds, handleVote, updateStats], callback);
+        async.waterfall([checkConds, handleVote], callback);
     };
 };

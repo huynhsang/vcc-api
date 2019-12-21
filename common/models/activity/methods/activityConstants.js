@@ -69,13 +69,13 @@ const ACTIVITIES = {
         receiverPoints: -5
     },
     UP_VOTE_ANSWER: {
-        receiverPoints: 10
+        receiverPoints: 20
     },
     DOWN_VOTE_ANSWER: {
-        receiverPoints: -5
+        receiverPoints: -10
     },
     APPROVE_ANSWER: {
-        receiverPoints: 20
+        receiverPoints: 30
     }
 };
 

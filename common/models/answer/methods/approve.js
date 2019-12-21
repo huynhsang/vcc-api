@@ -75,14 +75,6 @@ export default (Answer) => {
 
         const updateRelatedModels = (data, next) => {
             async.parallel({
-                'reputation': (cb) => {
-                    Answer.app.models.Reputation.createApprove(data.question, data.answer, (err) => {
-                        if (err) {
-                            return cb(err);
-                        }
-                        cb();
-                    });
-                },
                 'notification': (cb) => {
                     cb();
                 }

@@ -16,15 +16,20 @@ const TABLE_LIST = [
     'Image',
     'Question',
     'Answer',
-    'Reputation',
     'Notification',
     'Wallet',
-    'Vote'
+    'Vote',
+    'Activity',
+    'ActivityPoint'
 ];
 const databaseHelper = {};
 
 databaseHelper.autoUpdateTables = function (app, callback) {
     const mysqlDS = app.dataSources.vccDS;
+
+    if (!process.env.syncTables) {
+        return callback();
+    }
 
     const waitDBReady = function (next) {
         if (mysqlDS.connected) {

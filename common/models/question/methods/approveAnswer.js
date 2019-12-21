@@ -99,7 +99,7 @@ export default (Question) => {
                     });
                 },
                 (cb) => {
-                    Question.app.models.user.updateStats(data.answer.ownerId, {attribute: 'bestAnswers'}, () => {
+                    createTask('UPDATE_USER_STATS_TASK', {id: data.answer.ownerId}, {attribute: 'bestAnswers'}, () => {
                         cb();
                     });
                 }

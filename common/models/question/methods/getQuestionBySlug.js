@@ -13,9 +13,8 @@ export default (Question) => {
             query.removedItem = {$exists: false};
 
             const mongoConnector = Question.getDataSource().connector;
-            mongoConnector.collection(Question.modelName).findAndModify(
+            mongoConnector.collection(Question.modelName).findOneAndUpdate(
                 query,  // query
-                [], // sort
                 {
                     '$inc': {
                         'viewCount': 1
@@ -25,8 +24,8 @@ export default (Question) => {
                     }
                 },
                 {
-                    new: true,
-                    fields
+                    returnOriginal: false,
+                    projection: fields
                 }, (err, _doc) => {
                     if (err) {
                         return next(err);
@@ -46,6 +45,9 @@ export default (Question) => {
                     Question.app.models.user.findById(question.ownerId, (err, user) => {
                         if (err) {
                             return cb(err);
+                        }
+                        if (!user) {
+                            return cb(null, null);
                         }
                         cb(null, user.toObject(true, true, true));
                     });

@@ -1,9 +1,7 @@
-/* global __ */
 import async from 'async';
-import {ObjectID} from 'mongodb';
 
 export default (Answer) => {
-    Answer.updateStats = (answerId, options, callback) => {
+    Answer.updateStats = ({id}, options, callback) => {
         if (typeof options === 'function') {
             callback = options;
             options = {};
@@ -13,10 +11,10 @@ export default (Answer) => {
         const voteCount = (next) => {
             async.parallel({
                 'upVoteCount': (cb) => {
-                    Answer.countUpVotes(answerId, cb);
+                    Answer.countUpVotes(id, cb);
                 },
                 'downVoteCount': (cb) => {
-                    Answer.countDownVotes(answerId, cb);
+                    Answer.countDownVotes(id, cb);
                 }
             }, (err, result) => {
                 if (err) {
@@ -29,7 +27,7 @@ export default (Answer) => {
         };
 
         const reportCount = (next) => {
-            Answer.countReports(answerId, (err, count) => {
+            Answer.countReports(id, (err, count) => {
                 if (err) {
                     return next(err);
                 }
@@ -58,37 +56,12 @@ export default (Answer) => {
             if (err) {
                 return callback(err);
             }
-            Answer.update({id: answerId}, stats, (_err) => {
+            Answer.update({id}, stats, (_err) => {
                 if (_err) {
                     return callback(_err);
                 }
                 callback();
             });
         });
-    };
-
-    Answer.increaseCount = (id, attribute, num, callback) => {
-        const inc = {};
-        inc[attribute] = num;
-        const mongoConnector = Answer.getDataSource().connector;
-        mongoConnector.collection(Answer.modelName).findOneAndUpdate(
-            {
-                _id: ObjectID(String(id))
-            },
-            {
-                $inc: inc
-            },
-            {new: true}, (err, doc) => {
-                if (err) {
-                    return callback(err);
-                }
-                if (!doc || !doc.value) {
-                    return callback(new Error(__('err.answer.notExists')));
-                }
-                doc.value.id = doc.value._id;
-                delete doc.value._id;
-                callback(null, new Answer(doc));
-            }
-        );
     };
 };

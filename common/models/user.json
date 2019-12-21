@@ -149,12 +149,6 @@
       "model": "Vote",
       "foreignKey": "ownerId",
       "primaryKey": "id"
-    },
-    "reputations": {
-      "type": "hasMany",
-      "model": "Reputation",
-      "foreignKey": "receiverId",
-      "primaryKey": "id"
     }
   },
   "acls": [

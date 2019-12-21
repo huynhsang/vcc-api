@@ -3,39 +3,51 @@ import async from 'async';
 export default function (ActivityPoint) {
     // track an activity
     ActivityPoint.updateUserPoints = ({userId}, done) => {
-        const User = ActivityPoint.app.models.user;
-        const today = new Date();
-
         const findUser = next => {
-            User.findById(userId, next);
+            ActivityPoint.app.models.user.findById(userId, next);
         };
 
         const handlePoints = (userInstance, next) => {
             if (!userInstance) {
-                next('updateUserPoints user does not exist');
-                return;
+                return next('updateUserPoints user does not exist');
             }
-            const lastUpdatePoints = userInstance.pointsUpdateOn || userInstance.created;
-            const query = {where: {ownerId: userInstance.id, created: {gt: new Date(lastUpdatePoints), lte: today}}};
 
             async.waterfall([
                 (cb) => {
-                    ActivityPoint.find(query, (err, pointInstances) => {
+                    const mongoConnector = ActivityPoint.getDataSource().connector;
+                    mongoConnector.collection(ActivityPoint.modelName).aggregate([
+                        {
+                            $match: {
+                                ownerId: userInstance.id
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: null,
+                                total: {
+                                    $sum: '$points'
+                                }
+                            }
+                        }
+                    ]).toArray((err, results) => {
                         if (err) {
                             return cb(err);
                         }
-                        cb(null, pointInstances.reduce((total, item) => total + item.points, 0));
+                        if (results.length > 0) {
+                            return cb(null, results[0].total);
+                        }
+                        cb(null, 0);
                     });
                 },
-                (updatePoints, cb) => {
-                    const newPoints = userInstance.points + updatePoints;
-
+                (points, cb) => {
                     userInstance.updateAttributes({
-                        points: newPoints,
-                        pointsUpdateOn: today,
-                        handlingPointJob: false
-                    }, (err) => {
-                        cb(err);
+                        handlingPointJob: false,
+                        points
+                    }, (err, updated) => {
+                        if (err) {
+                            return cb(err);
+                        }
+                        cb();
                         // TODO: handle badge
                     });
                 }
