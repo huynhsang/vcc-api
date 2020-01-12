@@ -8,13 +8,20 @@ import boot from 'loopback-boot';
 import path from 'path';
 import i18n from 'i18n';
 import async from 'async';
+import cookieParser from 'cookie-parser';
+import flash from 'express-flash';
+import session from 'express-session';
 import {logError, logInfo} from '../common/services/loggerService';
 import {initQueue} from '../queues/rabbitMQ';
+import Passport from '../configs/passport';
+import {ensureLoggedIn} from 'connect-ensure-login';
 
 logInfo(`*** VCNC API :: ${process.env.NODE_ENV} MODE ***, ${process.pid}`);
 
 const app = module.exports = loopback();
 let httpServer, queue;
+
+const passport = new Passport(app);
 
 i18n.configure({
     updateFiles: false,
@@ -91,12 +98,36 @@ boot(app, bootOptions, (err) => {
     // the project root
     app.set('views', path.resolve(__dirname, '../server/views'));
 
+    passport.setup();
+
     // start the server if `$ node server.js`
     if (require.main === module)
         app.start();
 
     app.loaded = true;
     app.emit('loaded');
+});
+
+app.middleware('session:before', cookieParser('secret'));
+app.middleware('session', session({
+    secret: 'auth',
+    saveUninitialized: true,
+    resave: true
+}));
+
+app.use(flash());
+
+app.get('/auth/account', ensureLoggedIn('/'), (req, res) => {
+    res.set({
+        'Content-type': 'application/json; charset=utf-8',
+    });
+    res.status(200).json({
+        isSuccess: true,
+        data: {
+            user: req.user,
+            accessToken: req.accessToken.id
+        }
+    });
 });
 
 // EXCEPTION HANDLER

@@ -19,8 +19,7 @@
       "type": "number"
     },
     "type": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "lrg": {
       "type": "string",

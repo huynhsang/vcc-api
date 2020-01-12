@@ -75,6 +75,10 @@
       "type": "Number",
       "required": true,
       "default": 0
+    },
+    "expireOn": {
+      "type": "Date",
+      "required": false
     }
   },
   "validations": [],

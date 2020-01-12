@@ -41,6 +41,14 @@
         },
         "public": true
     },
+    "UserCredential": {
+        "dataSource": "vccDS",
+        "public": false
+    },
+    "UserIdentity": {
+        "dataSource": "vccDS",
+        "public": false
+    },
     "Email": {
         "dataSource": "emailDS"
     },

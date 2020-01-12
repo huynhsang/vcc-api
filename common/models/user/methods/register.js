@@ -22,17 +22,7 @@ export default (User) => {
                 User.create(payload, next);
             },
             (user, next) => {
-                async.parallel([
-                    (cb) => {
-                        roleService.mappingRoleToUser(user, cb);
-                    },
-                    (cb) => {
-                        User.app.models.Wallet.createWallet(user.id, cb);
-                    },
-                    (cb) => {
-                        createTask('SEND_MAIL_TASK', {type: VERIFICATION_EMAIL, to: user.email}, cb);
-                    }
-                ], (err) => {
+                createTask('SEND_MAIL_TASK', {type: VERIFICATION_EMAIL, to: user.email}, (err) => {
                     if (err) {
                         return next(err);
                     }
@@ -47,4 +37,24 @@ export default (User) => {
             callback(null, user.toObject(true, true, true));
         });
     };
+
+    User.observe('after save', (ctx, next) => {
+        if (!ctx.isNewInstance || !ctx.instance) {
+            return next();
+        }
+        async.parallel([
+            (cb) => {
+                roleService.mappingRoleToUser(ctx.instance, cb);
+            },
+            (cb) => {
+                User.app.models.Wallet.createWallet(ctx.instance.id, cb);
+            }
+        ], (err) => {
+            if (err) {
+                User.deleteById(ctx.instance.id);
+                return next(err);
+            }
+            next();
+        });
+    });
 };
