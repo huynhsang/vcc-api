@@ -118,16 +118,18 @@ app.middleware('session', session({
 app.use(flash());
 
 app.get('/auth/account', ensureLoggedIn('/'), (req, res) => {
-    res.set({
-        'Content-type': 'application/json; charset=utf-8',
-    });
-    res.status(200).json({
-        isSuccess: true,
-        data: {
-            user: req.user,
-            accessToken: req.accessToken.id
-        }
-    });
+    // res.set({
+    //     'Content-type': 'application/json; charset=utf-8'
+    // });
+    const redirectUrl = `${process.env.SUCCESS_REDIRECT}?token=${req.accessToken.id}&user=${JSON.stringify(req.user)}`;
+    res.redirect(redirectUrl);
+    // res.status(200).json({
+    //     isSuccess: true,
+    //     data: {
+    //         user: req.user,
+    //         accessToken: req.accessToken.id
+    //     }
+    // });
 });
 
 // EXCEPTION HANDLER

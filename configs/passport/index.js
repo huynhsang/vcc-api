@@ -2,6 +2,7 @@ import loopbackPassport from 'loopback-component-passport';
 import {logError} from '../../common/services/loggerService';
 import {generatePassword} from '../../common/utils/tokenUtils';
 import {USER_REALM} from '../constants/serverConstant';
+import providers from './providers';
 
 export default class Passport {
     constructor (app) {
@@ -13,7 +14,7 @@ export default class Passport {
     setup () {
         const self = this;
         // Load the provider configurations
-        const config = self._loadProvider();
+        const config = providers;
 
         self.passportConfigurator.setupModels({
             userModel: self.app.models.user,
@@ -34,7 +35,7 @@ export default class Passport {
         // Load the provider configurations
         let config = {};
         try {
-            config = require('./providers.json');
+            config = require('./providers.js');
         } catch (err) {
             logError('Please configure your passport strategy in `providers.json`');
             process.exit(1);
@@ -51,13 +52,14 @@ export default class Passport {
         const name = profile.name || {};
         const avatarPath = profile.photos && profile.photos[0] && profile.photos[0].value;
         const avatarImage = {lrg: avatarPath, med: avatarPath, sml: avatarPath, thm: avatarPath};
+        const middleName = name.middleName ? ` ${name.middleName}` : '';
         return {
             email,
             username,
             avatarImage,
             password: generatePassword(),
             firstName: name.givenName,
-            lastName: name.familyName + name.middleName ? name.middleName : '',
+            lastName: name.familyName + middleName,
             realm: USER_REALM,
             emailVerified: true
         };
