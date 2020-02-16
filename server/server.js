@@ -121,7 +121,7 @@ app.get('/auth/account', ensureLoggedIn('/'), (req, res) => {
     // res.set({
     //     'Content-type': 'application/json; charset=utf-8'
     // });
-    const redirectUrl = `${process.env.SUCCESS_REDIRECT}?token=${req.accessToken.id}&user=${JSON.stringify(req.user)}`;
+    const redirectUrl = `${process.env.SUCCESS_REDIRECT}?access_token=${req.accessToken.id}&user=${JSON.stringify(req.user)}`;
     res.redirect(redirectUrl);
     // res.status(200).json({
     //     isSuccess: true,
