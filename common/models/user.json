@@ -172,7 +172,8 @@
       "permission": "ALLOW",
       "property": [
         "getProfileById",
-        "registerRoute"
+        "registerRoute",
+        "_GetMyAccount"
       ]
     },
     {
