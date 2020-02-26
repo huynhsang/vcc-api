@@ -9,6 +9,7 @@ import disableRoutes from './user/disableRoutes';
 import getProfileByIdRoute from './user/getProfileByIdRoute';
 import updateProfileRoute from './user/updateProfileRoute';
 import registerRoute from './user/registerRoute';
+import _GetMyAccount from './user/_GetMyAccount';
 
 module.exports = function (user) {
     disableRoutes(user);
@@ -27,4 +28,5 @@ module.exports = function (user) {
     getProfileByIdRoute(user);
     updateProfileRoute(user);
     registerRoute(user);
+    _GetMyAccount(user);
 };
