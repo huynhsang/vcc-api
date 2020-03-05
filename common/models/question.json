@@ -180,7 +180,8 @@
       "property": [
         "createOrUpdate",
         "voteRoute",
-        "approveAnswerRoute"
+        "approveAnswerRoute",
+        "_GetMyQuestions"
       ]
     },
     {

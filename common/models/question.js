@@ -16,6 +16,7 @@ import createOrUpdateRoute from './question/createOrUpdateRoute';
 import approveAnswerRoute from './question/approveAnswerRoute';
 import getDetailBySlugRoute from './question/getDetailBySlugRoute';
 import getQuestionsRoute from './question/getQuestionsRoute';
+import _GetMyQuestions from './question/routes/_GetMyQuestions';
 
 module.exports = function (Question) {
     // Disable loopback remote methods
@@ -55,4 +56,5 @@ module.exports = function (Question) {
     getQuestionsRoute(Question);
     getAnswersRoute(Question);
     voteRoute(Question);
+    _GetMyQuestions(Question);
 };

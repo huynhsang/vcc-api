@@ -3,6 +3,7 @@ import async from 'async';
 import {ADMIN_REALM, USER_REALM, VERIFICATION_EMAIL} from '../../../../configs/constants/serverConstant';
 import roleService from '../../../services/roleService';
 import {createTask} from '../../../../queues/producers/taskManager';
+import * as shortid from 'shortid';
 
 export default (User) => {
     User.register = (formData, options, callback) => {
@@ -12,6 +13,7 @@ export default (User) => {
         }
         const payload = _.pick(formData, ['email', 'password', 'firstName', 'lastName']);
         payload.realm = USER_REALM;
+        payload.username = `user_${shortid.generate()}`;
 
         if (options && options.admin) {
             payload.realm = ADMIN_REALM;
