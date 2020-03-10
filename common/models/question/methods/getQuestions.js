@@ -12,9 +12,15 @@ export default (Question) => {
         if (filter.keyword) {
             const pattern = new RegExp('.*' + filter.keyword + '.*', 'i');
             where.title = {like: pattern};
+            delete filter.keyword;
         }
         if (filter.tagIds && filter.tagIds.length > 0) {
             where['tagList.id'] = {inq: filter.tagIds};
+            delete filter.tagIds;
+        }
+        if (filter.ownerId) {
+            where['ownerId'] = filter.ownerId;
+            delete filter.ownerId;
         }
         return where;
     };
