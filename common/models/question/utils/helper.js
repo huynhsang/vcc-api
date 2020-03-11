@@ -33,3 +33,30 @@ export const getQuestionOrder = (sort) => {
             return ['created DESC'];
     }
 };
+
+export const getConditions = (data) => {
+    const where = {
+        disabled: false,
+        removedItem: {
+            exists: false
+        }
+    };
+    if (data.keyword) {
+        const pattern = new RegExp('.*' + data.keyword + '.*', 'i');
+        where.title = {like: pattern};
+        delete data.keyword;
+    }
+    if (data.tagIds && data.tagIds.length > 0) {
+        where['tagList.id'] = {inq: data.tagIds};
+        delete data.tagIds;
+    }
+    if (data.ownerId) {
+        where['ownerId'] = data.ownerId;
+        delete data.ownerId;
+    }
+    if (data.categorySlug) {
+        where['categoryItem.slug'] = data.categorySlug;
+        delete data.categorySlug
+    }
+    return where;
+}

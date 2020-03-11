@@ -6,7 +6,7 @@ import {
     SORT_QUESTION_CRITERIA
 } from '../../../../configs/constants/serverConstant';
 import {errorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
-import {getQuestionOrder} from '../utils/helper';
+import {getQuestionOrder, getConditions} from '../utils/helper';
 
 export default (Question) => {
     Question._GetMyQuestions = (filter = {}, options, req, callback) => {
@@ -15,21 +15,25 @@ export default (Question) => {
 
         const validateQuery = (next) => {
             const schema = Joi.object().keys({
+                keyword: Joi.string().trim().optional(),
+                tagIds: Joi.array().items(Joi.string()).optional(),
                 limit: Joi.number().integer().min(1).max(MAX_PAGE_SIZE).default(DEFAULT_PAGE_SIZE),
                 skip: Joi.number().integer().min(0).default(0),
-                sort: Joi.string().valid(SORT_QUESTION_CRITERIA).optional()
+                sort: Joi.string().valid(SORT_QUESTION_CRITERIA).optional(),
+                categorySlug: Joi.string().optional()
             });
 
             schema.validate(filter, {allowUnknown: true, stripUnknown: true}, (err, value) => {
                 if (err) {
                     return next(validationErrorHandler(err));
                 }
+                value.ownerId = currentUser.id;
                 next(null, value);
             });
         };
 
         const queryQuestions = (query, next) => {
-            const conds = {disabled: false, ownerId: currentUser.id};
+            const conds = getConditions(query);
             async.parallel({
                 'totalCount': (cb) => {
                     if (!options.totalCount) {

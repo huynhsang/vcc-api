@@ -1,29 +1,8 @@
 import async from 'async';
 import {MOST_VOTED, MOST_RECENT, MOST_ANSWERED, MOST_VISITED, NO_ANSWERS} from '../../../../configs/constants/serverConstant';
+import {getConditions} from '../utils/helper';
 
 export default (Question) => {
-    const buildWhere = (filter) => {
-        const where = {
-            disabled: false,
-            removedItem: {
-                exists: false
-            }
-        };
-        if (filter.keyword) {
-            const pattern = new RegExp('.*' + filter.keyword + '.*', 'i');
-            where.title = {like: pattern};
-            delete filter.keyword;
-        }
-        if (filter.tagIds && filter.tagIds.length > 0) {
-            where['tagList.id'] = {inq: filter.tagIds};
-            delete filter.tagIds;
-        }
-        if (filter.ownerId) {
-            where['ownerId'] = filter.ownerId;
-            delete filter.ownerId;
-        }
-        return where;
-    };
     Question.getQuestions = (filter, options, callback) => {
         if (typeof options === 'function') {
             callback = options;
@@ -31,7 +10,7 @@ export default (Question) => {
         }
         options = options || {};
 
-        filter.where = buildWhere(filter);
+        filter.where = getConditions(filter);
         filter.include = [
             {
                 relation: 'askedBy',

@@ -16,7 +16,8 @@ export default function (Question) {
                     limit: Joi.number().integer().min(1).max(MAX_PAGE_SIZE).default(DEFAULT_PAGE_SIZE),
                     skip: Joi.number().integer().min(0).default(0),
                     sort: Joi.string().valid(SORT_QUESTION_CRITERIA).optional(),
-                    ownerId: Joi.string().hex().length(24).optional()
+                    ownerId: Joi.string().hex().length(24).optional(),
+                    categorySlug: Joi.string().optional()
                 }).optional(),
                 totalCount: Joi.bool().default(false)
             }).required();
