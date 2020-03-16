@@ -10,7 +10,7 @@ export default (Tag) => {
                 limit: Joi.number().integer().min(1).max(MAX_PAGE_SIZE).default(DEFAULT_PAGE_SIZE),
                 skip: Joi.number().integer().min(0).default(0),
                 sort: Joi.string().valid(SORT_TAGS_CRITERIA).optional(),
-                category: Joi.string().optional()
+                categorySlug: Joi.string().optional()
             });
             schema.validate(filter, {allowUnknown: false}, (err, params) => {
                 if (err) {
@@ -21,8 +21,8 @@ export default (Tag) => {
         };
 
         const queryTags = (params, next) => {
-            if (params.category) {
-                return Tag.getTagsByCategory(params.category, filter, next);
+            if (params.categorySlug) {
+                return Tag.getTagsByCategory(params.categorySlug, filter, next);
             }
             Tag.getTags(params, next);
         };

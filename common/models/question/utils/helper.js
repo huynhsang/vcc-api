@@ -54,9 +54,9 @@ export const getQuestionConds = (data) => {
         where['ownerId'] = data.ownerId;
         delete data.ownerId;
     }
-    if (data.category) {
-        where['categoryItem.slug'] = data.category;
-        delete data.category;
+    if (data.categorySlug) {
+        where['categoryItem.slug'] = data.categorySlug;
+        delete data.categorySlug;
     }
     return where;
 };

@@ -20,7 +20,7 @@ export default (Question) => {
                 limit: Joi.number().integer().min(1).max(MAX_PAGE_SIZE).default(DEFAULT_PAGE_SIZE),
                 skip: Joi.number().integer().min(0).default(0),
                 sort: Joi.string().valid(SORT_QUESTION_CRITERIA).optional(),
-                category: Joi.string().optional()
+                categorySlug: Joi.string().optional()
             });
 
             schema.validate(filter, {allowUnknown: true, stripUnknown: true}, (err, value) => {

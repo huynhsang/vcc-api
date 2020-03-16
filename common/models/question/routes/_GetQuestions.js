@@ -17,7 +17,7 @@ export default function (Question) {
                     skip: Joi.number().integer().min(0).default(0),
                     sort: Joi.string().valid(SORT_QUESTION_CRITERIA).optional(),
                     ownerId: Joi.string().hex().length(24).optional(),
-                    category: Joi.string().optional()
+                    categorySlug: Joi.string().optional()
                 }).optional(),
                 totalCount: Joi.bool().default(false)
             }).required();
