@@ -1,7 +1,7 @@
 import async from 'async';
 import Joi from 'joi';
-import {DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE} from '../../../configs/constants/serverConstant';
-import {errorHandler, validationErrorHandler} from '../../utils/modelHelpers';
+import {DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE} from '../../../../configs/constants/serverConstant';
+import {errorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
 
 export default function (Question) {
     /**
@@ -11,7 +11,7 @@ export default function (Question) {
      * @param id {Number} The question Id
      * @param callback {Function} Callback function.
      */
-    Question.getAnswers = (id, req, callback) => {
+    Question._GetAnswers = (id, req, callback) => {
         const loggedInUser = req.user;
         const query = req.query || req;
 
@@ -66,7 +66,7 @@ export default function (Question) {
         });
     };
 
-    Question.afterRemote('getAnswers', (ctx, data, next) => {
+    Question.afterRemote('_GetAnswers', (ctx, data, next) => {
         if (data) {
             if (typeof data.totalCount !== 'undefined') {
                 ctx.res.set('Access-Control-Expose-Headers', 'x-total-count');
@@ -81,7 +81,7 @@ export default function (Question) {
      * To Describe API end point to get answers by question Id
      */
     Question.remoteMethod(
-        'getAnswers',
+        '_GetAnswers',
         {
             accessType: 'READ',
             accepts: [

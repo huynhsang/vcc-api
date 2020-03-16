@@ -1,6 +1,6 @@
 import async from 'async';
 import {MOST_VOTED, MOST_RECENT, MOST_ANSWERED, MOST_VISITED, NO_ANSWERS} from '../../../../configs/constants/serverConstant';
-import {getConditions} from '../utils/helper';
+import {getQuestionConds} from '../utils/helper';
 
 export default (Question) => {
     Question.getQuestions = (filter, options, callback) => {
@@ -10,7 +10,7 @@ export default (Question) => {
         }
         options = options || {};
 
-        filter.where = getConditions(filter);
+        filter.where = getQuestionConds(filter);
         filter.include = [
             {
                 relation: 'askedBy',

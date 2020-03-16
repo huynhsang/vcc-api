@@ -1,10 +1,10 @@
 import Joi from 'joi';
 import async from 'async';
-import {errorHandler, validationErrorHandler} from '../../utils/modelHelpers';
-import {DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, SORT_QUESTION_CRITERIA} from '../../../configs/constants/serverConstant';
+import {errorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
+import {DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, SORT_QUESTION_CRITERIA} from '../../../../configs/constants/serverConstant';
 
 export default function (Question) {
-    Question.getQuestionsRoute = (req, filter = {}, totalCount, callback) => {
+    Question._GetQuestions = (req, filter = {}, totalCount, callback) => {
         const loggedInUser = req.user;
 
         const validateQuery = (next) => {
@@ -17,7 +17,7 @@ export default function (Question) {
                     skip: Joi.number().integer().min(0).default(0),
                     sort: Joi.string().valid(SORT_QUESTION_CRITERIA).optional(),
                     ownerId: Joi.string().hex().length(24).optional(),
-                    categorySlug: Joi.string().optional()
+                    category: Joi.string().optional()
                 }).optional(),
                 totalCount: Joi.bool().default(false)
             }).required();
@@ -59,7 +59,7 @@ export default function (Question) {
         });
     };
 
-    Question.afterRemote('getQuestionsRoute', (ctx, data, next) => {
+    Question.afterRemote('_GetQuestions', (ctx, data, next) => {
         if (data) {
             if (typeof data.totalCount !== 'undefined') {
                 ctx.res.set('Access-Control-Expose-Headers', 'x-total-count');
@@ -74,7 +74,7 @@ export default function (Question) {
      * To Describe API end point to get questions
      */
     Question.remoteMethod(
-        'getQuestionsRoute',
+        '_GetQuestions',
         {
             accessType: 'READ',
             accepts: [

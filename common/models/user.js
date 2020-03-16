@@ -6,10 +6,11 @@ import register from './user/methods/register';
 import countMethods from './user/methods/countMethods';
 
 import disableRoutes from './user/disableRoutes';
-import getProfileByIdRoute from './user/getProfileByIdRoute';
-import updateProfileRoute from './user/updateProfileRoute';
-import registerRoute from './user/registerRoute';
-import _GetMyAccount from './user/_GetMyAccount';
+import _GetProfileById from './user/routes/_GetProfileById';
+import _UpdateProfile from './user/routes/_UpdateProfile';
+import _Register from './user/routes/_Register';
+import _GetMyAccount from './user/routes/_GetMyAccount';
+import _VerifyEmail from './user/routes/_VerifyEmail';
 
 module.exports = function (user) {
     disableRoutes(user);
@@ -25,8 +26,9 @@ module.exports = function (user) {
     register(user);
 
     // Route
-    getProfileByIdRoute(user);
-    updateProfileRoute(user);
-    registerRoute(user);
+    _GetProfileById(user);
+    _UpdateProfile(user);
+    _Register(user);
     _GetMyAccount(user);
+    _VerifyEmail(user);
 };

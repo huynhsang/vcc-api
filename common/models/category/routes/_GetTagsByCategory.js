@@ -1,7 +1,7 @@
 import async from 'async';
 import Joi from 'joi';
-import {DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE} from '../../../configs/constants/serverConstant';
-import {errorHandler, validationErrorHandler} from '../../utils/modelHelpers';
+import {DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE} from '../../../../configs/constants/serverConstant';
+import {errorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
 
 export default (Category) => {
     Category.getTagsRoute = (slug, req, filter = {}, callback) => {

@@ -1,13 +1,13 @@
-import {accessDeniedErrorHandler} from '../../utils/modelHelpers';
+import {accessDeniedErrorHandler} from '../../../utils/modelHelpers';
 
-export default (Question) => {
+export default function (Answer) {
     /**
      * Implement the customCreate function
      * @param req: {Object} The request
-     * @param data: {Object} The Question data
+     * @param data: {Object} The answer data
      * @param callback: {Function} Callback function
      */
-    Question.createOrUpdate = function (req, data, callback) {
+    Answer.createOrUpdate = function (req, data, callback) {
         const method = req.method.toLowerCase();
         const loggedInUser = req.user;
 
@@ -16,12 +16,12 @@ export default (Question) => {
         }
 
         if (method === 'put') {
-            return Question.editQuestion(loggedInUser, data, callback);
+            return Answer.editAnswer(loggedInUser, data, callback);
         }
-        Question.createQuestion(loggedInUser, data, callback);
+        Answer.createAnswer(loggedInUser, data, callback);
     };
 
-    Question.remoteMethod('createOrUpdate', {
+    Answer.remoteMethod('createOrUpdate', {
         description: 'Create a new instance of the model and persist it into the data source.',
         accessType: 'WRITE',
         accepts: [
@@ -29,18 +29,18 @@ export default (Question) => {
             {
                 arg: 'data',
                 type: 'object',
-                model: 'Question',
+                model: 'Answer',
                 allowArray: true,
                 description: 'Model instance data',
                 http: {source: 'body'}
             }
         ],
-        returns: {arg: 'data', type: 'object', model: 'Question', root: true},
+        returns: {arg: 'data', type: 'object', model: 'Answer', root: true},
         http: {verb: 'post', path: '/'},
         isStatic: true
     });
 
-    Question.remoteMethod('createOrUpdate', {
+    Answer.remoteMethod('createOrUpdate', {
         description: 'Replace an existing model instance or insert a new one into the data source.',
         accessType: 'WRITE',
         accepts: [
@@ -48,13 +48,13 @@ export default (Question) => {
             {
                 arg: 'data',
                 type: 'object',
-                model: 'Question',
+                model: 'Answer',
                 allowArray: true,
                 description: 'Model instance data',
                 http: {source: 'body'}
             }
         ],
-        returns: {arg: 'data', type: 'object', model: 'Question', root: true},
+        returns: {arg: 'data', type: 'object', model: 'Answer', root: true},
         http: {verb: 'put', path: '/'},
         isStatic: true
     });

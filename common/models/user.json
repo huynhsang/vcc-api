@@ -157,7 +157,7 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": [
-        "updateProfileRoute"
+        "_UpdateProfile"
       ]
     },
     {
@@ -171,9 +171,10 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": [
-        "getProfileById",
-        "registerRoute",
-        "_GetMyAccount"
+        "_GetProfileById",
+        "_Register",
+        "_GetMyAccount",
+        "_VerifyEmail"
       ]
     },
     {

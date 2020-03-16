@@ -1,6 +1,6 @@
 import async from 'async';
 import Joi from 'joi';
-import {errorHandler, validationErrorHandler} from '../../utils/modelHelpers';
+import {errorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
 
 export default (Question) => {
     /**
@@ -10,7 +10,7 @@ export default (Question) => {
      * @param req: {Object} The request
      * @param callback: {Function} The callback function
      */
-    Question.approveAnswerRoute = (id, body, req, callback) => {
+    Question._ApproveAnswer = (id, body, req, callback) => {
         const loggedInUser = req.user;
 
         const validateRequestData = (next) => {
@@ -52,7 +52,7 @@ export default (Question) => {
      * To Describe API end point to approve answer
      */
     Question.remoteMethod(
-        'approveAnswerRoute',
+        '_ApproveAnswer',
         {
             accepts: [
                 {arg: 'id', type: 'string', description: 'Question Id', http: {source: 'path'}},

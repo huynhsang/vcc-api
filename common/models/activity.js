@@ -1,15 +1,9 @@
 // METHODS
 import trackActivity from './activity/methods/trackActivity';
+import disableRoutes from './activity/disableRoutes';
 
 export default function (Activity) {
-    // disable remote Methods
-    Activity.disableRemoteMethodByName('create');
-    Activity.disableRemoteMethodByName('upsert');
-    Activity.disableRemoteMethodByName('updateAll');
-    Activity.disableRemoteMethodByName('updateAttributes');
-    Activity.disableRemoteMethodByName('upsertWithWhere');
-    Activity.disableRemoteMethodByName('createChangeStream');
-    Activity.disableRemoteMethodByName('replaceOrCreate');
+    disableRoutes(Activity);
 
     trackActivity(Activity);
 }

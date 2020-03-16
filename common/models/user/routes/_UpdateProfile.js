@@ -2,10 +2,10 @@
 import _ from 'lodash';
 import async from 'async';
 import Joi from 'joi';
-import {errorHandler, permissionErrorHandler, validationErrorHandler} from '../../utils/modelHelpers';
+import {errorHandler, permissionErrorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
 
 export default (User) => {
-    User.updateProfileRoute = (data, req, callback) => {
+    User._UpdateProfile = (data, req, callback) => {
         const user = req.user;
         if (!user) {
             return callback(permissionErrorHandler(__('err.user.NotExists')));
@@ -49,7 +49,7 @@ export default (User) => {
         });
     };
 
-    User.remoteMethod('updateProfileRoute', {
+    User.remoteMethod('_UpdateProfile', {
         accessType: 'WRITE',
         accepts: [
             {

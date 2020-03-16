@@ -1,14 +1,16 @@
+import disableRoutes from './tag/disableRoutes';
 import validation from './tag/validation';
 import updateStats from './tag/methods/updateStats';
 import getTags from './tag/methods/getTags';
 import getTrendingTags from './tag/methods/getTrendingTags';
+import getTagsByCategory from './tag/methods/getTagsByCategory';
 
 // Routes
-import getTrendingTagsRoute from './tag/getTrendingTagsRoute';
-import getTagsRoute from './tag/getTagsRoute';
+import _GetTrendingTags from './tag/routes/_GetTrendingTags';
+import _GetTags from './tag/routes/_GetTags';
 
 module.exports = function (Tag) {
-    Tag.disableRemoteMethodByName('find');
+    disableRoutes(Tag);
 
     // Validation
     validation(Tag);
@@ -16,8 +18,9 @@ module.exports = function (Tag) {
     updateStats(Tag);
     getTags(Tag);
     getTrendingTags(Tag);
+    getTagsByCategory(Tag);
 
     // Routes
-    getTrendingTagsRoute(Tag);
-    getTagsRoute(Tag);
+    _GetTrendingTags(Tag);
+    _GetTags(Tag);
 };

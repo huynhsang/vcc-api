@@ -110,9 +110,8 @@
       "accessType": "*",
       "permission": "ALLOW",
       "property": [
-        "createOrUpdate",
-        "approveRoute",
-        "voteRoute"
+        "_Upsert",
+        "_Vote"
       ]
     },
     {

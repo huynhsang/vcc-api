@@ -1,4 +1,4 @@
-
+import disableRoutes from './question/disableRoutes';
 import validation from './question/validation';
 import personalise from './question/methods/personalise';
 
@@ -10,31 +10,17 @@ import countMethods from './question/methods/countMethods';
 import createQuestion from './question/methods/createQuestion';
 import editQuestion from './question/methods/editQuestion';
 
-import getAnswersRoute from './question/getAnswersRoute';
-import voteRoute from './question/voteRoute';
-import createOrUpdateRoute from './question/createOrUpdateRoute';
-import approveAnswerRoute from './question/approveAnswerRoute';
-import getDetailBySlugRoute from './question/getDetailBySlugRoute';
-import getQuestionsRoute from './question/getQuestionsRoute';
+import _GetAnswers from './question/routes/_GetAnswers';
+import _Vote from './question/routes/_Vote';
+import _Upsert from './question/routes/_Upsert';
+import _ApproveAnswer from './question/routes/_ApproveAnswer';
+import _GetDetailBySlug from './question/routes/_GetDetailBySlug';
+import _GetQuestions from './question/routes/_GetQuestions';
 import _GetMyQuestions from './question/routes/_GetMyQuestions';
 
 module.exports = function (Question) {
     // Disable loopback remote methods
-    Question.disableRemoteMethodByName('create');
-    Question.disableRemoteMethodByName('find');
-    Question.disableRemoteMethodByName('findById');
-    Question.disableRemoteMethodByName('findOrCreate');
-    Question.disableRemoteMethodByName('replaceOrCreate');
-    Question.disableRemoteMethodByName('replaceById');
-    Question.disableRemoteMethodByName('upsertWithWhere');
-    Question.disableRemoteMethodByName('upsert');
-    Question.disableRemoteMethodByName('deleteById');
-    Question.disableRemoteMethodByName('createChangeStream');
-    Question.disableRemoteMethodByName('prototype.__get__votes');
-    Question.disableRemoteMethodByName('prototype.__findById__votes');
-    Question.disableRemoteMethodByName('prototype.__create__votes');
-    Question.disableRemoteMethodByName('prototype.__destroyById__votes'); // DELETE
-    Question.disableRemoteMethodByName('prototype.__updateById__votes');
+    disableRoutes(Question);
 
     // Validation
     validation(Question);
@@ -50,11 +36,11 @@ module.exports = function (Question) {
     editQuestion(Question);
 
     // Routes
-    createOrUpdateRoute(Question);
-    approveAnswerRoute(Question);
-    getDetailBySlugRoute(Question);
-    getQuestionsRoute(Question);
-    getAnswersRoute(Question);
-    voteRoute(Question);
+    _Upsert(Question);
+    _ApproveAnswer(Question);
+    _GetDetailBySlug(Question);
+    _GetQuestions(Question);
+    _GetAnswers(Question);
+    _Vote(Question);
     _GetMyQuestions(Question);
 };

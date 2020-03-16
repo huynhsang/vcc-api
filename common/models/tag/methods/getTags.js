@@ -1,17 +1,9 @@
+import {getTagOrder} from '../utils/helper';
+
 export default (Tag) => {
     Tag.getTags = (filter, callback) => {
         const {sort} = filter;
-        const getOrder = () => {
-            switch (sort) {
-                case 'recent':
-                    return ['id DESC'];
-                case 'popular':
-                    return ['questionCount DESC'];
-                default:
-                    return ['id ASC'];
-            }
-        };
-        filter.order = getOrder();
+        filter.order = getTagOrder(sort);
         delete filter.sort;
         Tag.find(filter, (err, tags) => {
             if (err) {

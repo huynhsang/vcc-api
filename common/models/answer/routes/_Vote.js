@@ -1,10 +1,10 @@
 import async from 'async';
 import Joi from 'joi';
-import {VOTE_ACTIONS} from '../../../configs/constants/serverConstant';
-import {errorHandler, validationErrorHandler} from '../../utils/modelHelpers';
+import {VOTE_ACTIONS} from '../../../../configs/constants/serverConstant';
+import {errorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
 
 export default (Answer) => {
-    Answer.voteRoute = (id, body, req, callback) => {
+    Answer._Vote = (id, body, req, callback) => {
         const loggedInUser = req.user;
 
         const validateRequestData = (next) => {
@@ -38,7 +38,7 @@ export default (Answer) => {
     };
 
     Answer.remoteMethod(
-        'voteRoute',
+        '_Vote',
         {
             accepts: [
                 {arg: 'id', type: 'string', description: 'Question Id', http: {source: 'path'}},

@@ -1,8 +1,8 @@
 /* global __ */
 import async from 'async';
 import Joi from 'joi';
-import {errorHandler, notFoundErrorHandler, validationErrorHandler} from '../../utils/modelHelpers';
-import {SLUG_PATTERN} from '../../../configs/constants/validationConstant';
+import {errorHandler, notFoundErrorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
+import {SLUG_PATTERN} from '../../../../configs/constants/validationConstant';
 
 export default function (Question) {
     /**
@@ -13,7 +13,7 @@ export default function (Question) {
      * @param filter: {Object} The filter
      * @param callback {Function} Callback function.
      */
-    Question.getDetailBySlugRoute = (slug, req, filter = {}, callback) => {
+    Question._GetDetailBySlug = (slug, req, filter = {}, callback) => {
         const loggedInUser = req.user;
         const validateParams = (next) => {
             const query = {slug, filter};
@@ -77,13 +77,14 @@ export default function (Question) {
      * To Describe API end point to get questions
      */
     Question.remoteMethod(
-        'getDetailBySlugRoute',
+        '_GetDetailBySlug',
         {
             accessType: 'READ',
             accepts: [
                 {arg: 'slug', type: 'string', description: 'Question slug', http: {source: 'path'}},
                 {arg: 'req', type: 'object', http: {source: 'req'}},
-                {arg: 'filter', type: 'object', description:
+                {
+                    arg: 'filter', type: 'object', description:
                         'Filter defining fields, where - must be a JSON-encoded string (`{"where":{"something":"value"}}`).  ' +
                         'See https://loopback.io/doc/en/lb3/Querying-data.html#using-stringified-json-in-rest-queries for more details.',
                     http: {source: 'query'}

@@ -34,7 +34,7 @@ export const getQuestionOrder = (sort) => {
     }
 };
 
-export const getConditions = (data) => {
+export const getQuestionConds = (data) => {
     const where = {
         disabled: false,
         removedItem: {
@@ -54,9 +54,9 @@ export const getConditions = (data) => {
         where['ownerId'] = data.ownerId;
         delete data.ownerId;
     }
-    if (data.categorySlug) {
-        where['categoryItem.slug'] = data.categorySlug;
-        delete data.categorySlug
+    if (data.category) {
+        where['categoryItem.slug'] = data.category;
+        delete data.category;
     }
     return where;
-}
+};

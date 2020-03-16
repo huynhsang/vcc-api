@@ -1,5 +1,5 @@
 /* global __ */
-import {notFoundErrorHandler} from '../../utils/modelHelpers';
+import {notFoundErrorHandler} from '../../../utils/modelHelpers';
 
 export default (User) => {
     User._GetMyAccount = (req, callback) => {

@@ -1,10 +1,10 @@
 import async from 'async';
 import Joi from 'joi';
-import {FULLNAME_REGEX, MAX_LENGTH, MIN_LENGTH, PASSWORD_REGEX} from '../../../configs/constants/validationConstant';
-import {errorHandler, validationErrorHandler} from '../../utils/modelHelpers';
+import {FULLNAME_REGEX, MAX_LENGTH, MIN_LENGTH, PASSWORD_REGEX} from '../../../../configs/constants/validationConstant';
+import {errorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
 
 export default (User) => {
-    User.registerRoute = (formData, callback) => {
+    User._Register = (formData, callback) => {
         const validateData = (next) => {
             const schema = Joi.object().keys({
                 email: Joi.string().trim().email().required(),
@@ -35,7 +35,7 @@ export default (User) => {
         });
     };
 
-    User.remoteMethod('registerRoute', {
+    User.remoteMethod('_Register', {
         accessType: 'WRITE',
         accepts: [
             {

@@ -178,9 +178,9 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": [
-        "createOrUpdate",
-        "voteRoute",
-        "approveAnswerRoute",
+        "_Upsert",
+        "_Vote",
+        "_ApproveAnswer",
         "_GetMyQuestions"
       ]
     },

@@ -1,14 +1,16 @@
 import async from 'async';
 import Joi from 'joi';
-import {MAX_PAGE_SIZE} from '../../../configs/constants/serverConstant';
-import {errorHandler, validationErrorHandler} from '../../utils/modelHelpers';
+import {DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, SORT_TAGS_CRITERIA} from '../../../../configs/constants/serverConstant';
+import {errorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
 
 export default (Tag) => {
-    Tag.getTrendingTagsRoute = (filter = {}, callback) => {
+    Tag._GetTags = (req, filter = {}, callback) => {
         const validateFilter = (next) => {
             const schema = Joi.object().keys({
-                limit: Joi.number().integer().min(1).max(MAX_PAGE_SIZE).default(10),
-                skip: Joi.number().integer().min(0).default(0)
+                limit: Joi.number().integer().min(1).max(MAX_PAGE_SIZE).default(DEFAULT_PAGE_SIZE),
+                skip: Joi.number().integer().min(0).default(0),
+                sort: Joi.string().valid(SORT_TAGS_CRITERIA).optional(),
+                category: Joi.string().optional()
             });
             schema.validate(filter, {allowUnknown: false}, (err, params) => {
                 if (err) {
@@ -19,12 +21,10 @@ export default (Tag) => {
         };
 
         const queryTags = (params, next) => {
-            Tag.getTrendingTags(params, (err, tags) => {
-                if (err) {
-                    return next(err);
-                }
-                next(null, tags);
-            });
+            if (params.category) {
+                return Tag.getTagsByCategory(params.category, filter, next);
+            }
+            Tag.getTags(params, next);
         };
 
         async.waterfall([
@@ -39,14 +39,16 @@ export default (Tag) => {
     };
 
     Tag.remoteMethod(
-        'getTrendingTagsRoute',
+        '_GetTags',
         {
             accessType: 'READ',
             accepts: [
+                {arg: 'req', type: 'object', http: {source: 'req'}},
                 {arg: 'filter', type: 'object', http: {source: 'query'}}
             ],
-            description: 'Get trending tags',
+            description: 'Find all instances of the model matched by filter from the data source',
             returns: {type: 'array', model: 'Tag', root: true},
-            http: {path: '/trending', verb: 'get'}
-        });
+            http: {path: '/', verb: 'get'}
+        }
+    );
 };

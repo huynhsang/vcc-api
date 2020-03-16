@@ -66,7 +66,7 @@
     },
     "CategoryTag": {
         "dataSource": "vccDS",
-        "public": true
+        "public": false
     },
     "Education": {
         "dataSource": "vccDS",
@@ -78,11 +78,11 @@
     },
     "Image": {
         "dataSource": "vccDS",
-        "public": true
+        "public": false
     },
     "Notification": {
         "dataSource": "vccDS",
-        "public": true
+        "public": false
     },
     "Question": {
         "dataSource": "vccDS",
@@ -94,15 +94,15 @@
     },
     "Vote": {
         "dataSource": "vccDS",
-        "public": true
+        "public": false
     },
     "Report": {
         "dataSource": "vccDS",
-        "public": true
+        "public": false
     },
     "Wallet": {
         "dataSource": "vccDS",
-        "public": true
+        "public": false
     },
     "Activity": {
         "dataSource": "vccDS",
@@ -110,7 +110,7 @@
     },
     "ActivityPoint": {
         "dataSource": "vccDS",
-        "public": true
+        "public": false
     },
     "Remove": {
         "dataSource": "transient",

@@ -1,9 +1,9 @@
 /* global __ */
-import {USER_REALM} from '../../../configs/constants/serverConstant';
-import {errorHandler, notFoundErrorHandler} from '../../utils/modelHelpers';
+import {USER_REALM} from '../../../../configs/constants/serverConstant';
+import {errorHandler, notFoundErrorHandler} from '../../../utils/modelHelpers';
 
 export default function (User) {
-    User.getProfileById = function (id, cb) {
+    User._GetProfileById = function (id, cb) {
         User.findOne({
             where: {
                 id,
@@ -22,7 +22,7 @@ export default function (User) {
         });
     };
 
-    User.remoteMethod('getProfileById', {
+    User.remoteMethod('_GetProfileById', {
         accepts: [
             {arg: 'id', type: 'string', required: true}
         ],
