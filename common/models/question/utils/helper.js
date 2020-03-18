@@ -58,5 +58,23 @@ export const getQuestionConds = (data) => {
         where['categoryItem.slug'] = data.categorySlug;
         delete data.categorySlug;
     }
+    if (data.answered !== undefined) {
+        if (data.answered) {
+            where['answerCount'] = {gt: 0}
+        } else {
+            where['answerCount'] = 0
+        }
+    }
+    if (data.meId) {
+        if (data.mine) {
+            where['ownerId'] = data.meId;
+            delete data.mine;
+        }
+        if (data.askedToMe) {
+            where['supporterList.id'] = data.meId;
+            delete data.askedToMe;
+        }
+        delete data.mine;
+    }
     return where;
 };

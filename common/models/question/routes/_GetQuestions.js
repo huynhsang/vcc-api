@@ -17,7 +17,10 @@ export default function (Question) {
                     skip: Joi.number().integer().min(0).default(0),
                     sort: Joi.string().valid(SORT_QUESTION_CRITERIA).optional(),
                     ownerId: Joi.string().hex().length(24).optional(),
-                    categorySlug: Joi.string().optional()
+                    categorySlug: Joi.string().optional(),
+                    askedToMe: Joi.bool().default(false),
+                    answered: Joi.bool().optional(),
+                    mine: Joi.bool().default(false)
                 }).optional(),
                 totalCount: Joi.bool().default(false)
             }).required();
@@ -31,6 +34,9 @@ export default function (Question) {
         };
 
         const queryQuestions = (validQuery, next) => {
+            if (validQuery.filter.askedToMe || validQuery.filter.mine) {
+                validQuery.filter.meId = loggedInUser && loggedInUser.id
+            }
             Question.getQuestions(validQuery.filter, {totalCount: validQuery.totalCount}, (err, result) => {
                 if (err) {
                     return next(err);

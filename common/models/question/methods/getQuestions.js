@@ -1,5 +1,5 @@
 import async from 'async';
-import {MOST_VOTED, MOST_RECENT, MOST_ANSWERED, MOST_VISITED, NO_ANSWERS} from '../../../../configs/constants/serverConstant';
+import {MOST_VOTED, MOST_RECENT, MOST_ANSWERED, MOST_VISITED} from '../../../../configs/constants/serverConstant';
 import {getQuestionConds} from '../utils/helper';
 
 export default (Question) => {
@@ -30,10 +30,6 @@ export default (Question) => {
                 break;
             case MOST_VISITED:
                 filter.order = ['viewCount DESC', 'created DESC'];
-                break;
-            case NO_ANSWERS:
-                filter.where.answerCount = 0;
-                filter.order = ['created DESC'];
                 break;
             case MOST_RECENT:
             default:
