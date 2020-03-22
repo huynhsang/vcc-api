@@ -35,7 +35,8 @@ export const getQuestionOrder = (sort) => {
 };
 
 export const getQuestionConds = (data) => {
-    const where = {
+    const orConds = [{isPublic: true}];
+    const conds = {
         disabled: false,
         removedItem: {
             exists: false
@@ -43,38 +44,56 @@ export const getQuestionConds = (data) => {
     };
     if (data.keyword) {
         const pattern = new RegExp('.*' + data.keyword + '.*', 'i');
-        where.title = {like: pattern};
+        conds.title = {like: pattern};
         delete data.keyword;
     }
     if (data.tagIds && data.tagIds.length > 0) {
-        where['tagList.id'] = {inq: data.tagIds};
+        conds['tagList.id'] = {inq: data.tagIds};
         delete data.tagIds;
     }
     if (data.ownerId) {
-        where['ownerId'] = data.ownerId;
+        conds['ownerId'] = data.ownerId;
         delete data.ownerId;
     }
     if (data.categorySlug) {
-        where['categoryItem.slug'] = data.categorySlug;
+        conds['categoryItem.slug'] = data.categorySlug;
         delete data.categorySlug;
     }
     if (data.answered !== undefined) {
         if (data.answered) {
-            where['answerCount'] = {gt: 0}
+            conds['answerCount'] = {gt: 0};
         } else {
-            where['answerCount'] = 0
+            conds['answerCount'] = 0;
         }
     }
     if (data.meId) {
         if (data.mine) {
-            where['ownerId'] = data.meId;
+            conds['ownerId'] = data.meId;
             delete data.mine;
         }
         if (data.askedToMe) {
-            where['supporterList.id'] = data.meId;
+            conds['supporterList.id'] = data.meId;
             delete data.askedToMe;
         }
-        delete data.mine;
+        orConds.push({
+            and: [
+                {
+                    isPublic: false
+                },
+                {
+                    or: [
+                        {
+                            ownerId: data.meId
+                        },
+                        {
+                            'supporterList.id': data.meId
+                        }
+                    ]
+                }
+            ]
+        });
+        delete data.meId;
     }
-    return where;
+
+    return {and: [{...conds}, {or: orConds}]};
 };

@@ -7,7 +7,7 @@ export default function (Answer) {
      * @param data: {Object} The answer data
      * @param callback: {Function} Callback function
      */
-    Answer.createOrUpdate = function (req, data, callback) {
+    Answer._Upsert = function (req, data, callback) {
         const method = req.method.toLowerCase();
         const loggedInUser = req.user;
 
@@ -21,7 +21,7 @@ export default function (Answer) {
         Answer.createAnswer(loggedInUser, data, callback);
     };
 
-    Answer.remoteMethod('createOrUpdate', {
+    Answer.remoteMethod('_Upsert', {
         description: 'Create a new instance of the model and persist it into the data source.',
         accessType: 'WRITE',
         accepts: [
@@ -40,7 +40,7 @@ export default function (Answer) {
         isStatic: true
     });
 
-    Answer.remoteMethod('createOrUpdate', {
+    Answer.remoteMethod('_Upsert', {
         description: 'Replace an existing model instance or insert a new one into the data source.',
         accessType: 'WRITE',
         accepts: [

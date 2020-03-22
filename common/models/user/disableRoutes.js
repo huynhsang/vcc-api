@@ -13,7 +13,7 @@ export default (User) => {
     User.disableRemoteMethodByName('upsert');
     User.disableRemoteMethodByName('deleteById');
     User.disableRemoteMethodByName('createChangeStream');
-    User.disableRemoteMethodByName('prototype.updateAttributes');
+    // User.disableRemoteMethodByName('prototype.updateAttributes');
     User.disableRemoteMethodByName('prototype.replaceAttributes');
 
     User.disableRemoteMethodByName('prototype.verify');

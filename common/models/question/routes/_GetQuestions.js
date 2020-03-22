@@ -5,7 +5,7 @@ import {DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, SORT_QUESTION_CRITERIA} from '../../..
 
 export default function (Question) {
     Question._GetQuestions = (req, filter = {}, totalCount, callback) => {
-        const loggedInUser = req.user;
+        const loggedInUser = req.user || {};
 
         const validateQuery = (next) => {
             const query = {filter, totalCount};
@@ -34,9 +34,7 @@ export default function (Question) {
         };
 
         const queryQuestions = (validQuery, next) => {
-            if (validQuery.filter.askedToMe || validQuery.filter.mine) {
-                validQuery.filter.meId = loggedInUser && loggedInUser.id
-            }
+            validQuery.filter.meId = loggedInUser.id;
             Question.getQuestions(validQuery.filter, {totalCount: validQuery.totalCount}, (err, result) => {
                 if (err) {
                     return next(err);
