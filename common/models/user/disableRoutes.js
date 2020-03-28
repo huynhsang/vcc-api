@@ -4,7 +4,7 @@ export default (User) => {
     User.disableRemoteMethodByName('count');
     User.disableRemoteMethodByName('findOne');
     User.disableRemoteMethodByName('update');
-    // User.disableRemoteMethodByName('find');
+    User.disableRemoteMethodByName('find');
     User.disableRemoteMethodByName('findById');
     User.disableRemoteMethodByName('findOrCreate');
     User.disableRemoteMethodByName('replaceOrCreate');

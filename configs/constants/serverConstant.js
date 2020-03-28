@@ -29,13 +29,13 @@ const MOST_VOTED = 'highVote';
 const MOST_RECENT = 'recent';
 const MOST_ANSWERED = 'mostAnswered';
 const MOST_VISITED = 'mostVisited';
-const NO_ANSWERS = 'noAnswers';
 define('MOST_VOTED', MOST_VOTED);
 define('MOST_RECENT', MOST_RECENT);
 define('MOST_ANSWERED', MOST_ANSWERED);
 define('MOST_VISITED', MOST_VISITED);
 define('SORT_QUESTION_CRITERIA', [MOST_VOTED, MOST_RECENT, MOST_ANSWERED, MOST_VISITED]);
 define('SORT_TAGS_CRITERIA', ['popular', MOST_RECENT]);
+define('SORT_USERS_CRITERIA', ['point']);
 define('SUPPORTER_FIELDS', ['id', 'email', 'firstName', 'lastName', 'nationality']);
 
 // Personalise Constant

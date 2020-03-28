@@ -11,6 +11,7 @@ import _UpdateProfile from './user/routes/_UpdateProfile';
 import _Register from './user/routes/_Register';
 import _GetMyAccount from './user/routes/_GetMyAccount';
 import _VerifyEmail from './user/routes/_VerifyEmail';
+import _GetUsers from './user/routes/_GetUsers';
 
 module.exports = function (user) {
     disableRoutes(user);
@@ -26,6 +27,7 @@ module.exports = function (user) {
     register(user);
 
     // Route
+    _GetUsers(user);
     _GetProfileById(user);
     _UpdateProfile(user);
     _Register(user);

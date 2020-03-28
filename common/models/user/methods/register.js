@@ -24,7 +24,29 @@ export default (User) => {
                 User.create(payload, next);
             },
             (user, next) => {
-                createTask('SEND_MAIL_TASK', {type: VERIFICATION_EMAIL, to: user.email}, (err) => {
+                async.parallel([
+                    (cb) => {
+                        createTask('SEND_MAIL_TASK', {type: VERIFICATION_EMAIL, to: user.email}, (err) => {
+                            if (err) {
+                                return cb(err);
+                            }
+                            cb();
+                        });
+                    },
+                    (cb) => {
+                        createTask('ACTIVITY_TASK',{
+                            activityName: 'JOIN_VCNC',
+                            activityModelType: User.modelName,
+                            activityModelId: user.id,
+                            ownerId: user.id
+                        }, (err) =>{
+                            if (err) {
+                                return cb(err);
+                            }
+                            cb();
+                        });
+                    }
+                ], (err) => {
                     if (err) {
                         return next(err);
                     }

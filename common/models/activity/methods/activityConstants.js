@@ -6,28 +6,40 @@ const ACTIVITIES = {
         // ownerId is included in payload so not required as a function
         points: 10
     },
-    VERIFY_EMAIL: {
-        // ownerId is included in payload so not required as a function
-        points: 10
-    },
     POST_QUESTION: {
+        points: 2,
         ownerFn: (id, done) => {
             ownerIdFnUtility('Question', id, 'ownerId', done);
         }
     },
     POST_ANSWER: {
+        points: 2,
         ownerFn: (id, done) => {
             ownerIdFnUtility('Answer', id, 'ownerId', done);
         }
     },
-    HELPFUL: {
-        // ownerId is included in payload so not required as a function
-        points: 1,
-        receiverPoints: 3,
-        limitPoints: 9,
-        limitPeriod: MAX_LIMIT_PERIOD, // repeatable tasks require a MAX_LIMIT_PERIOD
-        ownerFn: null, // todo requires owner!
-        receiverFn: null // todo requires receiver!
+    APPROVE_ANSWER: {
+        receiverPoints: 15
+    },
+    UP_VOTE_QUESTION: {
+        receiverPoints: 1,
+        limitPoints: 5,
+        limitPeriod: MAX_LIMIT_PERIOD // 1 per day
+    },
+    DOWN_VOTE_QUESTION: {
+        receiverPoints: -1,
+        limitPoints: 5,
+        limitPeriod: MAX_LIMIT_PERIOD // 1 per day
+    },
+    UP_VOTE_ANSWER: {
+        receiverPoints: 1,
+        limitPoints: 5,
+        limitPeriod: MAX_LIMIT_PERIOD // 1 per day
+    },
+    DOWN_VOTE_ANSWER: {
+        receiverPoints: -1,
+        limitPoints: 5,
+        limitPeriod: MAX_LIMIT_PERIOD // 1 per day
     },
     LOGIN: {
         // ownerId is included in payload so not required as a function
@@ -36,46 +48,40 @@ const ACTIVITIES = {
         limitPoints: 1,
         limitPeriod: MAX_LIMIT_PERIOD // 1 per day
     },
-    FOLLOW: {
-        // ownerId is included in payload so not required as a function
-        points: 1,
-        receiverPoints: 3,
-        limitPoints: 6,
-        limitPeriod: MAX_LIMIT_PERIOD // 1 per day
-    },
-    UNFOLLOW: {
-        // ownerId is included in payload so not required as a function
-        points: -2
-    },
-    DISABLED_ACCOUNT: {
-        points: -100
-    },
+    // HELPFUL: {
+    //     // ownerId is included in payload so not required as a function
+    //     points: 1,
+    //     receiverPoints: 3,
+    //     limitPoints: 9,
+    //     limitPeriod: MAX_LIMIT_PERIOD, // repeatable tasks require a MAX_LIMIT_PERIOD
+    //     ownerFn: null, // todo requires owner!
+    //     receiverFn: null // todo requires receiver!
+    // },
+    // FOLLOW: {
+    //     // ownerId is included in payload so not required as a function
+    //     points: 1,
+    //     receiverPoints: 3,
+    //     limitPoints: 6,
+    //     limitPeriod: MAX_LIMIT_PERIOD // 1 per day
+    // },
+    // UNFOLLOW: {
+    //     // ownerId is included in payload so not required as a function
+    //     points: -2
+    // },
+    // DISABLED_ACCOUNT: {
+    //     points: -100
+    // },
     REFERRAL_REGISTER: {
-        points: 50,
+        points: 3,
         ownerFn: null,
-        limitPoints: 200,
+        limitPoints: 15,
         limitPeriod: MAX_LIMIT_PERIOD // 1 per day
     },
     REFERRAL_QUESTION: {
-        points: 50,
+        points: 3,
         ownerFn: null,
-        limitPoints: 200,
+        limitPoints: 15,
         limitPeriod: MAX_LIMIT_PERIOD // 1 per day
-    },
-    UP_VOTE_QUESTION: {
-        receiverPoints: 10
-    },
-    DOWN_VOTE_QUESTION: {
-        receiverPoints: -5
-    },
-    UP_VOTE_ANSWER: {
-        receiverPoints: 20
-    },
-    DOWN_VOTE_ANSWER: {
-        receiverPoints: -10
-    },
-    APPROVE_ANSWER: {
-        receiverPoints: 30
     }
 };
 
