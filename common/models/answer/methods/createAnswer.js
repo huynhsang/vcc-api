@@ -5,6 +5,7 @@ import * as shortid from 'shortid';
 import {DESCRIPTION_RATE, MAX_BODY_LENGTH, MIN_BODY_LENGTH} from '../../../../configs/constants/serverConstant';
 import {isActiveQuestion} from '../../question/utils/helper';
 import {errorHandler, validationErrorHandler} from '../../../utils/modelHelpers';
+import {createTask} from '../../../../queues/producers/taskManager';
 
 export default (Answer) => {
     Answer.createAnswer = (loggedInUser, formData, callback) => {
@@ -64,6 +65,16 @@ export default (Answer) => {
                 },
                 'user': (cb) => {
                     Answer.app.models.user.increaseAnswerCount(answer.ownerId, 1, cb);
+                },
+                'activity': (cb) => {
+                    createTask('ACTIVITY_TASK', {
+                        activityName: 'POST_ANSWER',
+                        activityModelType: Answer.modelName,
+                        activityModelId: answer.id,
+                        ownerId: loggedInUser.id
+                    }, () => {
+                        cb();
+                    });
                 }
             }, (err) => {
                 if (err) {

@@ -12,6 +12,7 @@ import {
 import {validationErrorHandler} from '../../../utils/modelHelpers';
 import {slugify} from '../../../utils/validationUtils';
 import * as shortid from 'shortid';
+import {createTask} from '../../../../queues/producers/taskManager';
 
 export default (Question) => {
     Question.createQuestion = (loggedInUser, formData, callback) => {
@@ -128,6 +129,16 @@ export default (Question) => {
                 },
                 'user': (cb) => {
                     Question.app.models.user.increaseQuestionCount(loggedInUser.id, 1, cb);
+                },
+                'activity': (cb) => {
+                    createTask('ACTIVITY_TASK', {
+                        activityName: 'POST_QUESTION',
+                        activityModelType: Question.modelName,
+                        activityModelId: question.id,
+                        ownerId: loggedInUser.id
+                    }, () => {
+                        cb();
+                    });
                 }
             }, (err) => {
                 if (err) {
