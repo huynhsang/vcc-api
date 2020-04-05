@@ -29,7 +29,7 @@ export default (Question) => {
         const addRespondentFilter = (next) => {
             // TODO: Split into another API
             if (!query.respondentId) {
-                return next();
+                return next(null, false);
             }
             const mongoConnector = Question.getDataSource().connector;
             mongoConnector.collection(Question.app.models.Answer.modelName).aggregate([
