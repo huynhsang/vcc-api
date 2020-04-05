@@ -35,7 +35,7 @@ export const getQuestionOrder = (sort) => {
 };
 
 export const getQuestionConds = (data) => {
-    const orConds = [{isPublic: true}];
+    let orConds = [{isPublic: true}];
     const conds = {
         disabled: false,
         removedItem: {
@@ -45,19 +45,15 @@ export const getQuestionConds = (data) => {
     if (data.keyword) {
         const pattern = new RegExp('.*' + data.keyword + '.*', 'i');
         conds.title = {like: pattern};
-        delete data.keyword;
     }
     if (data.tagIds && data.tagIds.length > 0) {
         conds['tagList.id'] = {inq: data.tagIds};
-        delete data.tagIds;
     }
     if (data.ownerId) {
         conds['ownerId'] = data.ownerId;
-        delete data.ownerId;
     }
     if (data.categorySlug) {
         conds['categoryItem.slug'] = data.categorySlug;
-        delete data.categorySlug;
     }
     if (data.answered !== undefined) {
         if (data.answered) {
@@ -69,31 +65,12 @@ export const getQuestionConds = (data) => {
     if (data.meId) {
         if (data.mine) {
             conds['ownerId'] = data.meId;
-            delete data.mine;
         }
         if (data.askedToMe) {
             conds['supporterList.id'] = data.meId;
-            delete data.askedToMe;
         }
-        orConds.push({
-            and: [
-                {
-                    isPublic: false
-                },
-                {
-                    or: [
-                        {
-                            ownerId: data.meId
-                        },
-                        {
-                            'supporterList.id': data.meId
-                        }
-                    ]
-                }
-            ]
-        });
-        delete data.meId;
+        orConds = orConds.concat([{ownerId: data.meId}, {'supporterList.id': data.meId}]);
     }
 
-    return {and: [{...conds}, {or: orConds}]};
+    return {and: [conds, {or: orConds}]};
 };

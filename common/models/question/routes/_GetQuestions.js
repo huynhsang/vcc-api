@@ -20,7 +20,8 @@ export default function (Question) {
                     categorySlug: Joi.string().optional(),
                     askedToMe: Joi.bool().default(false),
                     answered: Joi.bool().optional(),
-                    mine: Joi.bool().default(false)
+                    mine: Joi.bool().default(false),
+                    respondentId: Joi.string().hex().length(24).optional()
                 }).optional(),
                 totalCount: Joi.bool().default(false)
             }).required();
