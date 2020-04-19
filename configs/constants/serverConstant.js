@@ -23,7 +23,7 @@ define('TITLE_MIN_LENGTH', 10);
 define('TITLE_MAX_LENGTH', 250);
 
 // Filter constants
-define('MAX_PAGE_SIZE', 50);
+define('MAX_PAGE_SIZE', 100);
 define('DEFAULT_PAGE_SIZE', 25);
 const MOST_VOTED = 'highVote';
 const MOST_RECENT = 'recent';
@@ -43,3 +43,6 @@ define('VOTED_FIELD', 'voted');
 
 // Email types
 define('VERIFICATION_EMAIL', 'verification_email');
+
+// Tag Constants
+define('TAG_USED_FOR', ['post', 'question']);

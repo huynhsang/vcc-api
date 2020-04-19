@@ -5,7 +5,7 @@ import {getTagOrder} from '../utils/helper';
 
 export default (Tag) => {
     Tag.getTagsByCategory = (slug, filter, callback) => {
-        const {limit, skip, sort} = filter;
+        const {limit, skip, sort, used} = filter;
         const getCategory = (next) => {
             Tag.app.models.Category.findOne({
                 where: {
@@ -22,30 +22,44 @@ export default (Tag) => {
             });
         };
 
-        const queryTags = (category, next) => {
+        const getTagIds = (category, next) => {
             Tag.app.models.CategoryTag.find({
                 where: {
                     categoryId: category.id
                 },
-                include: {
-                    relation: 'tag',
-                    scope: {
-                        order: getTagOrder(sort)
-                    }
-                },
-                limit,
-                skip
-            }, (err, results) => {
+                fields: ['tagId']
+            }, (err, result) => {
                 if (err) {
                     return next(err);
                 }
-                const tags = results.map(i => i.__data.tag);
-                next(null, tags);
+                const tagIds = result.map(i => i.tagId);
+                next(null, tagIds);
             });
+        };
+
+        const queryTags = (tagIds, next) => {
+            const where = {
+                id: {
+                    inq: tagIds
+                }
+            };
+            const order = getTagOrder(sort);
+            if (used) {
+                if (used === 'question') {
+                    where.questionCount = {gt: 0};
+                    order.push('questionCount DESC');
+                }
+                if (used === 'post') {
+                    where.postCount = {gt: 0};
+                    order.push('postCount DESC');
+                }
+            }
+            Tag.find({where, limit, skip, order}, next);
         };
 
         async.waterfall([
             getCategory,
+            getTagIds,
             queryTags
         ], (err, tags) => {
             if (err) {
