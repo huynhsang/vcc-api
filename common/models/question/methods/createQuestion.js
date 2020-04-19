@@ -128,7 +128,9 @@ export default (Question) => {
                     Question.app.models.Tag.increaseQuestionCounts(question.tagList, 1, cb);
                 },
                 'user': (cb) => {
-                    Question.app.models.user.increaseQuestionCount(loggedInUser.id, 1, cb);
+                    createTask('UPDATE_USER_STATS_TASK', {id: loggedInUser.id}, {attribute: Question.modelName}, () => {
+                        cb();
+                    });
                 },
                 'activity': (cb) => {
                     createTask('ACTIVITY_TASK', {

@@ -64,7 +64,9 @@ export default (Answer) => {
                     Answer.app.models.Question.increaseAnswerCount(answer.questionId, 1, cb);
                 },
                 'user': (cb) => {
-                    Answer.app.models.user.increaseAnswerCount(answer.ownerId, 1, cb);
+                    createTask('UPDATE_USER_STATS_TASK', {id: answer.ownerId}, {attribute: Answer.modelName}, () => {
+                        cb();
+                    });
                 },
                 'activity': (cb) => {
                     createTask('ACTIVITY_TASK', {
