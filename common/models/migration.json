@@ -1,5 +1,5 @@
 {
-  "name": "Tag",
+  "name": "Migration",
   "base": "PersistedModel",
   "strict": true,
   "idInjection": true,
@@ -9,51 +9,29 @@
   "mixins": {
     "TimeStamp": {
       "createdAt": "created",
-      "updatedAt": "modified",
+      "skipUpdatedAt": true,
       "required": false
     }
   },
   "hidden": [],
   "properties": {
-    "slug": {
+    "name": {
       "type": "String",
       "required": true
     },
-    "nameEn": {
+    "version": {
       "type": "String",
       "required": true
-    },
-    "nameVi": {
-      "type": "String",
-      "required": true
-    },
-    "questionCount": {
-      "type": "Number",
-      "required": true,
-      "default": 0
     }
   },
   "validations": [],
-  "relations": {
-    "categories": {
-      "type": "hasMany",
-      "model": "Category",
-      "foreignKey": "tagId",
-      "through": "CategoryTag"
-    }
-  },
+  "relations": {},
   "acls": [
     {
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "DENY"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "accessType": "READ",
-      "permission": "ALLOW"
     },
     {
       "accessType": "*",

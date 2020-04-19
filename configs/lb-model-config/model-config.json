@@ -112,6 +112,10 @@
         "dataSource": "vccDS",
         "public": false
     },
+    "Migration": {
+        "dataSource": "vccDS",
+        "public": false
+    },
     "Remove": {
         "dataSource": "transient",
         "public": false

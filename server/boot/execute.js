@@ -2,6 +2,7 @@ import async from 'async';
 import * as databaseHelper from './database/databaseHelper';
 import dataInitialization from './database/dataInitialization';
 import {logError} from '../../common/services/loggerService';
+import migrate from './database/migrate';
 
 module.exports = function (app) {
     async.waterfall([
@@ -10,6 +11,9 @@ module.exports = function (app) {
         },
         (next) => {
             dataInitialization(app, next);
+        },
+        (next) => {
+            migrate(app, next);
         }
     ], (err) => {
         if (err) {
