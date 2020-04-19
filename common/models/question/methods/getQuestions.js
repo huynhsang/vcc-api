@@ -51,6 +51,15 @@ export default (Question) => {
                 if (result.length > 0) {
                     const questionIds = result.map(item => item._id);
                     filter.where.and[0].id = {inq: questionIds};
+                    filter.include.push({
+                        relation: 'answers',
+                        scope: {
+                            where: {
+                                ownerId: query.respondentId,
+                                disabled: false
+                            }
+                        }
+                    });
                 }
                 next(null, !result.length);
             });
