@@ -70,18 +70,9 @@ migration.run = (app, callback) => {
                 }
                 createTag(line[2], line[3], category, next);
             });
-            // do something with the line
-            // doSomething(line).then(function() {
-            //     // when processing finishes invoke the callback to move to the next one
-            //     callback();
-            // });
-            // console.log(line);
-            // console.log('\n');
-            // next();
         }, callback);
     });
 
-    // console.log(FILE_PATH);
     fs.createReadStream(FILE_PATH).pipe(parser);
 };
 

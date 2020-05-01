@@ -15,8 +15,8 @@
   },
   "hidden": [],
   "properties": {
-    "degree": {
-      "type": "String",
+    "degrees": {
+      "type": ["String"],
       "required": true
     },
     "fieldOfStudy": {
@@ -47,6 +47,9 @@
       "type": "Boolean",
       "required": true,
       "default": true
+    },
+    "school": {
+      "type": "String"
     }
   },
   "validations": [],

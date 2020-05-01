@@ -1,0 +1,105 @@
+{
+  "name": "Post",
+  "base": "PersistedModel",
+  "strict": true,
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "createdAt": "created",
+      "updatedAt": "modified",
+      "required": false
+    }
+  },
+  "hidden": [
+    "disabled"
+  ],
+  "properties": {
+    "slug": {
+      "type": "String",
+      "required": true,
+      "index": {"unique": true}
+    },
+    "body": {
+      "type": "String",
+      "required": true
+    },
+    "disabled": {
+      "type": "Boolean",
+      "required": true,
+      "default": false
+    },
+    "viewCount": {
+      "type": "Number",
+      "required": true,
+      "default": 0
+    },
+    "title": {
+      "type": "String"
+    },
+    "resume": {
+      "type": "String",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "images": {
+      "type": "embedsMany",
+      "model": "Image",
+      "property": "imageList",
+      "options": {
+        "persistent": true,
+        "validate": false
+      }
+    },
+    "tags": {
+      "type": "embedsMany",
+      "model": "Tag",
+      "property": "tagList",
+      "options": {
+        "persistent": true,
+        "validate": false
+      }
+    },
+    "author": {
+      "model": "user",
+      "type": "belongsTo",
+      "foreignKey": "authorId",
+      "required": true
+    },
+    "characters": {
+      "type": "embedsMany",
+      "model": "user",
+      "property": "characterList",
+      "options": {
+        "persistent": true,
+        "validate": false,
+        "required": false
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}
