@@ -8,7 +8,7 @@
   },
   "mixins": {
     "TimeStamp": {
-      "createdAt": "removedDate",
+      "createdAt": "removedOn",
       "skipUpdatedAt": true,
       "required": false
     }
@@ -18,7 +18,7 @@
     "id": false,
     "reason": {
       "type": "string",
-      "required": true
+      "required": false
     }
   },
   "relations": {

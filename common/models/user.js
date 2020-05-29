@@ -4,6 +4,7 @@ import validation from './user/validation';
 import updateStats from './user/methods/updateStats';
 import register from './user/methods/register';
 import countMethods from './user/methods/countMethods';
+import getRoles from './user/methods/getRoles';
 
 import disableRoutes from './user/disableRoutes';
 import _GetProfileById from './user/routes/_GetProfileById';
@@ -25,6 +26,7 @@ module.exports = function (user) {
     accountHandler(user);
     updateStats(user);
     register(user);
+    getRoles(user);
 
     // Route
     _GetUsers(user);
