@@ -1,6 +1,7 @@
 // METHODS
 import addPoints from './activityPoint/methods/addPoints';
 import updateUserPoints from './activityPoint/methods/updateUserPoints';
+import removeByActivity from './activityPoint/methods/removeByActivity';
 
 export default function (ActivityPoint) {
     // disable remote Methods
@@ -14,4 +15,5 @@ export default function (ActivityPoint) {
 
     addPoints(ActivityPoint);
     updateUserPoints(ActivityPoint);
+    removeByActivity(ActivityPoint);
 }

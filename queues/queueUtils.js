@@ -61,7 +61,7 @@ export const processingTask = (taskId, handlerFn, callback) => {
             return callback();
         }
         if (currentTask) {
-            return currentTask.updateAttribute('status', TASK_ERROR, (_err) => {
+            return QueueTask.update({id: taskId}, {status: TASK_ERROR}, (_err) => {
                 if (_err) {
                     logError(_err);
                 }

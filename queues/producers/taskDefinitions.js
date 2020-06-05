@@ -30,6 +30,17 @@ export default {
             targetRoutine: 'models.Activity.trackActivity'
         }
     ),
+    REMOVE_ACTIVITY_TASK: (params) => (
+        {
+            // required: activityId
+            title: `RemoveActivityTask: ${params.activityId}`,
+            exchange: DEFAULT_EXCHANGE_DIRECT,
+            routingKey: ACTIVITY_QUEUE,
+            delay: DEFAULT_QUEUE_DELAY,
+            attempts: DEFAULT_QUEUE_ATTEMPTS,
+            targetRoutine: 'models.Activity.removeActivityById'
+        }
+    ),
     USER_POINTS_TASK: (params) => (
         {
             // required: userId
@@ -63,6 +74,18 @@ export default {
             delay: DEFAULT_QUEUE_DELAY,
             attempts: DEFAULT_QUEUE_ATTEMPTS,
             targetRoutine: 'models.Question.updateStats',
+            unique: true
+        }
+    ),
+    UPDATE_CATEGORY_STATS_TASK: (params) => (
+        {
+            // required: id, options
+            title: `UpdateCategoryStatsTask: ${params.id} model: ${params.options.model}`,
+            exchange: DEFAULT_EXCHANGE_DIRECT,
+            routingKey: DEFAULT_QUEUE,
+            delay: DEFAULT_QUEUE_DELAY,
+            attempts: DEFAULT_QUEUE_ATTEMPTS,
+            targetRoutine: 'models.Category.updateStats',
             unique: true
         }
     ),

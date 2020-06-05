@@ -9,6 +9,7 @@ import updateStats from './question/methods/updateStats';
 import countMethods from './question/methods/countMethods';
 import createQuestion from './question/methods/createQuestion';
 import editQuestion from './question/methods/editQuestion';
+import removeQuestion from './question/methods/removeQuestion';
 
 import _GetAnswers from './question/routes/_GetAnswers';
 import _Vote from './question/routes/_Vote';
@@ -17,6 +18,7 @@ import _ApproveAnswer from './question/routes/_ApproveAnswer';
 import _GetDetailBySlug from './question/routes/_GetDetailBySlug';
 import _GetQuestions from './question/routes/_GetQuestions';
 import _GetMyQuestions from './question/routes/_GetMyQuestions';
+import _DeleteById from './question/routes/_DeleteById';
 
 module.exports = function (Question) {
     // Disable loopback remote methods
@@ -34,6 +36,7 @@ module.exports = function (Question) {
     countMethods(Question);
     createQuestion(Question);
     editQuestion(Question);
+    removeQuestion(Question);
 
     // Routes
     _Upsert(Question);
@@ -43,4 +46,5 @@ module.exports = function (Question) {
     _GetAnswers(Question);
     _Vote(Question);
     _GetMyQuestions(Question);
+    _DeleteById(Question);
 };

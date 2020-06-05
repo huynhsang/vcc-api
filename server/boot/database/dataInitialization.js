@@ -64,7 +64,6 @@ export default function (app, callback) {
                 }
                 if (created) {
                     logInfo(`Created an admin: ${account.email}`);
-                    roleService.mappingRoleToUser(instance);
                 }
                 cb();
             });

@@ -1,6 +1,6 @@
 import {MOST_ANSWERED, MOST_RECENT, MOST_VISITED, MOST_VOTED, NO_ANSWERS} from '../../../../configs/constants/serverConstant';
 
-const canEditQuestion = (user, question, callback) => {
+export const canEditQuestion = (user, question, callback) => {
     process.nextTick(() => {
         if (String(user.id) === String(question.ownerId)) {
             return callback(null, true);
@@ -8,15 +8,6 @@ const canEditQuestion = (user, question, callback) => {
         callback(null, false);
     });
 };
-
-const isActiveQuestion = (question) => {
-    if (!question || question.disabled || question.removedItem) {
-        return false;
-    }
-    return true;
-};
-
-export {canEditQuestion, isActiveQuestion};
 
 export const getQuestionOrder = (sort) => {
     switch (sort) {
@@ -73,4 +64,12 @@ export const getQuestionConds = (data) => {
     }
 
     return {and: [conds, {or: orConds}]};
+};
+
+export const isRemovedQuestion = (question) => {
+    return !!(!question || question.removedItem);
+};
+
+export const isActiveQuestion = (question) => {
+    return !(!question || question.disabled || question.reportCount > 0);
 };

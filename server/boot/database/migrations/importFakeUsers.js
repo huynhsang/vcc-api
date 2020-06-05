@@ -28,7 +28,6 @@ migration.run = (app, callback) => {
             }
             if (created) {
                 logInfo(`Created an User: ${account.email}`);
-                roleService.mappingRoleToUser(instance);
             }
             next();
         });

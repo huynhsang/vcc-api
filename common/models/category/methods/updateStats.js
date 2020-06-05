@@ -3,7 +3,7 @@ import async from 'async';
 import {ObjectID} from 'mongodb';
 
 export default (Category) => {
-    Category.updateStats = (categoryId, options, callback) => {
+    Category.updateStats = ({id}, options, callback) => {
         if (typeof options === 'function') {
             callback = options;
             options = {};
@@ -12,7 +12,7 @@ export default (Category) => {
         const stats = {};
         const questionCount = (next) => {
             Category.app.models.Question.count({
-                'categoryItem.id': categoryId,
+                'categoryItem.id': id,
                 'disabled': false,
                 'removedItem': {'exists': false}
             }, (err, count) => {
@@ -37,7 +37,7 @@ export default (Category) => {
             if (err) {
                 return callback(err);
             }
-            Category.update({id: categoryId}, stats, (_err) => {
+            Category.update({id: id}, stats, (_err) => {
                 if (_err) {
                     return callback(_err);
                 }

@@ -4,7 +4,7 @@ import {ObjectID} from 'mongodb';
 
 module.exports = function (Remove) {
     Remove.validate('reason', function (err) {
-        if (Joi.string().trim().required().validate(this.reason).error) {
+        if (Joi.string().trim().optional().validate(this.reason).error) {
             return err();
         }
     }, {
@@ -16,9 +16,9 @@ module.exports = function (Remove) {
         }
     }, {message: __('err.remove.removedUserId')});
 
-    Remove.validate('removedDate', function (err) {
-        if (Joi.date().iso().required().validate(this.removedDate).error) {
+    Remove.validate('removedOn', function (err) {
+        if (Joi.date().iso().required().validate(this.removedOn).error) {
             return err();
         }
-    }, {message: __('err.remove.removedDate')});
+    }, {message: __('err.remove.removedOn')});
 };
