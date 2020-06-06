@@ -35,9 +35,7 @@
     "user": {
         "dataSource": "vccDS",
         "options": {
-            "emailVerificationRequired": true,
-            "realmRequired": true,
-            "realmDelimiter": ":"
+            "emailVerificationRequired": true
         },
         "public": true
     },

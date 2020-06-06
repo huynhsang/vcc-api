@@ -18,7 +18,7 @@ export default function (Question) {
                 if (isRemovedQuestion(question)) {
                     return next(new Error(__('err.question.notExist')));
                 }
-                if (!isAdmin && !isActiveQuestion(question)) {
+                if (!isActiveQuestion(question)) {
                     return next(new Error(__('err.question.notActive')));
                 }
                 if (!isAdmin && String(userId) !== String(question.ownerId)) {

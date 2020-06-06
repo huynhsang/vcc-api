@@ -16,6 +16,7 @@ export default (Question) => {
                     return next(err);
                 }
                 stats.answerCount = count;
+                next();
             });
         };
 
