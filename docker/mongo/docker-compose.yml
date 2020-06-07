@@ -1,0 +1,79 @@
+version: "3.0"
+
+volumes:
+  vcc-mongo-keys:
+  vcc-mongo-data-0:
+  vcc-mongo-data-1:
+  vcc-mongo-data-2:
+
+networks:
+  vcc-replica-set:
+    driver: bridge
+
+services:
+
+  vcc-mongo-keys:
+    image: depop/openssl-bats
+    volumes:
+      - vcc-mongo-keys:/mongo-conf
+    command: 'bash -c "openssl rand -base64 741 > /mongo-conf/mongodb-keyfile; chmod 600 /mongo-conf/mongodb-keyfile; chown 999 /mongo-conf/mongodb-keyfile"'
+
+  # Primary
+  vcc-mongo-primary:
+    image: mongo:4.2
+    volumes:
+      - vcc-mongo-keys:/opt/keyfile
+      - vcc-mongo-data-0:/data/db
+    env_file:
+      ./mongod.env
+    ports:
+      - 27017:27017
+    command: 'mongod --auth --keyFile /opt/keyfile/mongodb-keyfile --oplogSize 1024 --replSet vcc-replica-set'
+    depends_on:
+      - vcc-mongo-worker-1
+      - vcc-mongo-worker-2
+    restart: always
+    networks:
+      vcc-replica-set:
+
+  # Worker 1
+  vcc-mongo-worker-1:
+    image: mongo:4.2
+    volumes:
+      - vcc-mongo-keys:/opt/keyfile
+      - vcc-mongo-data-1:/data/db
+    env_file:
+      ./mongod.env
+    ports:
+      - 27018:27017
+    command: 'mongod --auth --keyFile /opt/keyfile/mongodb-keyfile --oplogSize 1024 --replSet vcc-replica-set'
+    depends_on:
+      - vcc-mongo-keys
+    restart: always
+    networks:
+      vcc-replica-set:
+
+  # Worker 2
+  vcc-mongo-worker-2:
+    image: mongo:4.2
+    volumes:
+      - vcc-mongo-keys:/opt/keyfile
+      - vcc-mongo-data-2:/data/db
+    env_file:
+      ./mongod.env
+    ports:
+      - 27019:27017
+    command: 'mongod --auth --keyFile /opt/keyfile/mongodb-keyfile --oplogSize 1024 --replSet vcc-replica-set'
+    depends_on:
+      - vcc-mongo-keys
+    restart: always
+    networks:
+      vcc-replica-set:
+
+  setup-rs:
+    image: "setup-rs"
+    build: ./replica-setup
+    depends_on:
+      - vcc-mongo-primary
+    networks:
+      vcc-replica-set:
