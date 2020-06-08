@@ -8,4 +8,6 @@ WORKDIR /usr/src/configs
 COPY replicaSet.js .
 COPY setup.sh .
 
+RUN chmod -R 755 setup.sh replicaSet.js
+
 CMD ["./setup.sh"]
