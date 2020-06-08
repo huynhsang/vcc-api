@@ -8,5 +8,4 @@ rsconf = {
 };
 
 rs.initiate(rsconf);
-rs.conf();
 db.getMongo().setReadPref('nearest');
