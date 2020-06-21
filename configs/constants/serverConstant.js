@@ -17,7 +17,7 @@ define('VOTE_TYPES', ['Answer', 'Question']);
 define('APPROVE', 'approve');
 
 define('MIN_BODY_LENGTH', 20);
-define('MAX_BODY_LENGTH', 1000);
+define('MAX_BODY_LENGTH', 10000);
 define('DESCRIPTION_RATE', 4); // 1/4 body
 define('TITLE_MIN_LENGTH', 10);
 define('TITLE_MAX_LENGTH', 250);

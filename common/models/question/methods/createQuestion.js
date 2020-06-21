@@ -13,6 +13,7 @@ import {validationErrorHandler} from '../../../utils/modelHelpers';
 import {slugify} from '../../../utils/validationUtils';
 import * as shortid from 'shortid';
 import {createTask} from '../../../../queues/producers/taskManager';
+import {buildWebURL} from '../../../utils/utils';
 
 export default (Question) => {
     Question.createQuestion = (loggedInUser, formData, callback) => {
@@ -119,6 +120,34 @@ export default (Question) => {
             });
         };
 
+        const _sendNotificationEmail = (question, next) => {
+            const max = question.supporterList.length;
+            let count = 0;
+            async.whilst(
+                (cb) => { cb(null, count < max); },
+                (cb) => {
+                    const supporter = question.supporterList[count];
+                    const data = {
+                        to: supporter.email,
+                        toUserFirstName: supporter.firstName,
+                        fromUserFirstName: loggedInUser.firstName,
+                        fromUserLocation: loggedInUser.nationality,
+                        questionLink: buildWebURL(`/questions/${question.slug}`),
+                        subject: `Hello ${supporter.firstName}, you have a question on VCNC`,
+                        templateName: 'ask-notify-template.ejs'
+                    };
+                    createTask('SEND_MAIL_TASK', data, (err) => {
+                        if (err) {
+                            return cb(err);
+                        }
+                        count++;
+                        cb();
+                    });
+                },
+                next
+            );
+        };
+
         const updateStats = (question, next) => {
             async.parallel({
                 'category': (cb) => {
@@ -141,6 +170,12 @@ export default (Question) => {
                     }, () => {
                         cb();
                     });
+                },
+                'sendEmail': (cb) => {
+                    if (!question.supporterList || question.supporterList.length === 0) {
+                        return cb();
+                    }
+                    _sendNotificationEmail(question, cb)
                 }
             }, (err) => {
                 if (err) {
