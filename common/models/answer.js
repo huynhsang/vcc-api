@@ -33,5 +33,5 @@ module.exports = function (Answer) {
     // Routes
     _Upsert(Answer);
     _Vote(Answer);
-    _DeleteById(Answer)
+    _DeleteById(Answer);
 };

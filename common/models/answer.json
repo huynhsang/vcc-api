@@ -99,9 +99,9 @@
       "permission": "ALLOW"
     },
     {
+      "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$owner",
-      "accessType": "WRITE",
       "permission": "ALLOW"
     },
     {
