@@ -106,6 +106,10 @@
         "dataSource": "vccDS",
         "public": true
     },
+    "Post": {
+        "dataSource": "vccDS",
+        "public": true
+    },
     "ActivityPoint": {
         "dataSource": "vccDS",
         "public": false
