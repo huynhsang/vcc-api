@@ -1,5 +1,5 @@
 export default (Post) => {
-    // Post.disableRemoteMethodByName('create');
+    Post.disableRemoteMethodByName('create');
     Post.disableRemoteMethodByName('exists');
     Post.disableRemoteMethodByName('count');
     // Post.disableRemoteMethodByName('findOne');
@@ -7,7 +7,7 @@ export default (Post) => {
     // Post.disableRemoteMethodByName('find');
     // Post.disableRemoteMethodByName('findById');
     Post.disableRemoteMethodByName('findOrCreate');
-    // Post.disableRemoteMethodByName('replaceOrCreate');
+    Post.disableRemoteMethodByName('replaceOrCreate');
     Post.disableRemoteMethodByName('replaceById');
     Post.disableRemoteMethodByName('upsertWithWhere');
     Post.disableRemoteMethodByName('upsert');

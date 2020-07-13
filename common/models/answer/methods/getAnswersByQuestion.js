@@ -39,7 +39,7 @@ export default (Answer) => {
             filter.include = [{
                 relation: 'answerBy',
                 scope: {
-                    fields: ['id', 'avatar', 'firstName', 'lastName', 'questionCount',
+                    fields: ['id', 'avatar', 'username', 'firstName', 'lastName', 'questionCount',
                         'answerCount', 'bestAnswers', 'points', 'badgeItem']
                 }
             }];
