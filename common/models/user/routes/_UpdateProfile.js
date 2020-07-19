@@ -18,7 +18,8 @@ export default (User) => {
                 headline: Joi.string().trim().optional(),
                 nationality: Joi.string().trim().optional(),
                 summary: Joi.string().trim().optional(),
-                dateOfBirth: Joi.date().iso().optional()
+                dateOfBirth: Joi.date().iso().optional(),
+                avatarIndex: Joi.number().integer().optional()
             }).required();
 
             schema.validate(data, {allowUnknown: true, stripUnknown: true}, (err, value) => {
@@ -31,7 +32,7 @@ export default (User) => {
         };
 
         const handleUpdate = (next) => {
-            const payload = _.pick(data, ['firstName', 'lastName', 'headline', 'nationality', 'summary', 'dateOfBirth']);
+            const payload = _.pick(data, ['firstName', 'lastName', 'headline', 'nationality', 'summary', 'dateOfBirth', 'avatarIndex']);
             if (Object.keys(payload).length === 0) {
                 return next(null, user);
             }

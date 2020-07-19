@@ -37,11 +37,11 @@
       "default": 0
     },
     "title": {
-      "type": "String"
-    },
-    "resume": {
       "type": "String",
       "required": true
+    },
+    "resume": {
+      "type": "String"
     }
   },
   "validations": [],

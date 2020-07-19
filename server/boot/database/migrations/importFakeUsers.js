@@ -2,9 +2,9 @@ import fs from 'fs';
 import async from 'async';
 import parse from 'csv-parse';
 import path from 'path';
+import * as shortid from 'shortid';
 import {USER_REALM} from '../../../../configs/constants/serverConstant';
 import {logInfo} from '../../../../common/services/loggerService';
-import roleService from '../../../../common/services/roleService';
 
 const migration = {
     version: 'v1'
@@ -18,6 +18,7 @@ migration.run = (app, callback) => {
         account.realm = USER_REALM;
         account.nationality = 'Viet Nam';
         account.emailVerified = true;
+        account.username = `user_${shortid.generate()}`;
         User.findOrCreate({
             where: {
                 email: account.email

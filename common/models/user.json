@@ -22,6 +22,12 @@
     "handlingPointJob"
   ],
   "properties": {
+    "username": {
+      "type": "string",
+      "index": {
+        "unique": true
+      }
+    },
     "dateOfBirth": {
       "type": "Date",
       "required": false
@@ -90,6 +96,10 @@
     },
     "pointsUpdateOn": {
       "type": "Date"
+    },
+    "avatarIndex": {
+      "type": "Number",
+      "default": 0
     }
   },
   "validations": [],

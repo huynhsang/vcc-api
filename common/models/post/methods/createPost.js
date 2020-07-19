@@ -20,7 +20,7 @@ export default (Post) => {
                 characterIds: Joi.array().items(Joi.string().hex().length(24)).optional(),
                 title: Joi.string().trim().min(TITLE_MIN_LENGTH).max(TITLE_MAX_LENGTH).required(),
                 body: Joi.string().trim().min(MIN_BODY_LENGTH).max(MAX_BODY_LENGTH).required(),
-                imageCover: Joi.string().trim().optional(),
+                coverImage: Joi.string().trim().optional(),
                 resume: Joi.string().trim().optional()
             }).required();
 
@@ -70,19 +70,24 @@ export default (Post) => {
                         if (err) {
                             return cb(err);
                         }
-                        if (characters.length !== formData.supporterIds.length) {
+                        if (characters.length !== formData.characterIds.length) {
                             return cb(new Error(__('err.user.notExists')));
                         }
                         cb(null, characters.map(user => _.pick(user, SUPPORTER_FIELDS)));
                     });
                 },
                 'images': (cb) => {
-                    if (!formData.imageCover) {
+                    if (!formData.coverImage) {
                         return cb(null, []);
                     }
                     const img = new Post.app.models.Image();
-                    img.lrg = formData.imageCover;
-                    return cb(null, [img]);
+                    img.lrg = formData.coverImage;
+                    img.save((err, image) => {
+                        if (err) {
+                            return cb(err);
+                        }
+                        cb(null, [image]);
+                    });
                 }
             }, (err, payload) => {
                 if (err) {
@@ -102,6 +107,7 @@ export default (Post) => {
                 title: formData.title,
                 body: formData.body,
                 authorId: loggedInUser.id,
+                resume: formData.resume,
                 slug
             };
             Post.create(data, (err, post) => {
