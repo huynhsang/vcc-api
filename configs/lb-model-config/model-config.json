@@ -110,6 +110,10 @@
         "dataSource": "vccDS",
         "public": true
     },
+    "News": {
+        "dataSource": "vccDS",
+        "public": true
+    },
     "ActivityPoint": {
         "dataSource": "vccDS",
         "public": false

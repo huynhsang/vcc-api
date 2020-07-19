@@ -61,5 +61,20 @@ export default function (User) {
             return err();
         }
     }, {message: __('err.user.points')});
+
+    User.validateUserById = (userId, callback) => {
+        User.findById(userId, {fields: ['id', 'isEnable', 'emailVerified']}, (err, user) => {
+            if (err) {
+                return callback(err);
+            }
+            if (!user) {
+                return callback(new Error(__('err.user.notExist')));
+            }
+            if (!user.isEnable || !user.emailVerified) {
+                return callback(new Error(__('err.user.notActive')));
+            }
+            callback();
+        });
+    };
 };
 

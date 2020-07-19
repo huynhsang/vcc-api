@@ -21,6 +21,18 @@
     "isEnable",
     "handlingPointJob"
   ],
+  "secured": [
+    "id",
+    "avatar",
+    "username",
+    "firstName",
+    "lastName",
+    "questionCount",
+    "answerCount",
+    "bestAnswers",
+    "points",
+    "badgeItem"
+  ],
   "properties": {
     "username": {
       "type": "string",

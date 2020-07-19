@@ -1,3 +1,4 @@
+import toSecureObject from './common/toSecureObject';
 import accountHandler from './user/accountHandler';
 import userUtils from './user/utils/userUtils';
 import validation from './user/validation';
@@ -16,6 +17,7 @@ import _GetUsers from './user/routes/_GetUsers';
 
 module.exports = function (user) {
     disableRoutes(user);
+    toSecureObject(user);
 
     // Validation
     validation(user);

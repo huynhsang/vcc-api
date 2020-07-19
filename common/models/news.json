@@ -1,0 +1,66 @@
+{
+  "name": "News",
+  "base": "PersistedModel",
+  "strict": true,
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "TimeStamp": {
+      "createdAt": "created",
+      "updatedAt": "modified",
+      "required": false
+    }
+  },
+  "hidden": [],
+  "properties": {
+    "title": {
+      "type": "String",
+      "required": true
+    },
+    "description": {
+      "type": "String",
+      "required": true
+    },
+    "viewCount": {
+      "type": "Number",
+      "required": true,
+      "default": 0
+    },
+    "expireOn": {
+      "type": "Date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "model": "user",
+      "type": "belongsTo",
+      "foreignKey": "userId",
+      "required": true
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

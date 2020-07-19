@@ -11,6 +11,10 @@
         "password": "Password must contain number, must contain uppercase and lowercase and min length = 8.",
         "firstName": "FirstName must be valid.",
         "lastName": "LastName must be valid."
+      },
+      "news": {
+        "title": "Title must be valid text between {{minLength}} and {{maxLength}} characters.",
+        "description": "Description must be valid text between {{minLength}} and {{maxLength}} characters."
       }
     }
   },
