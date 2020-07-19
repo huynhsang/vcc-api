@@ -50,7 +50,7 @@ export default (Question) => {
                         include: [{
                             relation: 'askedBy',
                             scope: {
-                                fields: ['id', 'avatar', 'firstName', 'lastName', 'questionCount',
+                                fields: ['id', 'username', 'avatar', 'firstName', 'lastName', 'questionCount',
                                     'answerCount', 'bestAnswers', 'points', 'badgeItem']
                             }
                         }]
