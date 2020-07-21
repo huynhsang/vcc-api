@@ -1,4 +1,3 @@
-/* global __ */
 import {validationErrorHandler} from '../../utils/modelHelpers';
 
 export default (News) => {
@@ -9,7 +8,7 @@ export default (News) => {
                 if (err) {
                     return next(validationErrorHandler(err));
                 }
-                next()
+                next();
             });
         }
         next();

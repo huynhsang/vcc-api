@@ -3,7 +3,6 @@ import * as _ from 'lodash';
 import accounts from './data/accounts';
 import {ADMIN_REALM, ADMIN_ROLE, USER_ROLE} from '../../../configs/constants/serverConstant';
 import {logInfo} from '../../../common/services/loggerService';
-import roleService from '../../../common/services/roleService';
 
 export default function (app, callback) {
     const initRoles = function (next) {

@@ -31,7 +31,8 @@
     "answerCount",
     "bestAnswers",
     "points",
-    "badgeItem"
+    "badgeItem",
+    "avatarIndex"
   ],
   "properties": {
     "username": {
