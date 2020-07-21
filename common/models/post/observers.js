@@ -10,6 +10,9 @@ export default (Post) => {
 
     const getExperiecesForCharacters = (characters, callback) => {
         const output = [];
+        if (!characters || characters.length === 0) {
+            return callback(null, output);
+        }
         const queue = async.queue((character, next) => {
             Post.app.models.Experience.find({where: {ownerId: character.id}}, (err, experiences) => {
                 if (err) {
@@ -19,7 +22,7 @@ export default (Post) => {
                 output.push(character);
                 next();
             });
-        }, 5);
+        }, 1);
 
         queue.drain(() => {
             callback(null, output);
@@ -59,6 +62,9 @@ export default (Post) => {
 
     Post.afterRemote('find', (ctx, posts, next) => {
         const results = [];
+        if (!posts || posts.length === 0) {
+            return next(null, results);
+        }
         const queue = async.queue((post, cb) => {
             getExperiecesForCharacters(post.characterList, (err, characters) => {
                 if (err) {
