@@ -52,7 +52,9 @@ export default (Post) => {
                 if (err) {
                     return next(errorHandler(err));
                 }
-                ctx.result = ctx.result.toObject();
+                if (typeof ctx.result.toObject === 'function') {
+                    ctx.result = ctx.result.toObject(false, true, false);
+                }
                 ctx.result.characterList = characters;
                 next();
             });
@@ -85,7 +87,7 @@ export default (Post) => {
         queue.error(next);
 
         _.forEach(posts, (post) => {
-            queue.push(post.toObject(), () => {
+            queue.push(post.toObject(false, true, false), () => {
             });
         });
     });
