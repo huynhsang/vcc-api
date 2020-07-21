@@ -19,7 +19,7 @@ export default (Post) => {
                 output.push(character);
                 next();
             });
-        }, characters.length);
+        }, 5);
 
         queue.drain(() => {
             callback(null, output);
