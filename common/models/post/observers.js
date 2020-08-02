@@ -62,6 +62,18 @@ export default (Post) => {
         next();
     });
 
+    Post.beforeRemote('find', (ctx, unused, next) => {
+        const whereClause = (ctx.args.filter && ctx.args.filter.where) || {};
+        Post.count(whereClause, (err, count) => {
+            if (err) {
+                return next(errorHandler(err));
+            }
+            ctx.res.set('Access-Control-Expose-Headers', 'x-total-count');
+            ctx.res.set('X-Total-Count', count);
+            next();
+        });
+    });
+
     Post.afterRemote('find', (ctx, posts, next) => {
         const results = [];
         if (!posts || posts.length === 0) {
