@@ -154,7 +154,8 @@ export default (Question) => {
                     Question.app.models.Category.increaseQuestionCount(question.categoryItem.id, 1, cb);
                 },
                 'tags': (cb) => {
-                    Question.app.models.Tag.increaseQuestionCounts(question.tagList, 1, cb);
+                    const Tag = Question.app.models.Tag;
+                    Tag.increaseCount(question.tagList, Tag.QUESTION_COUNT_FIELD, 1, cb);
                 },
                 'user': (cb) => {
                     createTask('UPDATE_USER_STATS_TASK', {id: loggedInUser.id}, {attribute: Question.modelName}, () => {

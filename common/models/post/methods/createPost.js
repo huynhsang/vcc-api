@@ -118,10 +118,21 @@ export default (Post) => {
             });
         };
 
+        const updateStats = (post, next) => {
+            const Tag = Post.app.models.Tag;
+            Tag.increaseCount(post.tagList, Tag.POST_COUNT_FIELD, 1, (err) => {
+                if (err) {
+                    return next(err);
+                }
+                next(null, post);
+            });
+        };
+
         async.waterfall([
             validateFormData,
             prepareData,
-            savePost
+            savePost,
+            updateStats
         ], (err, post) => {
             if (err) {
                 return callback(err);

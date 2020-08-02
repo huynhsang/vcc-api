@@ -113,18 +113,19 @@ export default (Question) => {
         };
 
         const updateStats = (question, removeTags, newTags, next) => {
+            const Tag = Question.app.models.Tag;
             async.parallel({
                 'removeTags': (cb) => {
                     if (removeTags.length === 0) {
                         return cb();
                     }
-                    Question.app.models.Tag.increaseQuestionCounts(removeTags, -1, cb);
+                    Tag.increaseCount(removeTags, Tag.QUESTION_COUNT_FIELD, -1, cb);
                 },
                 'newTags': (cb) => {
                     if (newTags.length === 0) {
                         return cb();
                     }
-                    Question.app.models.Tag.increaseQuestionCounts(newTags, 1, cb);
+                    Tag.increaseCount(newTags, Tag.QUESTION_COUNT_FIELD, 1, cb);
                 }
             }, (err) => {
                 if (err) {

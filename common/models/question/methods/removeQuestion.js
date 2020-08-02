@@ -60,7 +60,8 @@ export default function (Question) {
                     createTask('UPDATE_CATEGORY_STATS_TASK', {id: question.categoryItem.id}, {model: Question.modelName}, cb);
                 },
                 'tags': (cb) => {
-                    Question.app.models.Tag.increaseQuestionCounts(question.tagList, -1, cb);
+                    const Tag = Question.app.models.Tag;
+                    Tag.increaseCount(question.tagList, Tag.QUESTION_COUNT_FIELD, -1, cb);
                 }
             }, (err) => {
                 if (err) {

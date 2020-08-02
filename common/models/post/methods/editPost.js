@@ -36,17 +36,17 @@ export default (Post) => {
         const prepareData = (next) => {
             async.parallel({
                 'post': (cb) => {
-                    Post.findById(formData.id, (err, question) => {
+                    Post.findById(formData.id, (err, post) => {
                         if (err) {
                             return cb(err);
                         }
-                        if (!question) {
+                        if (!post) {
                             return cb(new Error(__('err.post.notExits')));
                         }
-                        if (question.ownerId.toString() !== loggedInUser.id.toString()) {
+                        if (String(post.authorId) !== String(loggedInUser.id)) {
                             return cb(permissionErrorHandler());
                         }
-                        cb(null, question);
+                        cb(null, post);
                     });
                 },
                 'tags': (cb) => {
@@ -109,9 +109,17 @@ export default (Post) => {
         const updatePost = (payload, next) => {
             const {post, tags, characters, images} = payload;
             const data = {};
+            let removeTags = [];
+            let newTags = [];
 
             if (tags) {
                 data.tagList = tags;
+                removeTags = _.differenceWith(post.tagList, tags, (oldTag, newTag) => {
+                    return oldTag.id.toString() === newTag.id.toString();
+                });
+                newTags = _.differenceWith(tags, post.tagList, (newTag, oldTag) => {
+                    return newTag.id.toString() === oldTag.id.toString();
+                });
             }
             if (formData.hasOwnProperty('title')) {
                 data.title = formData.title;
@@ -120,24 +128,48 @@ export default (Post) => {
                 data.body = formData.body;
             }
             if (characters) {
-                data.characterList = characters
+                data.characterList = characters;
             }
             if (images) {
-                data.imageList = images
+                data.imageList = images;
             }
 
             post.updateAttributes(data, (err, updated) => {
                 if (err) {
                     return next(err);
                 }
-                next(null, updated);
+                next(null, updated, removeTags, newTags);
+            });
+        };
+
+        const updateStats = (post, removeTags, newTags, next) => {
+            const Tag = Post.app.models.Tag;
+            async.parallel({
+                'removeTags': (cb) => {
+                    if (removeTags.length === 0) {
+                        return cb();
+                    }
+                    Tag.increaseCount(removeTags, Tag.POST_COUNT_FIELD, -1, cb);
+                },
+                'newTags': (cb) => {
+                    if (newTags.length === 0) {
+                        return cb();
+                    }
+                    Tag.increaseCount(newTags, Tag.POST_COUNT_FIELD, 1, cb);
+                }
+            }, (err) => {
+                if (err) {
+                    return next(err);
+                }
+                next(null, post);
             });
         };
 
         async.waterfall([
             validateFormData,
             prepareData,
-            updatePost
+            updatePost,
+            updateStats
         ], (err, post) => {
             if (err) {
                 return callback(err);
