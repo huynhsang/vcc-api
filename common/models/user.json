@@ -120,7 +120,7 @@
     },
     "showRealName": {
       "type": "Boolean",
-      "default": 1
+      "default": true
     }
   },
   "validations": [],
