@@ -113,6 +113,14 @@
     "avatarIndex": {
       "type": "Number",
       "default": 0
+    },
+    "gender": {
+      "type": "Number",
+      "default": 0
+    },
+    "showRealName": {
+      "type": "Boolean",
+      "default": 1
     }
   },
   "validations": [],
