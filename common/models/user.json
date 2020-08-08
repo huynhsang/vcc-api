@@ -25,6 +25,7 @@
     "id",
     "avatar",
     "username",
+    "email",
     "firstName",
     "lastName",
     "questionCount",
@@ -32,7 +33,10 @@
     "bestAnswers",
     "points",
     "badgeItem",
-    "avatarIndex"
+    "avatarIndex",
+    "nationality",
+    "gender",
+    "showRealName"
   ],
   "properties": {
     "username": {

@@ -20,7 +20,7 @@ export default (Question) => {
                     relation: 'askedBy',
                     scope: {
                         fields: ['id', 'username', 'avatar', 'firstName', 'lastName', 'questionCount',
-                            'answerCount', 'bestAnswers', 'points', 'badgeItem']
+                            'answerCount', 'bestAnswers', 'points', 'badgeItem', 'showRealName']
                     }
                 }
             ]

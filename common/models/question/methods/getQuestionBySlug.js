@@ -57,7 +57,7 @@ export default (Question) => {
                         relation: 'answerBy',
                         scope: {
                             fields: ['id', 'avatar', 'username', 'firstName', 'lastName', 'questionCount',
-                                'answerCount', 'bestAnswers', 'points', 'badgeItem']
+                                'answerCount', 'bestAnswers', 'points', 'badgeItem', 'showRealName']
                         }
                     }];
                     Question.app.models.Answer.find({

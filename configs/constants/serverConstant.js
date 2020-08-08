@@ -36,7 +36,7 @@ define('MOST_VISITED', MOST_VISITED);
 define('SORT_QUESTION_CRITERIA', [MOST_VOTED, MOST_RECENT, MOST_ANSWERED, MOST_VISITED]);
 define('SORT_TAGS_CRITERIA', ['popular', MOST_RECENT]);
 define('SORT_USERS_CRITERIA', ['point']);
-define('SUPPORTER_FIELDS', ['id', 'email', 'username', 'firstName', 'lastName', 'nationality']);
+define('SUPPORTER_FIELDS', ['id', 'email', 'username', 'firstName', 'lastName', 'nationality', 'showRealName', 'gender']);
 
 // Personalise Constant
 define('VOTED_FIELD', 'voted');
