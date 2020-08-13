@@ -176,7 +176,7 @@ export default (Question) => {
                     if (!question.supporterList || question.supporterList.length === 0) {
                         return cb();
                     }
-                    _sendNotificationEmail(question, cb)
+                    _sendNotificationEmail(question, cb);
                 }
             }, (err) => {
                 if (err) {
