@@ -39,7 +39,7 @@
       "model": "user",
       "type": "belongsTo",
       "foreignKey": "userId",
-      "required": true
+      "required": false
     }
   },
   "acls": [

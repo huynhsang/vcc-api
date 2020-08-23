@@ -46,12 +46,12 @@ export default (News) => {
     });
 
     News.validate('userId', function (err) {
-        if (Joi.string().hex().length(24).required().validate(String(this.userId)).error) {
+        if (Joi.string().hex().length(24).optional().validate(String(this.userId)).error) {
             return err('INVALID');
         }
     }, {
         message: {
-            'INVALID': __('err.news.userId'),
+            'INVALID': __('err.news.userId')
         }
     });
-}
+};
