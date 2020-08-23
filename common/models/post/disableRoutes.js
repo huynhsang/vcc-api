@@ -11,7 +11,7 @@ export default (Post) => {
     Post.disableRemoteMethodByName('replaceById');
     Post.disableRemoteMethodByName('upsertWithWhere');
     Post.disableRemoteMethodByName('upsert');
-    Post.disableRemoteMethodByName('deleteById');
+    // Post.disableRemoteMethodByName('deleteById');
     Post.disableRemoteMethodByName('createChangeStream');
     // Post.disableRemoteMethodByName('prototype.updateAttributes');
     Post.disableRemoteMethodByName('prototype.__get__author');
