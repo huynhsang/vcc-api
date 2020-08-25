@@ -20,7 +20,7 @@ export default (Post) => {
                 characterIds: Joi.array().items(Joi.string().hex().length(24)).optional(),
                 title: Joi.string().trim().min(TITLE_MIN_LENGTH).max(TITLE_MAX_LENGTH).required(),
                 body: Joi.string().trim().min(MIN_BODY_LENGTH).max(MAX_BODY_LENGTH).required(),
-                imageCover: Joi.string().trim().optional(),
+                coverImage: Joi.string().trim().optional(),
                 resume: Joi.string().trim().optional()
             }).required();
 
@@ -91,11 +91,11 @@ export default (Post) => {
                     });
                 },
                 'images': (cb) => {
-                    if (!formData.imageCover) {
+                    if (!formData.coverImage) {
                         return cb(null, []);
                     }
                     const img = new Post.app.models.Image();
-                    img.lrg = formData.imageCover;
+                    img.lrg = formData.coverImage;
                     return cb(null, [img]);
                 }
             }, (err, payload) => {
