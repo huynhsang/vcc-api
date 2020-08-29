@@ -84,7 +84,7 @@ export default (Post) => {
                         if (err) {
                             return cb(err);
                         }
-                        if (characters.length !== formData.supporterIds.length) {
+                        if (characters.length !== formData.characterIds.length) {
                             return cb(new Error(__('err.user.notExists')));
                         }
                         cb(null, characters.map(user => _.pick(user, SUPPORTER_FIELDS)));
