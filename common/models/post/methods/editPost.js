@@ -96,7 +96,12 @@ export default (Post) => {
                     }
                     const img = new Post.app.models.Image();
                     img.lrg = formData.coverImage;
-                    return cb(null, [img]);
+                    img.save((err, image) => {
+                        if (err) {
+                            return cb(err);
+                        }
+                        cb(null, [image]);
+                    });
                 }
             }, (err, payload) => {
                 if (err) {
@@ -132,6 +137,9 @@ export default (Post) => {
             }
             if (images) {
                 data.imageList = images;
+                post.imageList.forEach(image => {
+                    image.destroy();
+                });
             }
 
             post.updateAttributes(data, (err, updated) => {
