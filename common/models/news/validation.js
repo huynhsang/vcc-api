@@ -26,7 +26,7 @@ export default (News) => {
     });
 
     News.validate('description', function (err) {
-        if (Joi.string().trim().min(News.DEFAULT_MIN_LENGTH).max(News.DEFAULT_MAX_DESC_LENGTH).required()
+        if (Joi.string().trim().min(News.DEFAULT_MIN_LENGTH).max(News.DEFAULT_MAX_DESC_LENGTH).optional()
             .validate(this.description).error) {
             return err();
         }
