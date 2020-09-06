@@ -46,7 +46,7 @@ export default (News) => {
     });
 
     News.validate('userId', function (err) {
-        if (Joi.string().hex().length(24).optional().validate(String(this.userId)).error) {
+        if (this.userId && Joi.string().hex().length(24).optional().validate(String(this.userId)).error) {
             return err('INVALID');
         }
     }, {
